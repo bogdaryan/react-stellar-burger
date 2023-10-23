@@ -1,3 +1,40 @@
+:root {
+  --container-header: 1280px;
+  --container-main: 1240px;
+}
+
 body {
   margin: 0;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.scroll-track {
+  overflow-y: scroll;
+  /* height: 10vh; */
+}
+
+/* Firefox */
+.scroll-track {
+  scrollbar-width: thin;
+  scrollbar-color: #8585ad #2f2f37;
+}
+
+/* Chrome, Edge and Safari */
+.scroll-track::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.scroll-track::-webkit-scrollbar-track {
+  border-radius: 0px;
+  background-color: #2f2f37;
+}
+
+.scroll-track::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: #8585ad;
+}
+
+.scroll-track-constructor::-webkit-scrollbar-track {
+  margin-bottom: 55px;
 }
