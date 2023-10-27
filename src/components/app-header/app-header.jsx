@@ -13,9 +13,7 @@ function AppHeader(props) {
       <nav className={style.nav}>
         <a className={`${style.link} pt-5 pb-5 pl-5 pr-5`} href="#">
           <BurgerIcon type="secondary" />
-          <p className={`text text_type_main-default ml-2 text_color_active`}>
-            Конструктор
-          </p>
+          <p className={`text text_type_main-default ml-2`}>Конструктор</p>
         </a>
         <a className={` ${style.link} pt-5 pb-5 pl-5 pr-5 ml-3`} href="#">
           <ListIcon type="secondary" />

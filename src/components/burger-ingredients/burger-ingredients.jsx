@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Tabs from "./tabs/tabs";
 import Ingridient from "./ingridient/ingridient";
 import style from "./burger-ingredients.module.css";
+import useHeight from "../../hooks/useSetHeight";
 
 function BurgerIngredients({ data }) {
   const [heightScrollTrack, setHeight] = useState(0);
@@ -13,33 +14,30 @@ function BurgerIngredients({ data }) {
   };
 
   const scrollTrackRef = useRef();
+  const height = useHeight(scrollTrackRef);
 
   useEffect(() => {
-    const scrollTrack = scrollTrackRef.current.getBoundingClientRect().top;
-    const innerHeight = window.innerHeight;
-    const trackHeight = innerHeight - scrollTrack;
-    setHeight(trackHeight);
-  }, []);
+    localStorage.setItem("height", height);
+    setHeight(height);
+  });
 
   return (
-    <section className={style.ingredients}>
+    <section className={`${style.ingredients} mr-10`}>
       <h1 className="text text_type_main-large mb-5 mt-10 ">Соберите бургер</h1>
       <Tabs />
       <section
-        className={`${style.scroll} custom-scroll mt-10`}
+        className={`${style.scroll} custom-scroll`}
         ref={scrollTrackRef}
-        style={{ height: heightScrollTrack }}
+        style={{ maxHeight: heightScrollTrack }}
       >
         {Object.values(ingredientTypes).map(({ title, filter }) => {
           return (
-            <section key={filter} className="pb-8">
-              <h2
-                className={`${style.title} mb-5 text text_type_main-medium }`}
-              >
+            <section key={filter} className={style.filter}>
+              <h2 className={`${style.title} text text_type_main-medium mb-5`}>
                 {title}
               </h2>
 
-              <ul className={`${style.list}`}>
+              <ul className={`${style.list} mb-10 `}>
                 {data
                   .filter((el) => el.type === filter)
                   .map(({ image, name, price, _id }) => {
@@ -48,7 +46,7 @@ function BurgerIngredients({ data }) {
                         image={image}
                         title={name}
                         price={price}
-                        count={1}
+                        count={null}
                         key={_id}
                       />
                     );

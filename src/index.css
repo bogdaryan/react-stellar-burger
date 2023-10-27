@@ -11,7 +11,6 @@ body {
 
 .scroll-track {
   overflow-y: scroll;
-  /* height: 10vh; */
 }
 
 /* Firefox */

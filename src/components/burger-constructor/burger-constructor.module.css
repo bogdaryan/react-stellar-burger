@@ -1,0 +1,49 @@
+.constructor {
+  margin-bottom: 55px;
+}
+
+.top {
+  margin-bottom: 16px;
+}
+
+.bottom {
+  margin-top: 16px;
+}
+
+.scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  margin-right: -22px;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.img {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.item {
+  position: relative;
+  padding-left: 33px;
+}
+
+.price {
+  display: flex;
+  gap: 8px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}

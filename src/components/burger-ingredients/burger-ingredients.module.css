@@ -1,10 +1,14 @@
 .ingredients {
   max-width: fit-content;
+  scroll-behavior: smooth;
+}
+
+.filter:last-child .list {
+  margin: 0;
 }
 
 .list {
   list-style: none;
-  margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, 289px);

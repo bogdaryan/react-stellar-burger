@@ -8,7 +8,7 @@ import style from "./ingridient.module.css";
 
 function Ingridient({ image, price, title, count }) {
   return (
-    <li className={`${style.card} pb-8 noselect`}>
+    <li className={`${style.card} noselect mb-8`}>
       {count && <Counter count={count} size="default" extraClass="m-1" />}
       <img className="ml-1 mt-1" src={image} alt={title} />
       <div className={`${style.wrapper} mt-1 mb-1`}>
