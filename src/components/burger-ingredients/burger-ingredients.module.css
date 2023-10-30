@@ -1,0 +1,28 @@
+.ingredients {
+  max-width: fit-content;
+  scroll-behavior: smooth;
+}
+
+.filter:last-child .list {
+  margin: 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 289px);
+  justify-content: space-around;
+}
+
+.title {
+  max-width: fit-content;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar-track {
+  margin-bottom: 55px;
+}
