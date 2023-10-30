@@ -37,17 +37,15 @@ function BurgerIngredients({ data }) {
                 {title}
               </h2>
 
-              <ul className={`${style.list} mb-10 `}>
+              <ul className={`${style.list} mb-10`}>
                 {data
                   .filter((el) => el.type === filter)
-                  .map(({ image, name, price, _id }) => {
+                  .map((ingredientData) => {
                     return (
                       <Ingridient
-                        image={image}
-                        title={name}
-                        price={price}
+                        data={ingredientData}
                         count={null}
-                        key={_id}
+                        key={ingredientData._id}
                       />
                     );
                   })}

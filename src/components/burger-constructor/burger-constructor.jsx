@@ -2,12 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import {
   Button,
   ConstructorElement,
-  CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
+import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
   const [height, setHeight] = useState(0);
   const section = useRef();
   const priceWrapper = useRef();
@@ -28,13 +28,11 @@ function BurgerConstructor(props) {
 
   useEffect(() => {
     calcListHeight();
-
-    console.log(inner.current.children);
   }, [sectionHeight]);
 
   return (
     <section ref={section} className={`${style.constructor} mt-25 pr-4 pl-4`}>
-      <div ref={inner} className="mb-10">
+      <div ref={inner} className="">
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -81,6 +79,14 @@ function BurgerConstructor(props) {
               thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
             />
           </li>
+          <li className={style.item}>
+            <img className={style.img} src={listStyleImage} alt="Иконка" />
+            <ConstructorElement
+              text="Говяжий метеорит (отбивная)"
+              price={3000}
+              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+            />
+          </li>
         </ul>
         <ConstructorElement
           type="bottom"
@@ -94,7 +100,7 @@ function BurgerConstructor(props) {
       <div ref={priceWrapper} className={`${style.wrapper} pt-10`}>
         <div className={`${style.price} mr-10`}>
           <p className="text text_type_digits-medium">610</p>
-          <CurrencyIcon type="primary" />
+          <img src={currencyIcon} alt="Иконка валюты" />
         </div>
         <Button htmlType="button" type="primary" size="large">
           Оформить заказ
