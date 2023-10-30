@@ -1,13 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropType } from "../../../utils/prop-types";
-import style from "./ingridient.module.css";
+import style from "./ingredient.module.css";
 
-function Ingridient({ data, count }) {
-  const { name, price, image } = data;
+function Ingredient({ ingredientDetails, count }) {
+  const { name, price, image } = ingredientDetails;
 
   return (
     <li className={`${style.card} noselect mb-8`}>
@@ -24,6 +25,9 @@ function Ingridient({ data, count }) {
   );
 }
 
-Ingridient.propTypes = ingredientPropType;
+Ingredient.propTypes = {
+  ingredientDetails: ingredientPropType.isRequired,
+  count: PropTypes.number,
+};
 
-export default Ingridient;
+export default Ingredient;

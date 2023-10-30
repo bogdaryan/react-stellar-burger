@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
+
 import Tabs from "./tabs/tabs";
-import Ingridient from "./ingridient/ingridient";
+import Ingredient from "./ingredient/ingredient";
+
 import style from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useSetHeight";
+
+import { ingredientPropType } from "../../utils/prop-types";
 
 function BurgerIngredients({ data }) {
   const [heightScrollTrack, setHeight] = useState(0);
@@ -40,12 +45,12 @@ function BurgerIngredients({ data }) {
               <ul className={`${style.list} mb-10`}>
                 {data
                   .filter((el) => el.type === filter)
-                  .map((ingredientData) => {
+                  .map((ingredient) => {
                     return (
-                      <Ingridient
-                        data={ingredientData}
+                      <Ingredient
+                        ingredientDetails={ingredient}
                         count={null}
-                        key={ingredientData._id}
+                        key={ingredient._id}
                       />
                     );
                   })}
@@ -57,5 +62,9 @@ function BurgerIngredients({ data }) {
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropType).isRequired,
+};
 
 export default BurgerIngredients;
