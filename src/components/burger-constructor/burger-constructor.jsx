@@ -7,7 +7,7 @@ import style from "./burger-constructor.module.css";
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
 import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor() {
+function BurgerConstructor({ showModal }) {
   const [height, setHeight] = useState(0);
   const section = useRef();
   const priceWrapper = useRef();
@@ -30,9 +30,13 @@ function BurgerConstructor() {
     calcListHeight();
   }, [sectionHeight]);
 
+  const handleCompleteOrder = () => {
+    showModal();
+  };
+
   return (
     <section ref={section} className={`${style.constructor} mt-25 pr-4 pl-4`}>
-      <div ref={inner} className="">
+      <div ref={inner}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -42,49 +46,39 @@ function BurgerConstructor() {
           extraClass={`${style.top} ml-8`}
         />
         <ul
-          style={{
-            maxHeight: height,
-          }}
+          style={{ maxHeight: height }}
           className={`${style.scroll} custom-scroll `}
         >
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
         </ul>
@@ -93,8 +87,8 @@ function BurgerConstructor() {
           isLocked={true}
           text="Краторная булка N-200i (низ)"
           price={200}
-          extraClass={`${style.bottom} ml-8`}
           thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+          extraClass={`${style.bottom} ml-8`}
         />
       </div>
       <div ref={priceWrapper} className={`${style.wrapper} pt-10`}>
@@ -102,7 +96,12 @@ function BurgerConstructor() {
           <p className="text text_type_digits-medium">610</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>
-        <Button htmlType="button" type="primary" size="large">
+        <Button
+          onClick={handleCompleteOrder}
+          htmlType="button"
+          type="primary"
+          size="large"
+        >
           Оформить заказ
         </Button>
       </div>

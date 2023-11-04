@@ -1,0 +1,13 @@
+.modal {
+  width: 720px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  position: relative;
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
