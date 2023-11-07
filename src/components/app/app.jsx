@@ -1,7 +1,6 @@
-import { useEffect, useState, useCallback, createRef } from "react";
-import { createPortal } from "react-dom";
-
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import style from "./app.module.css";
+import getIngredients from "../../utils/burger-api";
 
 import Header from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -11,79 +10,61 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
-import style from "./app.module.css";
-import { URL, PORTAL_ROOT } from "../../utils/constants.js";
-
 function App() {
-  const [state, setState] = useState({
-    bun: null,
-    constructorElements: [],
-  });
+  const [ingredients, setIngredients] = useState();
+  const [isOpened, setIsOpened] = useState(false);
+  const [ingredient, setIngredient] = useState(null);
+  const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(URL)
-      .then(({ data }) => setState({ ...state, ingredients: data.data }))
+    getIngredients()
+      .then((data) => setIngredients(data))
       .catch((error) => {
         throw new Error(error);
       });
   }, []);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
-
   const closeModal = () => {
-    setSelectedIngredient(null);
-    setIsModalOpen(false);
-  };
-  const showModal = () => setIsModalOpen(true);
-
-  const getCurrentIngredient = (el) => {
-    setSelectedIngredient(el);
-    setIsModalOpen(true);
+    setIsOpened(true);
+    setIngredient(null);
+    setOrderDetails(null);
   };
 
-  function IngredientDetailsPortal() {
-    if (!isModalOpen || !selectedIngredient) {
-      return null;
-    }
+  const getCurrentIngredient = (item) => {
+    setIngredient(item);
+    setIsOpened(true);
+  };
 
-    return createPortal(
-      <Modal closeModal={closeModal}>
-        <IngredientDetails ingredient={selectedIngredient} />
-      </Modal>,
-      PORTAL_ROOT
-    );
-  }
-
-  function OrderDetailsPortal() {
-    if (!isModalOpen || selectedIngredient !== null) {
-      return null;
-    }
-
-    return createPortal(
-      <Modal closeModal={closeModal}>
-        <OrderDetails closeModal={closeModal} />
-      </Modal>,
-      PORTAL_ROOT
-    );
-  }
+  const showOrderDetails = () => {
+    setOrderDetails(true);
+    setIsOpened(true);
+  };
 
   return (
     <>
       <Header />
       <main className={`${style.main} pd-10`}>
-        {state.ingredients && (
+        {ingredients && (
           <>
             <BurgerIngredients
-              ingredients={state.ingredients}
+              ingredients={ingredients}
               getCurrentIngredient={getCurrentIngredient}
             />
-            <BurgerConstructor showModal={showModal} />
+            <BurgerConstructor openOrderDetails={() => showOrderDetails()} />
           </>
         )}
-        <IngredientDetailsPortal />
-        <OrderDetailsPortal />
+
+        {isOpened && ingredient && (
+          <Modal close={closeModal}>
+            <IngredientDetails ingredient={ingredient} />
+          </Modal>
+        )}
+
+        {isOpened && ingredient === null && orderDetails && (
+          <Modal close={closeModal}>
+            <OrderDetails close={() => closeModal()} />
+          </Modal>
+        )}
       </main>
     </>
   );

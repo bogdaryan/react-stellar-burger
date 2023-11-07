@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
+
+import style from "./modal.module.css";
+
+import { PORTAL_ROOT } from "../../utils/constants";
+import cross from "../../images/modal-cross-close-icon.svg";
 
 import ModalOverlay from "./modal-overlay/modal-overlay";
 
-import style from "./modal.module.css";
-import cross from "../../images/modal-cross-close-icon.svg";
-
-function Modal({ children, closeModal }) {
-  const _close = () => {
-    closeModal();
-  };
-
+function Modal({ children, close }) {
   const closeByEscape = (e) => {
     if (e.key === "Escape") {
-      closeModal();
+      close();
     }
   };
 
@@ -25,23 +24,25 @@ function Modal({ children, closeModal }) {
     };
   }, []);
 
-  return (
-    <ModalOverlay>
-      <div className={style.modal}>
+  return createPortal(
+    <section className={style.modal}>
+      <div className={style.inner}>
         <img
           src={cross}
           alt="Закрыть"
           className={`${style.close} mt-15 mr-10`}
-          onClick={_close}
+          onClick={close}
         />
         {children}
       </div>
-    </ModalOverlay>
+      <ModalOverlay onClose={() => close()} />
+    </section>,
+    PORTAL_ROOT
   );
 }
 
 Modal.propsType = {
-  closeModal: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
 };
 
 export default Modal;

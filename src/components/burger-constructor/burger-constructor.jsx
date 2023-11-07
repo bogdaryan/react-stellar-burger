@@ -1,42 +1,48 @@
 import React, { useRef, useEffect, useState } from "react";
+import style from "./burger-constructor.module.css";
+import PropTypes from "prop-types";
+
 import {
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burger-constructor.module.css";
+
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
 import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor({ showModal }) {
+function BurgerConstructor({ openOrderDetails }) {
   const [height, setHeight] = useState(0);
-  const section = useRef();
-  const priceWrapper = useRef();
-  const inner = useRef();
 
-  const sectionHeight = +localStorage.height;
+  const sectionConstructorRef = useRef();
+  const priceWrapperRef = useRef();
+  const innerRef = useRef();
+
+  const BurgerIngredientsHeight = +localStorage.height;
 
   function calcListHeight() {
-    const innerChildHeight = inner.current.children[0].clientHeight;
-    const priceWrapperHeight = priceWrapper.current.clientHeight;
+    const constructorElement = innerRef.current.children[0].clientHeight;
+    const priceWrapperHeight = priceWrapperRef.current.clientHeight;
     const gap = 16;
 
     const listHeight =
-      sectionHeight - priceWrapperHeight - innerChildHeight * 2 + gap;
+      BurgerIngredientsHeight -
+      priceWrapperHeight -
+      constructorElement * 2 +
+      gap;
 
     setHeight(listHeight);
   }
 
   useEffect(() => {
     calcListHeight();
-  }, [sectionHeight]);
-
-  const handleCompleteOrder = () => {
-    showModal();
-  };
+  }, [BurgerIngredientsHeight]);
 
   return (
-    <section ref={section} className={`${style.constructor} mt-25 pr-4 pl-4`}>
-      <div ref={inner}>
+    <section
+      ref={sectionConstructorRef}
+      className={`${style.constructor} mt-25 pr-4 pl-4`}
+    >
+      <div ref={innerRef}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -81,6 +87,22 @@ function BurgerConstructor({ showModal }) {
               thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
+          <li className={style.item}>
+            <img className={style.img} src={listStyleImage} alt="Иконка" />
+            <ConstructorElement
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
+            />
+          </li>
+          <li className={style.item}>
+            <img className={style.img} src={listStyleImage} alt="Иконка" />
+            <ConstructorElement
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
+            />
+          </li>
         </ul>
         <ConstructorElement
           type="bottom"
@@ -91,13 +113,13 @@ function BurgerConstructor({ showModal }) {
           extraClass={`${style.bottom} ml-8`}
         />
       </div>
-      <div ref={priceWrapper} className={`${style.wrapper} pt-10`}>
+      <div ref={priceWrapperRef} className={`${style.wrapper} pt-10`}>
         <div className={`${style.price} mr-10`}>
           <p className="text text_type_digits-medium">610</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>
         <Button
-          onClick={handleCompleteOrder}
+          onClick={openOrderDetails}
           htmlType="button"
           type="primary"
           size="large"
@@ -108,5 +130,9 @@ function BurgerConstructor({ showModal }) {
     </section>
   );
 }
+
+BurgerConstructor.propsType = {
+  BurgerConstructor: PropTypes.func.isRequired,
+};
 
 export default BurgerConstructor;

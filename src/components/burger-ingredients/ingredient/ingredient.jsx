@@ -1,11 +1,13 @@
 import React from "react";
+import style from "./ingredient.module.css";
+
 import PropTypes from "prop-types";
+import { ingredientPropType } from "../../../utils/prop-types";
+
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropType } from "../../../utils/prop-types";
-import style from "./ingredient.module.css";
 
 function Ingredient({ ingredientDetails, count, getCurrentIngredient }) {
   const { name, price, image } = ingredientDetails;
