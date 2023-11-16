@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./app-header.module.css";
+
 import {
   Logo,
   BurgerIcon,
@@ -7,7 +8,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function AppHeader(props) {
+function AppHeader() {
   return (
     <header className={`${style.header} mt-10 pt-4 pb-3`}>
       <nav className={style.nav}>

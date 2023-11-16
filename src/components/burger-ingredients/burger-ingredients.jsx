@@ -9,7 +9,7 @@ import useHeight from "../../hooks/useSetHeight";
 
 import { ingredientPropType } from "../../utils/prop-types";
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients({ ingredients, getCurrentIngredient }) {
   const [heightScrollTrack, setHeight] = useState(0);
 
   const ingredientTypes = {
@@ -43,14 +43,14 @@ function BurgerIngredients({ data }) {
               </h2>
 
               <ul className={`${style.list} mb-10`}>
-                {data
+                {ingredients
                   .filter((el) => el.type === filter)
                   .map((ingredient) => {
                     return (
                       <Ingredient
                         ingredientDetails={ingredient}
-                        count={null}
                         key={ingredient._id}
+                        getCurrentIngredient={getCurrentIngredient}
                       />
                     );
                   })}
@@ -64,7 +64,8 @@ function BurgerIngredients({ data }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropType).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+  getCurrentIngredient: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

@@ -1,38 +1,48 @@
 import React, { useRef, useEffect, useState } from "react";
+import style from "./burger-constructor.module.css";
+import PropTypes from "prop-types";
+
 import {
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burger-constructor.module.css";
+
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
 import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor() {
+function BurgerConstructor({ openOrderDetails }) {
   const [height, setHeight] = useState(0);
-  const section = useRef();
-  const priceWrapper = useRef();
-  const inner = useRef();
 
-  const sectionHeight = +localStorage.height;
+  const sectionConstructorRef = useRef();
+  const priceWrapperRef = useRef();
+  const innerRef = useRef();
+
+  const BurgerIngredientsHeight = +localStorage.height;
 
   function calcListHeight() {
-    const innerChildHeight = inner.current.children[0].clientHeight;
-    const priceWrapperHeight = priceWrapper.current.clientHeight;
+    const constructorElement = innerRef.current.children[0].clientHeight;
+    const priceWrapperHeight = priceWrapperRef.current.clientHeight;
     const gap = 16;
 
     const listHeight =
-      sectionHeight - priceWrapperHeight - innerChildHeight * 2 + gap;
+      BurgerIngredientsHeight -
+      priceWrapperHeight -
+      constructorElement * 2 +
+      gap;
 
     setHeight(listHeight);
   }
 
   useEffect(() => {
     calcListHeight();
-  }, [sectionHeight]);
+  }, [BurgerIngredientsHeight]);
 
   return (
-    <section ref={section} className={`${style.constructor} mt-25 pr-4 pl-4`}>
-      <div ref={inner} className="">
+    <section
+      ref={sectionConstructorRef}
+      className={`${style.constructor} mt-25 pr-4 pl-4`}
+    >
+      <div ref={innerRef}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -42,49 +52,55 @@ function BurgerConstructor() {
           extraClass={`${style.top} ml-8`}
         />
         <ul
-          style={{
-            maxHeight: height,
-          }}
+          style={{ maxHeight: height }}
           className={`${style.scroll} custom-scroll `}
         >
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
           <li className={style.item}>
             <img className={style.img} src={listStyleImage} alt="Иконка" />
             <ConstructorElement
-              text="Говяжий метеорит (отбивная)"
-              price={3000}
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-04.png"}
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
+            />
+          </li>
+          <li className={style.item}>
+            <img className={style.img} src={listStyleImage} alt="Иконка" />
+            <ConstructorElement
+              text={"Плоды Фалленианского дерева"}
+              price={874}
+              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
             />
           </li>
         </ul>
@@ -93,21 +109,30 @@ function BurgerConstructor() {
           isLocked={true}
           text="Краторная булка N-200i (низ)"
           price={200}
-          extraClass={`${style.bottom} ml-8`}
           thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+          extraClass={`${style.bottom} ml-8`}
         />
       </div>
-      <div ref={priceWrapper} className={`${style.wrapper} pt-10`}>
+      <div ref={priceWrapperRef} className={`${style.wrapper} pt-10`}>
         <div className={`${style.price} mr-10`}>
           <p className="text text_type_digits-medium">610</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>
-        <Button htmlType="button" type="primary" size="large">
+        <Button
+          onClick={openOrderDetails}
+          htmlType="button"
+          type="primary"
+          size="large"
+        >
           Оформить заказ
         </Button>
       </div>
     </section>
   );
 }
+
+BurgerConstructor.propsType = {
+  BurgerConstructor: PropTypes.func.isRequired,
+};
 
 export default BurgerConstructor;
