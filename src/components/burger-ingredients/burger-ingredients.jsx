@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useRef, useState, useContext } from "react";
+// import PropTypes from "prop-types";
+// import { ingredientPropType } from "../../utils/prop-types";
 
 import Tabs from "./tabs/tabs";
 import Ingredient from "./ingredient/ingredient";
@@ -7,10 +8,11 @@ import Ingredient from "./ingredient/ingredient";
 import style from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useSetHeight";
 
-import { ingredientPropType } from "../../utils/prop-types";
+import { BurgerIngredientsContext } from "../../utils/appContext";
 
-function BurgerIngredients({ ingredients, getCurrentIngredient }) {
+function BurgerIngredients() {
   const [heightScrollTrack, setHeight] = useState(0);
+  const ingredients = useContext(BurgerIngredientsContext);
 
   const ingredientTypes = {
     buns: { title: "Булки", filter: "bun" },
@@ -50,7 +52,6 @@ function BurgerIngredients({ ingredients, getCurrentIngredient }) {
                       <Ingredient
                         ingredientDetails={ingredient}
                         key={ingredient._id}
-                        getCurrentIngredient={getCurrentIngredient}
                       />
                     );
                   })}
@@ -64,8 +65,7 @@ function BurgerIngredients({ ingredients, getCurrentIngredient }) {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  getCurrentIngredient: PropTypes.func.isRequired,
+  // ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
 export default BurgerIngredients;

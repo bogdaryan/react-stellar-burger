@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import style from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 
@@ -10,14 +10,21 @@ import {
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
 import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor({ openOrderDetails }) {
+import { BurgerIngredientContext } from "../../utils/appContext";
+
+import { calcTotalPrice, deleteIngredient } from "../../services/actions";
+
+function BurgerConstructor({ openOrderDetails, setTotalPrice, totalPrice }) {
   const [height, setHeight] = useState(0);
+  const { store, dispatch } = useContext(BurgerIngredientContext);
+
+  const { bun } = store;
 
   const sectionConstructorRef = useRef();
   const priceWrapperRef = useRef();
   const innerRef = useRef();
 
-  const BurgerIngredientsHeight = +localStorage.height;
+  const burgerIngredientsHeight = +localStorage.height;
 
   function calcListHeight() {
     const constructorElement = innerRef.current.children[0].clientHeight;
@@ -25,7 +32,7 @@ function BurgerConstructor({ openOrderDetails }) {
     const gap = 16;
 
     const listHeight =
-      BurgerIngredientsHeight -
+      burgerIngredientsHeight -
       priceWrapperHeight -
       constructorElement * 2 +
       gap;
@@ -35,7 +42,16 @@ function BurgerConstructor({ openOrderDetails }) {
 
   useEffect(() => {
     calcListHeight();
-  }, [BurgerIngredientsHeight]);
+  }, [burgerIngredientsHeight]);
+
+  useEffect(() => {
+    const totalPrice = [...store.ingredients, bun, bun].reduce(
+      (acc, ingredient) => acc + ingredient.price,
+      null
+    );
+
+    setTotalPrice(totalPrice);
+  }, [store]);
 
   return (
     <section
@@ -43,79 +59,49 @@ function BurgerConstructor({ openOrderDetails }) {
       className={`${style.constructor} mt-25 pr-4 pl-4`}
     >
       <div ref={innerRef}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          extraClass={`${style.top} ml-8`}
-        />
+        {bun && (
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image}
+            extraClass={`${style.top} ml-8`}
+          />
+        )}
+
         <ul
           style={{ maxHeight: height }}
           className={`${style.scroll} custom-scroll `}
         >
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
+          {store.ingredients.map(({ name, price, image, _idConstructor }) => {
+            return (
+              <li className={style.item} key={_idConstructor}>
+                <img className={style.img} src={listStyleImage} alt="Иконка" />
+                <ConstructorElement
+                  text={name}
+                  price={price}
+                  thumbnail={image}
+                  handleClose={() => dispatch(deleteIngredient(_idConstructor))}
+                />
+              </li>
+            );
+          })}
         </ul>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          extraClass={`${style.bottom} ml-8`}
-        />
+        {bun && (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={`${bun.name} (низ)`}
+            price={bun.price}
+            thumbnail={bun.image}
+            extraClass={`${style.bottom} ml-8`}
+          />
+        )}
       </div>
       <div ref={priceWrapperRef} className={`${style.wrapper} pt-10`}>
         <div className={`${style.price} mr-10`}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>
         <Button
@@ -132,7 +118,9 @@ function BurgerConstructor({ openOrderDetails }) {
 }
 
 BurgerConstructor.propsType = {
-  BurgerConstructor: PropTypes.func.isRequired,
+  openOrderDetails: PropTypes.func.isRequired,
+  setTotalPrice: PropTypes.func.isRequired,
+  totalPrice: PropTypes.number.isRequired,
 };
 
 export default BurgerConstructor;

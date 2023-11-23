@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./app.module.css";
-import getIngredients from "../../utils/burger-api";
+import { getIngredients, postOrder } from "../../utils/burger-api";
 
 import Header from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -10,11 +10,26 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
+import {
+  BurgerIngredientContext,
+  BurgerIngredientsContext,
+} from "../../utils/appContext";
+import useIngredientReducer from "../../services/reducerIngredients";
+import { clearConstructor } from "../../services/actions";
+
 function App() {
   const [ingredients, setIngredients] = useState();
+  const [totalPrice, setTotalPrice] = useState([]);
+
   const [isOpened, setIsOpened] = useState(false);
-  const [ingredient, setIngredient] = useState(null);
-  const [orderDetails, setOrderDetails] = useState(null);
+
+  const [orderDetails, setOrderDetails] = useState({
+    loading: false,
+    error: false,
+    number: null,
+  });
+
+  const [store, dispatch] = useIngredientReducer();
 
   useEffect(() => {
     getIngredients()
@@ -25,44 +40,60 @@ function App() {
   }, []);
 
   const closeModal = () => {
-    setIsOpened(true);
-    setIngredient(null);
-    setOrderDetails(null);
-  };
-
-  const getCurrentIngredient = (item) => {
-    setIngredient(item);
-    setIsOpened(true);
+    setIsOpened(false);
   };
 
   const showOrderDetails = () => {
-    setOrderDetails(true);
-    setIsOpened(true);
+    const ingredientsIds = [...store.ingredients, store.bun, store.bun].map(
+      (el) => el._id
+    );
+
+    setOrderDetails({ ...orderDetails, loading: true });
+
+    postOrder(ingredientsIds)
+      .then((res) => {
+        if (res.success) {
+          setOrderDetails({ ...orderDetails, number: res.order.number });
+          setIsOpened(true);
+          dispatch(clearConstructor());
+        }
+      })
+      .catch((error) => {
+        setOrderDetails({ ...orderDetails, error: true, loading: false });
+        throw new Error(error);
+      });
   };
 
   return (
     <>
       <Header />
       <main className={`${style.main} pd-10`}>
-        {ingredients && (
-          <>
-            <BurgerIngredients
-              ingredients={ingredients}
-              getCurrentIngredient={getCurrentIngredient}
-            />
-            <BurgerConstructor openOrderDetails={() => showOrderDetails()} />
-          </>
-        )}
+        <BurgerIngredientContext.Provider value={{ store, dispatch }}>
+          <BurgerIngredientsContext.Provider value={ingredients}>
+            {ingredients && <BurgerIngredients />}
 
-        {isOpened && ingredient && (
+            {store.bun && (
+              <BurgerConstructor
+                openOrderDetails={() => showOrderDetails()}
+                setTotalPrice={setTotalPrice}
+                totalPrice={totalPrice}
+              />
+            )}
+          </BurgerIngredientsContext.Provider>
+        </BurgerIngredientContext.Provider>
+
+        {!orderDetails.loading && isOpened && (
           <Modal close={closeModal}>
-            <IngredientDetails ingredient={ingredient} />
+            <OrderDetails
+              close={() => closeModal()}
+              orderNumber={orderDetails.number}
+            />
           </Modal>
         )}
 
-        {isOpened && ingredient === null && orderDetails && (
+        {false && (
           <Modal close={closeModal}>
-            <OrderDetails close={() => closeModal()} />
+            <IngredientDetails />
           </Modal>
         )}
       </main>

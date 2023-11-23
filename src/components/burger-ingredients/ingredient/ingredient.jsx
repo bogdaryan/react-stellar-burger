@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import style from "./ingredient.module.css";
 
-import PropTypes from "prop-types";
 import { ingredientPropType } from "../../../utils/prop-types";
 
 import {
@@ -9,15 +10,55 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-function Ingredient({ ingredientDetails, count, getCurrentIngredient }) {
-  const { name, price, image } = ingredientDetails;
+import { BurgerIngredientContext } from "../../../utils/appContext";
+import { addIngredient } from "../../../services/actions";
 
-  const targetIngredient = () => {
-    getCurrentIngredient(ingredientDetails);
+function Ingredient({ ingredientDetails }) {
+  const { name, price, image } = ingredientDetails;
+  const { store, dispatch } = useContext(BurgerIngredientContext);
+  const [count, setCount] = useState(null);
+
+  const updatedIngredient = {
+    ...ingredientDetails,
+    _idConstructor: uuidv4(),
+  };
+
+  useEffect(() => {
+    countIngredients();
+  }, [store.ingredients]);
+
+  useEffect(() => {
+    bunCount(ingredientDetails);
+  }, [store.bun]);
+
+  const countIngredients = () => {
+    const counter = {};
+
+    store.ingredients.forEach((ingredient) => {
+      const ingredientName = ingredient.name;
+      counter[ingredientName] = (counter[ingredientName] || 0) + 1;
+    });
+
+    const ingredientCount = counter[name];
+    setCount(ingredientCount);
+  };
+
+  const bunCount = (selectedIngredient) => {
+    if (selectedIngredient.type !== "bun" || !store.bun) return;
+    const selectedBun = selectedIngredient;
+
+    setCount(null);
+
+    if (store.bun._id === selectedBun._id) {
+      setCount(1);
+    }
   };
 
   return (
-    <li className={`${style.card} noselect mb-8`} onClick={targetIngredient}>
+    <li
+      className={`${style.card} noselect mb-8`}
+      onClick={() => dispatch(addIngredient(updatedIngredient))}
+    >
       {count && <Counter count={count} size="default" extraClass="m-1" />}
       <img className="ml-1 mt-1" src={image} alt={name} />
       <div className={`${style.wrapper} mt-1 mb-1`}>
@@ -33,8 +74,6 @@ function Ingredient({ ingredientDetails, count, getCurrentIngredient }) {
 
 Ingredient.propTypes = {
   ingredientDetails: ingredientPropType.isRequired,
-  count: PropTypes.number,
-  getCurrentIngredient: PropTypes.func.isRequired,
 };
 
 export default Ingredient;

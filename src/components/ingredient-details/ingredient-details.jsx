@@ -12,6 +12,7 @@ function IngredientDetails({ ingredient }) {
         Детали ингредиента
       </h2>
       <img src={image_large} alt="Фото ингредиента" />
+
       <p className={`${style.name} text text_type_main-medium mt-4 mb-8`}>
         {name}
       </p>
