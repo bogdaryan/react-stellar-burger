@@ -1,4 +1,4 @@
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 import Tabs from "./tabs/tabs";
@@ -8,6 +8,7 @@ import style from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useSetHeight";
 
 function BurgerIngredients() {
+  const [activeTab, setActiveTab] = useState("bun");
   const ingredients = useSelector((store) => store.ingredients.menu);
   const { constructorIngredients, bun } = useSelector(
     (store) => store.ingredients
@@ -30,15 +31,15 @@ function BurgerIngredients() {
     return counterObj;
   }, [ingredientsInConstructor]);
 
-  const [heightScrollTrack, setHeight] = useState(0);
-  const scrollTrackRef = useRef();
-  const height = useHeight(scrollTrackRef);
-
   const ingredientTypes = {
     buns: { title: "Булки", filter: "bun" },
     sauce: { title: "Соусы", filter: "sauce" },
     main: { title: "Начинки", filter: "main" },
   };
+
+  const [heightScrollTrack, setHeight] = useState(0);
+  const scrollTrackRef = useRef();
+  const height = useHeight(scrollTrackRef);
 
   useEffect(() => {
     localStorage.setItem("height", height);
@@ -48,7 +49,7 @@ function BurgerIngredients() {
   return (
     <section className={`${style.ingredients} mr-10`}>
       <h1 className="text text_type_main-large mb-5 mt-10 ">Соберите бургер</h1>
-      <Tabs />
+      <Tabs activeTab={activeTab} />
       <section
         className={`${style.scroll} custom-scroll`}
         ref={scrollTrackRef}
@@ -56,12 +57,7 @@ function BurgerIngredients() {
       >
         {Object.values(ingredientTypes).map(({ title, filter }) => {
           return (
-            <section
-              key={filter}
-              className={style.filter}
-              data-filter={filter}
-              // ref={sectionRefs[filter].ref}
-            >
+            <section key={filter} className={style.filter} data-type={filter}>
               <h2 className={`${style.title} text text_type_main-medium mb-5`}>
                 {title}
               </h2>

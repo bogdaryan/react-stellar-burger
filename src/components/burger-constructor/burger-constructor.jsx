@@ -5,7 +5,6 @@ import { deleteIngredient } from "../../services/ingredientsSlice";
 import { postOrder } from "../../asyncActions/postOrder";
 
 import style from "./burger-constructor.module.css";
-import PropTypes from "prop-types";
 
 import {
   Button,
@@ -15,7 +14,7 @@ import {
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
 import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor({ openOrderDetails }) {
+function BurgerConstructor() {
   const [totalPrice, setTotalPrice] = useState(null);
 
   const dispatch = useDispatch();
@@ -23,14 +22,6 @@ function BurgerConstructor({ openOrderDetails }) {
     (store) => store.ingredients.constructorIngredients
   );
   const bun = useSelector((store) => store.ingredients.bun);
-
-  const orderDetails = useSelector((store) => store.modal.orderDetails);
-
-  useEffect(() => {
-    if (orderDetails) {
-      console.log(orderDetails);
-    }
-  }, [orderDetails]);
 
   const [height, setHeight] = useState(0);
 
@@ -129,9 +120,4 @@ function BurgerConstructor({ openOrderDetails }) {
     </section>
   );
 }
-
-BurgerConstructor.propsType = {
-  openOrderDetails: PropTypes.func.isRequired,
-};
-
 export default BurgerConstructor;

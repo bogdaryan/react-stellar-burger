@@ -35,7 +35,7 @@ function Ingredient({ ingredientDetails, counter }) {
       {counter[name] && (
         <Counter count={counter[name]} size="default" extraClass="m-1" />
       )}
-      <img className={`${style.img} ml-1 mt-1`} src={image} alt={name} s />
+      <img className={`${style.img} ml-1 mt-1`} src={image} alt={name} />
       <div className={`${style.wrapper} mt-1 mb-1`}>
         <p className={`${style.price} text text_type_digits-default mr-2`}>
           {price}
@@ -49,7 +49,7 @@ function Ingredient({ ingredientDetails, counter }) {
 
 Ingredient.propTypes = {
   ingredientDetails: ingredientPropType.isRequired,
-  count: PropTypes.object,
+  // count: PropTypes.object,
 };
 
 export default Ingredient;
