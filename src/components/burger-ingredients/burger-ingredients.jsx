@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
-// import PropTypes from "prop-types";
-// import { ingredientPropType } from "../../utils/prop-types";
+import { createRef, useEffect, useMemo, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 import Tabs from "./tabs/tabs";
 import Ingredient from "./ingredient/ingredient";
@@ -8,20 +7,38 @@ import Ingredient from "./ingredient/ingredient";
 import style from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useSetHeight";
 
-import { BurgerIngredientsContext } from "../../utils/appContext";
-
 function BurgerIngredients() {
+  const ingredients = useSelector((store) => store.ingredients.menu);
+  const { constructorIngredients, bun } = useSelector(
+    (store) => store.ingredients
+  );
+  const ingredientsInConstructor = useMemo(
+    () => [...constructorIngredients, bun, bun],
+    [constructorIngredients, bun]
+  );
+
+  const counter = useMemo(() => {
+    const counterObj = {};
+
+    ingredientsInConstructor.forEach((ingredient) => {
+      if (!ingredient) return;
+
+      const ingredientName = ingredient.name;
+      counterObj[ingredientName] = (counterObj[ingredientName] || 0) + 1;
+    });
+
+    return counterObj;
+  }, [ingredientsInConstructor]);
+
   const [heightScrollTrack, setHeight] = useState(0);
-  const ingredients = useContext(BurgerIngredientsContext);
+  const scrollTrackRef = useRef();
+  const height = useHeight(scrollTrackRef);
 
   const ingredientTypes = {
     buns: { title: "Булки", filter: "bun" },
     sauce: { title: "Соусы", filter: "sauce" },
     main: { title: "Начинки", filter: "main" },
   };
-
-  const scrollTrackRef = useRef();
-  const height = useHeight(scrollTrackRef);
 
   useEffect(() => {
     localStorage.setItem("height", height);
@@ -39,7 +56,12 @@ function BurgerIngredients() {
       >
         {Object.values(ingredientTypes).map(({ title, filter }) => {
           return (
-            <section key={filter} className={style.filter}>
+            <section
+              key={filter}
+              className={style.filter}
+              data-filter={filter}
+              // ref={sectionRefs[filter].ref}
+            >
               <h2 className={`${style.title} text text_type_main-medium mb-5`}>
                 {title}
               </h2>
@@ -52,6 +74,7 @@ function BurgerIngredients() {
                       <Ingredient
                         ingredientDetails={ingredient}
                         key={ingredient._id}
+                        counter={counter}
                       />
                     );
                   })}
@@ -63,9 +86,5 @@ function BurgerIngredients() {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  // ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-};
 
 export default BurgerIngredients;

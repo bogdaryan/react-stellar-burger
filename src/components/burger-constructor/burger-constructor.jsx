@@ -1,4 +1,9 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { deleteIngredient } from "../../services/ingredientsSlice";
+import { postOrder } from "../../asyncActions/postOrder";
+
 import style from "./burger-constructor.module.css";
 import PropTypes from "prop-types";
 
@@ -10,15 +15,24 @@ import {
 import listStyleImage from "../../images/burger-constructor-list-marker.svg";
 import currencyIcon from "../../images/currency_icon.svg";
 
-import { BurgerIngredientContext } from "../../utils/appContext";
+function BurgerConstructor({ openOrderDetails }) {
+  const [totalPrice, setTotalPrice] = useState(null);
 
-import { calcTotalPrice, deleteIngredient } from "../../services/actions";
+  const dispatch = useDispatch();
+  const ingredients = useSelector(
+    (store) => store.ingredients.constructorIngredients
+  );
+  const bun = useSelector((store) => store.ingredients.bun);
 
-function BurgerConstructor({ openOrderDetails, setTotalPrice, totalPrice }) {
+  const orderDetails = useSelector((store) => store.modal.orderDetails);
+
+  useEffect(() => {
+    if (orderDetails) {
+      console.log(orderDetails);
+    }
+  }, [orderDetails]);
+
   const [height, setHeight] = useState(0);
-  const { store, dispatch } = useContext(BurgerIngredientContext);
-
-  const { bun } = store;
 
   const sectionConstructorRef = useRef();
   const priceWrapperRef = useRef();
@@ -45,13 +59,12 @@ function BurgerConstructor({ openOrderDetails, setTotalPrice, totalPrice }) {
   }, [burgerIngredientsHeight]);
 
   useEffect(() => {
-    const totalPrice = [...store.ingredients, bun, bun].reduce(
+    const totalPrice = [...ingredients, bun, bun].reduce(
       (acc, ingredient) => acc + ingredient.price,
       null
     );
-
     setTotalPrice(totalPrice);
-  }, [store]);
+  }, [bun, ingredients]);
 
   return (
     <section
@@ -74,7 +87,7 @@ function BurgerConstructor({ openOrderDetails, setTotalPrice, totalPrice }) {
           style={{ maxHeight: height }}
           className={`${style.scroll} custom-scroll `}
         >
-          {store.ingredients.map(({ name, price, image, _idConstructor }) => {
+          {ingredients.map(({ name, price, image, _idConstructor }) => {
             return (
               <li className={style.item} key={_idConstructor}>
                 <img className={style.img} src={listStyleImage} alt="Иконка" />
@@ -105,7 +118,7 @@ function BurgerConstructor({ openOrderDetails, setTotalPrice, totalPrice }) {
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>
         <Button
-          onClick={openOrderDetails}
+          onClick={() => dispatch(postOrder([...ingredients, bun, bun]))}
           htmlType="button"
           type="primary"
           size="large"
@@ -119,8 +132,6 @@ function BurgerConstructor({ openOrderDetails, setTotalPrice, totalPrice }) {
 
 BurgerConstructor.propsType = {
   openOrderDetails: PropTypes.func.isRequired,
-  setTotalPrice: PropTypes.func.isRequired,
-  totalPrice: PropTypes.number.isRequired,
 };
 
 export default BurgerConstructor;

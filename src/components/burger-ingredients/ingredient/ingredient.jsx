@@ -1,5 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { nanoid } from "@reduxjs/toolkit";
+import PropTypes from "prop-types";
+
+import { addIngredient } from "../../../services/ingredientsSlice";
 
 import style from "./ingredient.module.css";
 
@@ -9,58 +12,30 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { showIngredientDetails } from "../../../services/modalSlice";
 
-import { BurgerIngredientContext } from "../../../utils/appContext";
-import { addIngredient } from "../../../services/actions";
-
-function Ingredient({ ingredientDetails }) {
+function Ingredient({ ingredientDetails, counter }) {
+  const dispatch = useDispatch();
   const { name, price, image } = ingredientDetails;
-  const { store, dispatch } = useContext(BurgerIngredientContext);
-  const [count, setCount] = useState(null);
-
-  const updatedIngredient = {
-    ...ingredientDetails,
-    _idConstructor: uuidv4(),
-  };
-
-  useEffect(() => {
-    countIngredients();
-  }, [store.ingredients]);
-
-  useEffect(() => {
-    bunCount(ingredientDetails);
-  }, [store.bun]);
-
-  const countIngredients = () => {
-    const counter = {};
-
-    store.ingredients.forEach((ingredient) => {
-      const ingredientName = ingredient.name;
-      counter[ingredientName] = (counter[ingredientName] || 0) + 1;
-    });
-
-    const ingredientCount = counter[name];
-    setCount(ingredientCount);
-  };
-
-  const bunCount = (selectedIngredient) => {
-    if (selectedIngredient.type !== "bun" || !store.bun) return;
-    const selectedBun = selectedIngredient;
-
-    setCount(null);
-
-    if (store.bun._id === selectedBun._id) {
-      setCount(1);
-    }
-  };
 
   return (
     <li
       className={`${style.card} noselect mb-8`}
-      onClick={() => dispatch(addIngredient(updatedIngredient))}
+      onClick={() => {
+        const updatedIngredinet = {
+          ...ingredientDetails,
+          _idConstructor: nanoid(),
+        };
+
+        dispatch(addIngredient(updatedIngredinet));
+        dispatch(showIngredientDetails(updatedIngredinet));
+      }}
+      draggable={true}
     >
-      {count && <Counter count={count} size="default" extraClass="m-1" />}
-      <img className="ml-1 mt-1" src={image} alt={name} />
+      {counter[name] && (
+        <Counter count={counter[name]} size="default" extraClass="m-1" />
+      )}
+      <img className={`${style.img} ml-1 mt-1`} src={image} alt={name} s />
       <div className={`${style.wrapper} mt-1 mb-1`}>
         <p className={`${style.price} text text_type_digits-default mr-2`}>
           {price}
@@ -74,6 +49,7 @@ function Ingredient({ ingredientDetails }) {
 
 Ingredient.propTypes = {
   ingredientDetails: ingredientPropType.isRequired,
+  count: PropTypes.object,
 };
 
 export default Ingredient;
