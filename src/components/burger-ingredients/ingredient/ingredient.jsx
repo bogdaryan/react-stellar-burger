@@ -2,9 +2,10 @@ import { useDispatch } from "react-redux";
 import { nanoid } from "@reduxjs/toolkit";
 import PropTypes from "prop-types";
 
-import { addIngredient } from "../../../services/ingredientsSlice";
-
 import style from "./ingredient.module.css";
+
+import { addIngredient } from "../../../services/ingredientsSlice";
+// import { showIngredientDetails } from "../../../services/modalSlice";
 
 import { ingredientPropType } from "../../../utils/prop-types";
 
@@ -12,24 +13,25 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { showIngredientDetails } from "../../../services/modalSlice";
 
 function Ingredient({ ingredientDetails, counter }) {
   const dispatch = useDispatch();
   const { name, price, image } = ingredientDetails;
 
+  const onClick = () => {
+    const updatedIngredient = {
+      ...ingredientDetails,
+      _key: nanoid(),
+    };
+
+    dispatch(addIngredient(updatedIngredient));
+    // dispatch(showIngredientDetails(updatedIngredient));
+  };
+
   return (
     <li
       className={`${style.card} noselect mb-8`}
-      onClick={() => {
-        const updatedIngredinet = {
-          ...ingredientDetails,
-          _idConstructor: nanoid(),
-        };
-
-        dispatch(addIngredient(updatedIngredinet));
-        dispatch(showIngredientDetails(updatedIngredinet));
-      }}
+      onClick={onClick}
       draggable={true}
     >
       {counter[name] && (
@@ -49,7 +51,7 @@ function Ingredient({ ingredientDetails, counter }) {
 
 Ingredient.propTypes = {
   ingredientDetails: ingredientPropType.isRequired,
-  // count: PropTypes.object,
+  counter: PropTypes.object,
 };
 
 export default Ingredient;

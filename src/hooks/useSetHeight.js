@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 function useHeight(el) {
-  const [heightScrollTrack, setHeight] = useState(0);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     const scrollTrack = el.current.getBoundingClientRect().top;
@@ -11,7 +11,7 @@ function useHeight(el) {
     setHeight(trackHeight - paddingBottom);
   }, [el]);
 
-  return heightScrollTrack;
+  return height;
 }
 
 export default useHeight;

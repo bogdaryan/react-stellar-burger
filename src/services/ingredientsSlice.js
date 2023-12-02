@@ -1,15 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  bun: null,
+  constructorIngredients: [],
+
+  ingredientsRequest: false,
+  ingredientsFailed: false,
+  ingredients: [],
+};
+
 const ingredientsSlice = createSlice({
-  name: "toolkit",
-  initialState: {
-    bun: null,
-    constructorIngredients: [],
-    menu: [],
-  },
+  name: "ingredients",
+  initialState,
   reducers: {
-    loadIngredients(state, action) {
-      state.menu = [...action.payload];
+    getIngredients(state) {
+      state.ingredientsRequest = true;
+      state.ingredientsFailed = false;
+    },
+    getIngredientsSuccess(state, action) {
+      state.ingredientsRequest = false;
+      state.ingredients = [...action.payload];
+    },
+    getIngredientsFailed(state) {
+      state.ingredientsFailed = true;
+      state.ingredientsRequest = false;
     },
     addIngredient(state, action) {
       if (action.payload.type !== "bun") {
@@ -20,7 +34,7 @@ const ingredientsSlice = createSlice({
     },
     deleteIngredient(state, action) {
       state.constructorIngredients = state.constructorIngredients.filter(
-        (el) => el._idConstructor !== action.payload
+        (el) => el._key !== action.payload
       );
     },
   },
@@ -28,5 +42,10 @@ const ingredientsSlice = createSlice({
 
 export default ingredientsSlice.reducer;
 
-export const { addIngredient, deleteIngredient, loadIngredients } =
-  ingredientsSlice.actions;
+export const {
+  addIngredient,
+  deleteIngredient,
+  getIngredients,
+  getIngredientsSuccess,
+  getIngredientsFailed,
+} = ingredientsSlice.actions;

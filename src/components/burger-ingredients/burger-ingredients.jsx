@@ -7,12 +7,13 @@ import Ingredient from "./ingredient/ingredient";
 import style from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useSetHeight";
 
-function BurgerIngredients() {
+function BurgerIngredients({ setScrollHeight, scrollHeight }) {
   const [activeTab, setActiveTab] = useState("bun");
-  const ingredients = useSelector((store) => store.ingredients.menu);
+  const ingredients = useSelector((store) => store.ingredients.ingredients);
   const { constructorIngredients, bun } = useSelector(
     (store) => store.ingredients
   );
+
   const ingredientsInConstructor = useMemo(
     () => [...constructorIngredients, bun, bun],
     [constructorIngredients, bun]
@@ -37,14 +38,41 @@ function BurgerIngredients() {
     main: { title: "Начинки", filter: "main" },
   };
 
-  const [heightScrollTrack, setHeight] = useState(0);
   const scrollTrackRef = useRef();
   const height = useHeight(scrollTrackRef);
 
   useEffect(() => {
-    localStorage.setItem("height", height);
-    setHeight(height);
+    setScrollHeight(height);
   });
+
+  const sectionRefs = {
+    bun: useRef(),
+    sauce: useRef(),
+    main: useRef(),
+  };
+
+  const handlleChangeTab = (e) => {
+    const containerTop = scrollTrackRef.current.getBoundingClientRect().top;
+
+    const bunTop = sectionRefs.bun.current.getBoundingClientRect().top;
+    const sauceTop = sectionRefs.sauce.current.getBoundingClientRect().top;
+    const mainTop = sectionRefs.main.current.getBoundingClientRect().top;
+
+    if (containerTop >= mainTop) {
+      setActiveTab("main");
+    } else if (containerTop >= sauceTop) {
+      setActiveTab("sauce");
+    } else {
+      setActiveTab("bun");
+    }
+
+    console.log({
+      bun: bunTop,
+      sauce: sauceTop,
+      main: mainTop,
+      container: containerTop,
+    });
+  };
 
   return (
     <section className={`${style.ingredients} mr-10`}>
@@ -53,12 +81,16 @@ function BurgerIngredients() {
       <section
         className={`${style.scroll} custom-scroll`}
         ref={scrollTrackRef}
-        style={{ maxHeight: heightScrollTrack }}
+        style={{ maxHeight: scrollHeight }}
+        onScroll={handlleChangeTab}
       >
         {Object.values(ingredientTypes).map(({ title, filter }) => {
           return (
             <section key={filter} className={style.filter} data-type={filter}>
-              <h2 className={`${style.title} text text_type_main-medium mb-5`}>
+              <h2
+                className={`${style.title} text text_type_main-medium mb-5`}
+                ref={sectionRefs[filter]}
+              >
                 {title}
               </h2>
 

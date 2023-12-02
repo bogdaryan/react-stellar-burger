@@ -1,5 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 // Style //
 import style from "./app.module.css";
@@ -19,38 +25,58 @@ import OrderDetails from "../order-details/order-details";
 function App() {
   const dispatch = useDispatch();
   const isOpened = useSelector((store) => store.modal.isOpened);
+  const orderNumber = useSelector((store) => store.modal.orderNumber);
+
   const ingredientDetails = useSelector(
     (store) => store.modal.ingredientDetails
   );
+  const { ingredientsRequest, ingredientsFailed } = useSelector(
+    (store) => store.ingredients
+  );
 
-  const ingredients = useSelector((store) => store.ingredients.menu);
-  const bun = useSelector((store) => store.ingredients.bun);
+  const [scrollHeight, setScrollHeight] = useState(0);
 
-  const orderNumber = useSelector((store) => store.modal.orderNumber);
-
+  /* eslint-disable */
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, []);
+  }, []); // once mount cuz event fetch
+  /* eslint-enable */
 
   return (
     <>
       <Header />
       <main className={`${style.main} pd-10`}>
-        {ingredients && <BurgerIngredients />}
-        {bun && <BurgerConstructor />}
+        <DndProvider backend={HTML5Backend}>
+          {ingredientsFailed ? (
+            <p className={`${style.error} text text_type_main-large`}>
+              Произошла ошибка при получении данных
+            </p>
+          ) : ingredientsRequest ? (
+            <Box className={style.loading}>
+              <CircularProgress size={100} />
+            </Box>
+          ) : (
+            <BurgerIngredients
+              setScrollHeight={setScrollHeight}
+              scrollHeight={scrollHeight}
+            />
+          )}
+        </DndProvider>
 
-        {isOpened && orderNumber && (
-          <Modal>
-            <OrderDetails />
-          </Modal>
-        )}
-
-        {isOpened && ingredientDetails && (
-          <Modal>
-            <IngredientDetails />
-          </Modal>
-        )}
+        <BurgerConstructor scrollHeight={scrollHeight} />
       </main>
+
+      {isOpened && orderNumber && (
+        <Modal>
+          <OrderDetails />
+        </Modal>
+      )}
+
+      {isOpened && ingredientDetails && (
+        <Modal>
+          <IngredientDetails />
+        </Modal>
+      )}
     </>
   );
 }

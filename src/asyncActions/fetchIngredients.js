@@ -1,15 +1,25 @@
 import axios from "axios";
 import { URL } from "../utils/constants";
 
-import { loadIngredients } from "../services/ingredientsSlice";
+import {
+  getIngredients,
+  getIngredientsSuccess,
+  getIngredientsFailed,
+} from "../services/ingredientsSlice";
 
 export const fetchIngredients = () => {
   return (dispatch) => {
+    dispatch(getIngredients());
+
     axios
       .get(`${URL}/ingredients`)
-      .then(({ data }) => dispatch(loadIngredients(data.data)))
+      .then(({ data }) => {
+        if (data) {
+          dispatch(getIngredientsSuccess(data.data));
+        }
+      })
       .catch((error) => {
-        throw new Error(error);
+        dispatch(getIngredientsFailed());
       });
   };
 };

@@ -1,19 +1,25 @@
 import axios from "axios";
 import { URL } from "../utils/constants";
 
-import { setOrderNumber } from "../services/modalSlice";
+import {
+  getOrder,
+  getOrderSuccess,
+  getOrderFailed,
+} from "../services/modalSlice";
 
 export const postOrder = (ingredients) => {
   return (dispatch) => {
+    dispatch(getOrder());
+
     axios
       .post(`${URL}/orders`, { ingredients })
       .then(({ data }) => {
         if (data.success) {
-          dispatch(setOrderNumber(data.order.number));
+          dispatch(getOrderSuccess(data.order.number));
         }
       })
       .catch((error) => {
-        throw new Error(error);
+        dispatch(getOrderFailed());
       });
   };
 };
