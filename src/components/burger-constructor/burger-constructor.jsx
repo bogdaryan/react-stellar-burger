@@ -68,6 +68,10 @@ function BurgerConstructor({ scrollHeight }) {
     dispatch(postOrder(ids));
   };
 
+  useEffect(() => {
+    console.log(totalPrice);
+  });
+
   return (
     <section className={`${style.constructor} mt-25 pr-4 pl-4`}>
       <div ref={constructorRef}>
