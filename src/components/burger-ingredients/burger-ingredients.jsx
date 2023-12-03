@@ -54,7 +54,6 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
   const handlleChangeTab = (e) => {
     const containerTop = scrollTrackRef.current.getBoundingClientRect().top;
 
-    const bunTop = sectionRefs.bun.current.getBoundingClientRect().top;
     const sauceTop = sectionRefs.sauce.current.getBoundingClientRect().top;
     const mainTop = sectionRefs.main.current.getBoundingClientRect().top;
 
@@ -65,13 +64,6 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
     } else {
       setActiveTab("bun");
     }
-
-    console.log({
-      bun: bunTop,
-      sauce: sauceTop,
-      main: mainTop,
-      container: containerTop,
-    });
   };
 
   return (
