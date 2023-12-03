@@ -25,12 +25,14 @@ function BurgerConstructor({ scrollHeight }) {
   );
 
   const totalPrice = useMemo(() => {
-    if (!ingredients || !bun) return;
-    return [...ingredients, bun, bun].reduce(
+    const ingredientsPrice = ingredients.reduce(
       (acc, ingredient) => acc + ingredient.price,
-      null
+      0
     );
-  }, [bun, ingredients]);
+    const bunPrice = bun ? bun.price * 2 : 0;
+
+    return ingredientsPrice + bunPrice;
+  }, [ingredients, bun]);
 
   const [listHeight, setListHeight] = useState();
   const constructorRef = useRef();

@@ -39,7 +39,7 @@ function App() {
   /* eslint-disable */
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, []); // once mount cuz event fetch
+  }, []); // once mount cuz it's event fetch
   /* eslint-enable */
 
   return (
