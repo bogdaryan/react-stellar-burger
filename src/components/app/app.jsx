@@ -61,9 +61,9 @@ function App() {
               scrollHeight={scrollHeight}
             />
           )}
-        </DndProvider>
 
-        <BurgerConstructor scrollHeight={scrollHeight} />
+          <BurgerConstructor scrollHeight={scrollHeight} />
+        </DndProvider>
       </main>
 
       {isOpened && orderNumber && (

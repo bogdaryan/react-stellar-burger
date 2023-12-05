@@ -3,10 +3,12 @@ import thunk from "redux-thunk";
 
 import toolkitSliceIngredients from "./ingredientsSlice";
 import modalSlice from "./modalSlice";
+import dndSlice from "./dndSlice";
 
 const rootReducer = combineReducers({
   ingredients: toolkitSliceIngredients,
   modal: modalSlice,
+  dnd: dndSlice,
 });
 
 export const store = configureStore({

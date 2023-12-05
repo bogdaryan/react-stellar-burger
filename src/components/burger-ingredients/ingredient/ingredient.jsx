@@ -1,11 +1,12 @@
+import { useDrag } from "react-dnd";
 import { useDispatch } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
+
 import PropTypes from "prop-types";
 
 import style from "./ingredient.module.css";
 
-import { addIngredient } from "../../../services/ingredientsSlice";
-// import { showIngredientDetails } from "../../../services/modalSlice";
+import { showIngredientDetails } from "../../../services/modalSlice";
+import { isDraging } from "../../../services/dndSlice";
 
 import { ingredientPropType } from "../../../utils/prop-types";
 
@@ -13,26 +14,31 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect } from "react";
 
 function Ingredient({ ingredientDetails, counter }) {
   const dispatch = useDispatch();
-  const { name, price, image } = ingredientDetails;
 
-  const onClick = () => {
-    const updatedIngredient = {
-      ...ingredientDetails,
-      _key: nanoid(),
-    };
+  const { name, price, image, type } = ingredientDetails;
 
-    dispatch(addIngredient(updatedIngredient));
-    // dispatch(showIngredientDetails(updatedIngredient));
-  };
+  const [{ isDrag }, dragRef] = useDrag({
+    type: "ingredient",
+    item: { ingredientDetails },
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging(),
+    }),
+  });
+
+  useEffect(() => {
+    dispatch(isDraging({ isDrag, type }));
+  });
 
   return (
     <li
       className={`${style.card} noselect mb-8`}
-      onClick={onClick}
+      onClick={() => dispatch(showIngredientDetails(ingredientDetails))}
       draggable={true}
+      ref={dragRef}
     >
       {counter[name] && (
         <Counter count={counter[name]} size="default" extraClass="m-1" />

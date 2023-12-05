@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .top {
@@ -14,4 +15,8 @@
 .bottom {
   border-radius: 40px 40px 88px 88px;
   margin-top: 16px;
+}
+
+.isDrag {
+  border: 1px solid #4c4cff;
 }
