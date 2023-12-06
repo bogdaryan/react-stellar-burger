@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
   bun: null,
@@ -26,8 +26,13 @@ const ingredientsSlice = createSlice({
       state.ingredientsRequest = false;
     },
     addIngredient(state, action) {
-      if (action.payload.type !== "bun") {
-        state.constructorIngredients.push(action.payload);
+      const ingredient = {
+        ...action.payload,
+        _key: nanoid(),
+      };
+
+      if (ingredient.type !== "bun") {
+        state.constructorIngredients.push(ingredient);
       } else {
         state.bun = action.payload;
       }

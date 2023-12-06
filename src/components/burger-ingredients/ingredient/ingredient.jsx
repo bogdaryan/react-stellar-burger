@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import style from "./ingredient.module.css";
 
 import { showIngredientDetails } from "../../../services/modalSlice";
-import { isDraging } from "../../../services/dndSlice";
 
 import { ingredientPropType } from "../../../utils/prop-types";
 
@@ -19,9 +18,9 @@ import { useEffect } from "react";
 function Ingredient({ ingredientDetails, counter }) {
   const dispatch = useDispatch();
 
-  const { name, price, image, type } = ingredientDetails;
+  const { name, price, image } = ingredientDetails;
 
-  const [{ isDrag }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: "ingredient",
     item: { ingredientDetails },
     collect: (monitor) => ({
@@ -29,9 +28,7 @@ function Ingredient({ ingredientDetails, counter }) {
     }),
   });
 
-  useEffect(() => {
-    dispatch(isDraging({ isDrag, type }));
-  });
+  useEffect(() => {});
 
   return (
     <li

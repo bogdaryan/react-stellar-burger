@@ -43,7 +43,7 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
 
   useEffect(() => {
     setScrollHeight(height);
-  });
+  }, [height, setScrollHeight]);
 
   const sectionRefs = {
     bun: useRef(),
@@ -51,7 +51,7 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
     main: useRef(),
   };
 
-  const handlleChangeTab = (e) => {
+  const handlleChangeTab = () => {
     const containerTop = scrollTrackRef.current.getBoundingClientRect().top;
 
     const sauceTop = sectionRefs.sauce.current.getBoundingClientRect().top;

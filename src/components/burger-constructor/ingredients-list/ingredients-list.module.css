@@ -28,3 +28,11 @@
   padding-left: 33px;
   cursor: grab;
 }
+
+.top {
+  margin-bottom: 16px;
+}
+
+.bottom {
+  margin-top: 16px;
+}

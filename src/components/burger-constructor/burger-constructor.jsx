@@ -10,7 +10,7 @@ import { postOrder } from "../../asyncActions/postOrder";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
 
-function BurgerConstructor() {
+function BurgerConstructor({ scrollHeight }) {
   const dispatch = useDispatch();
   const bun = useSelector((store) => store.ingredients.bun);
   const ingredients = useSelector(
@@ -49,7 +49,7 @@ function BurgerConstructor() {
 
   return (
     <section className={`${style.constructor} mt-25 pr-4 pl-4`}>
-      <IngredientsList />
+      <IngredientsList scrollHeight={scrollHeight} />
       <div className={`${style.wrapper} pt-10`}>
         <div className={`${style.price} mr-10`}>
           <p className="text text_type_digits-medium">{totalPrice || 0}</p>
