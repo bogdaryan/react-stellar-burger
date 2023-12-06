@@ -1,36 +1,42 @@
-// import update from "immutability-helper";
+import { useCallback } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
+import PropTypes from "prop-types";
 
-import {
-  deleteIngredient,
-  addIngredient,
-} from "../../../services/ingredientsSlice";
+import { addIngredient } from "../../../services/ingredientsSlice";
+
+import Ingredient from "../ingredient/ingredient";
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import TemplateIngredient from "../template-ingredient/template-ingredient";
 import TemplateBun from "../template-bun/template-bun";
 
 import style from "./ingredients-list.module.css";
-import listStyleImage from "../../../images/burger-constructor-list-marker.svg";
 import { useEffect, useRef, useState } from "react";
 
 const IngredientsList = ({ scrollHeight }) => {
+  const [height, setHeight] = useState(null);
+  const [bunClassName, setBunClassName] = useState();
+  const [ingredientClassName, setIngredientClassName] = useState();
+  const listRef = useRef();
+
   const dispatch = useDispatch();
+  const bun = useSelector((store) => store.ingredients.bun);
   const ingredients = useSelector(
     (store) => store.ingredients.constructorIngredients
   );
-  const bun = useSelector((store) => store.ingredients.bun);
 
-  const [, dropTarget] = useDrop({
+  const [{ canDrop, draggableItem }, dropTarget] = useDrop({
     accept: "ingredient",
     drop({ ingredientDetails }) {
       dispatch(addIngredient(ingredientDetails));
     },
+    collect: (monitor) => ({
+      draggableItem: monitor.getItem(),
+      canDrop: monitor.canDrop(),
+    }),
   });
-
-  const [height, setHeight] = useState(null);
-  const listRef = useRef();
 
   useEffect(() => {
     const itemListHeight = listRef.current.firstChild.clientHeight;
@@ -39,16 +45,25 @@ const IngredientsList = ({ scrollHeight }) => {
     setHeight(scrollHeight - itemListHeight * 2 - gap);
   }, [scrollHeight]);
 
-  // const moveIngredient = useCallback((dragIndex, hoverIndex) => {
-  //   setIngredients((prevIngredients) =>
-  //     update(prevIngredients, {
-  //       $splice: [
-  //         [dragIndex, 1],
-  //         [hoverIndex, 0, prevIngredients[dragIndex]],
-  //       ],
-  //     })
-  //   );
-  // }, []);
+  useEffect(() => {
+    if (!canDrop) {
+      setBunClassName(null);
+      setIngredientClassName(null);
+      return;
+    }
+
+    const targetDragItem = draggableItem.ingredientDetails;
+    const isBun = targetDragItem.type === "bun";
+    const bunClassName = isBun ? style.isDrag : null;
+    const ingredientClassName = !isBun ? style.isDrag : null;
+
+    setBunClassName(bunClassName);
+    setIngredientClassName(ingredientClassName);
+  }, [canDrop, draggableItem]);
+
+  const moveIngredient = useCallback((dragIndex, hoverIndex) => {
+    ingredients.splice(hoverIndex, 0, ingredients.splice(dragIndex, 1)[0]);
+  }, []);
 
   return (
     <div ref={dropTarget}>
@@ -59,10 +74,10 @@ const IngredientsList = ({ scrollHeight }) => {
           text={`${bun.name} (верх)`}
           price={bun.price}
           thumbnail={bun.image}
-          extraClass={`${style.top} ml-8`}
+          extraClass={`${style.top}  ml-8`}
         />
       ) : (
-        <TemplateBun type={"top"} />
+        <TemplateBun type={"top"} bunClassName={bunClassName} />
       )}
       <ul
         style={{ maxHeight: height }}
@@ -72,25 +87,19 @@ const IngredientsList = ({ scrollHeight }) => {
         {ingredients.length !== 0 ? (
           ingredients.map(({ name, price, image, _key }, i) => {
             return (
-              <li
-                className={style.item}
-                key={_key}
-                draggable={true}
+              <Ingredient
+                name={name}
+                price={price}
+                image={image}
                 index={i}
-                // moveIngredient={moveIngredient}
-              >
-                <img className={style.img} src={listStyleImage} alt="Иконка" />
-                <ConstructorElement
-                  text={name}
-                  price={price}
-                  thumbnail={image}
-                  handleClose={() => dispatch(deleteIngredient(_key))}
-                />
-              </li>
+                moveIngredient={moveIngredient}
+                key={_key}
+                id={_key}
+              />
             );
           })
         ) : (
-          <TemplateIngredient />
+          <TemplateIngredient ingredientClassName={ingredientClassName} />
         )}
       </ul>
       {bun ? (
@@ -103,10 +112,14 @@ const IngredientsList = ({ scrollHeight }) => {
           extraClass={`${style.bottom} ml-8`}
         />
       ) : (
-        <TemplateBun type={"bottom"} />
+        <TemplateBun type={"bottom"} bunClassName={bunClassName} />
       )}
     </div>
   );
+};
+
+TemplateIngredient.propTypes = {
+  scrollHeight: PropTypes.number,
 };
 
 export default IngredientsList;

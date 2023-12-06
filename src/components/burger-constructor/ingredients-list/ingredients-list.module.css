@@ -14,25 +14,14 @@
   padding-right: 10px;
 }
 
-.img {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  pointer-events: none;
-}
-
-.item {
-  position: relative;
-  padding-left: 33px;
-  cursor: grab;
-}
-
 .top {
   margin-bottom: 16px;
 }
 
 .bottom {
   margin-top: 16px;
+}
+
+.isDrag {
+  border: 1px solid #4c4cff;
 }

@@ -1,7 +1,6 @@
-import style from "./burger-constructor.module.css";
-
 import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
@@ -9,6 +8,7 @@ import { postOrder } from "../../asyncActions/postOrder";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
+import style from "./burger-constructor.module.css";
 
 function BurgerConstructor({ scrollHeight }) {
   const dispatch = useDispatch();
@@ -67,4 +67,9 @@ function BurgerConstructor({ scrollHeight }) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  scrollHeight: PropTypes.number,
+};
+
 export default BurgerConstructor;
