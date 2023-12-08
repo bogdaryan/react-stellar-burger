@@ -5,18 +5,21 @@ import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useDispatch } from "react-redux";
-import { deleteIngredient } from "../../../services/ingredientsSlice";
+import {
+  deleteIngredient,
+  moveConstructorIngredient,
+} from "../../../services/ingredientsSlice";
 
 import style from "./ingredient.module.css";
 import listStyleImage from "../../../images/burger-constructor-list-marker.svg";
 
 const Ingredient = (props) => {
-  const { id, name, price, image, index, moveIngredient } = props;
+  const { id, name, price, image, index } = props;
   const dispatch = useDispatch();
 
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
-    accept: "ingredient",
+    accept: "sort_ingredient",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -46,19 +49,16 @@ const Ingredient = (props) => {
         return;
       }
 
-      moveIngredient(dragIndex, hoverIndex);
+      dispatch(moveConstructorIngredient({ hoverIndex, dragIndex }));
       item.index = hoverIndex;
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
-    type: "ingredient",
+  const [, drag] = useDrag({
+    type: "sort_ingredient",
     item: () => {
       return { id, index };
     },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
   });
 
   drag(drop(ref));
@@ -68,7 +68,7 @@ const Ingredient = (props) => {
       className={style.item}
       draggable={true}
       index={index}
-      ref={drag}
+      ref={ref}
       data-handler-id={handlerId}
       id={id}
     >

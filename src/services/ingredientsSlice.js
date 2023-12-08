@@ -42,6 +42,13 @@ const ingredientsSlice = createSlice({
         (el) => el._key !== action.payload
       );
     },
+    moveConstructorIngredient(state, action) {
+      state.constructorIngredients.splice(
+        action.payload.hoverIndex,
+        0,
+        state.constructorIngredients.splice(action.payload.dragIndex, 1)[0]
+      );
+    },
   },
 });
 
@@ -53,4 +60,5 @@ export const {
   getIngredients,
   getIngredientsSuccess,
   getIngredientsFailed,
+  moveConstructorIngredient,
 } = ingredientsSlice.actions;

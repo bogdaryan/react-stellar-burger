@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
@@ -61,10 +59,6 @@ const IngredientsList = ({ scrollHeight }) => {
     setIngredientClassName(ingredientClassName);
   }, [canDrop, draggableItem]);
 
-  const moveIngredient = useCallback((dragIndex, hoverIndex) => {
-    ingredients.splice(hoverIndex, 0, ingredients.splice(dragIndex, 1)[0]);
-  }, []);
-
   return (
     <div ref={dropTarget}>
       {bun ? (
@@ -92,7 +86,6 @@ const IngredientsList = ({ scrollHeight }) => {
                 price={price}
                 image={image}
                 index={i}
-                moveIngredient={moveIngredient}
                 key={_key}
                 id={_key}
               />
