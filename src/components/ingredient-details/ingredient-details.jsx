@@ -3,7 +3,7 @@ import style from "./ingredient-details.module.css";
 
 function IngredientDetails() {
   const ingredientDetails = useSelector(
-    (store) => store.modal.ingredientDetails
+    (store) => store.ingredientDetails.ingredientDetails
   );
 
   const { name, image_large, calories, proteins, fat, carbohydrates } =

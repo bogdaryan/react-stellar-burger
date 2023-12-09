@@ -9,7 +9,8 @@ import useHeight from "../../hooks/useSetHeight";
 
 function BurgerIngredients({ setScrollHeight, scrollHeight }) {
   const [activeTab, setActiveTab] = useState("bun");
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
+  const ingredients = useSelector((store) => store.ingredientsApi.ingredients);
+
   const { constructorIngredients, bun } = useSelector(
     (store) => store.ingredients
   );

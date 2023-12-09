@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
-import { postOrder } from "../../asyncActions/postOrder";
+import { getOrderRequest } from "../../services/orderApiSlice";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
@@ -44,7 +44,7 @@ function BurgerConstructor({ scrollHeight }) {
   const handlePostOrder = () => {
     if (!ids) return;
 
-    dispatch(postOrder(ids));
+    dispatch(getOrderRequest(ids));
   };
 
   return (

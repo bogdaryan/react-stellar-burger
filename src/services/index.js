@@ -1,18 +1,33 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import thunk from "redux-thunk";
 
-import toolkitSliceIngredients from "./ingredientsSlice";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "../sagas/rootSaga";
+
+import ingredientsSlice from "./ingredientsSlice";
+import ingredientDetailsSlice from "./ingredientDetailsSlice";
 import modalSlice from "./modalSlice";
 
+import ingredientsApiSlice from "./ingredientsApiSlice";
+import orderApiSlice from "./orderApiSlice";
+
 const rootReducer = combineReducers({
-  ingredients: toolkitSliceIngredients,
+  ingredientsApi: ingredientsApiSlice,
+  ingredients: ingredientsSlice,
   modal: modalSlice,
+  order: orderApiSlice,
+  ingredientDetails: ingredientDetailsSlice,
 });
 
-export const store = configureStore({
+const saga = createSagaMiddleware();
+
+const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk],
   devTools:
     window.__REDUX_DEVTOOLS_EXTENSION__ &&
     window.__REDUX_DEVTOOLS_EXTENSION__(),
+  middleware: [saga],
 });
+
+saga.run(rootSaga);
+
+export default store;

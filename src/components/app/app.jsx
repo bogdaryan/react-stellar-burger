@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import style from "./app.module.css";
 
 // API //
-import { fetchIngredients } from "../../asyncActions/fetchIngredients";
+import { getIngredientsRequest } from "../../services/ingredientsApiSlice";
 
 // Components //
 import Header from "../app-header/app-header";
@@ -24,23 +24,25 @@ import OrderDetails from "../order-details/order-details";
 
 function App() {
   const dispatch = useDispatch();
-  const isOpened = useSelector((store) => store.modal.isOpened);
-  const orderNumber = useSelector((store) => store.modal.orderNumber);
+  const isOpenedOrderDetails = useSelector((store) => store.order.isOpened);
+  const isOpenedIngredientDetails = useSelector(
+    (store) => store.ingredientDetails.isOpened
+  );
+  const orderNumber = useSelector((store) => store.order.orderNumber);
 
   const ingredientDetails = useSelector(
-    (store) => store.modal.ingredientDetails
+    (store) => store.ingredientDetails.ingredientDetails
   );
+
   const { ingredientsRequest, ingredientsFailed } = useSelector(
-    (store) => store.ingredients
+    (store) => store.ingredientsApi
   );
 
   const [scrollHeight, setScrollHeight] = useState(0);
 
-  /* eslint-disable */
   useEffect(() => {
-    dispatch(fetchIngredients());
-  }, []); // once mount cuz it's event fetch
-  /* eslint-enable */
+    dispatch(getIngredientsRequest());
+  }, [dispatch]);
 
   return (
     <>
@@ -66,13 +68,13 @@ function App() {
         </DndProvider>
       </main>
 
-      {isOpened && orderNumber && (
+      {isOpenedOrderDetails && orderNumber && (
         <Modal>
           <OrderDetails />
         </Modal>
       )}
 
-      {isOpened && ingredientDetails && (
+      {isOpenedIngredientDetails && ingredientDetails && (
         <Modal>
           <IngredientDetails />
         </Modal>

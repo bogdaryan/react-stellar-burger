@@ -5,7 +5,7 @@ import done from "../../images/done-icon-order-details.svg";
 import style from "./order-details.module.css";
 
 function OrderDetails() {
-  const orderNumber = useSelector((store) => store.modal.orderNumber);
+  const orderNumber = useSelector((store) => store.order.orderNumber);
   const dispatch = useDispatch();
 
   return (

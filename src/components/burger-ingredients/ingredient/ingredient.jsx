@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import style from "./ingredient.module.css";
 
-import { showIngredientDetails } from "../../../services/modalSlice";
+import { showIngredientDetails } from "../../../services/ingredientDetailsSlice";
 
 import { ingredientPropType } from "../../../utils/prop-types";
 
