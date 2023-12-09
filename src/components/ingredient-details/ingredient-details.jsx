@@ -1,10 +1,13 @@
-import React from "react";
+import { useSelector } from "react-redux";
 import style from "./ingredient-details.module.css";
-import { ingredientPropType } from "../../utils/prop-types";
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails() {
+  const ingredientDetails = useSelector(
+    (store) => store.modal.ingredientDetails
+  );
+
   const { name, image_large, calories, proteins, fat, carbohydrates } =
-    ingredient;
+    ingredientDetails;
 
   return (
     <div className={`${style.ingredient} pt-10 pb-15 pl-10 pr-10`}>
@@ -12,6 +15,7 @@ function IngredientDetails({ ingredient }) {
         Детали ингредиента
       </h2>
       <img src={image_large} alt="Фото ингредиента" />
+
       <p className={`${style.name} text text_type_main-medium mt-4 mb-8`}>
         {name}
       </p>
@@ -36,9 +40,5 @@ function IngredientDetails({ ingredient }) {
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-};
 
 export default IngredientDetails;

@@ -1,10 +1,14 @@
 .card {
   position: relative;
   text-align: center;
-  cursor: pointer;
+  cursor: grab;
 }
 
 .wrapper {
   display: flex;
   justify-content: center;
+}
+
+.img {
+  pointer-events: none;
 }

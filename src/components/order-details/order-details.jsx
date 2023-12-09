@@ -1,19 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { setOpened } from "../../services/modalSlice";
 
 import done from "../../images/done-icon-order-details.svg";
 import style from "./order-details.module.css";
 
-function OrderDetails({ close }) {
+function OrderDetails() {
+  const orderNumber = useSelector((store) => store.modal.orderNumber);
+  const dispatch = useDispatch();
+
   return (
     <div className={`${style.order} pt-30 pb-30`}>
-      <h2 className={`${style.number} text text_type_digits-large`}>034536</h2>
+      <h2 className={`${style.number} text text_type_digits-large`}>
+        {orderNumber}
+      </h2>
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
       <img
         className={`${style.img} mt-15 mb-15`}
         src={done}
         alt="Поддвердить"
-        onClick={close}
+        onClick={() => dispatch(setOpened(false))}
       />
       <p className="text text_type_main-small mb-2">
         Ваш заказ начали готовить
@@ -24,9 +29,5 @@ function OrderDetails({ close }) {
     </div>
   );
 }
-
-OrderDetails.propsType = {
-  close: PropTypes.func.isRequired,
-};
 
 export default OrderDetails;

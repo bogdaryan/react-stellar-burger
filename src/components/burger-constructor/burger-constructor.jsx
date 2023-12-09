@@ -1,125 +1,62 @@
-import React, { useRef, useEffect, useState } from "react";
-import style from "./burger-constructor.module.css";
+import { useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import {
-  Button,
-  ConstructorElement,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import IngredientsList from "./ingredients-list/ingredients-list";
 
-import listStyleImage from "../../images/burger-constructor-list-marker.svg";
+import { postOrder } from "../../asyncActions/postOrder";
+
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
+import style from "./burger-constructor.module.css";
 
-function BurgerConstructor({ openOrderDetails }) {
-  const [height, setHeight] = useState(0);
+function BurgerConstructor({ scrollHeight }) {
+  const dispatch = useDispatch();
+  const bun = useSelector((store) => store.ingredients.bun);
+  const ingredients = useSelector(
+    (store) => store.ingredients.constructorIngredients
+  );
 
-  const sectionConstructorRef = useRef();
-  const priceWrapperRef = useRef();
-  const innerRef = useRef();
+  const totalPrice = useMemo(() => {
+    const ingredientsPrice = ingredients.reduce(
+      (acc, ingredient) => acc + ingredient.price,
+      0
+    );
+    const bunPrice = bun ? bun.price * 2 : 0;
 
-  const BurgerIngredientsHeight = +localStorage.height;
+    return ingredientsPrice + bunPrice;
+  }, [ingredients, bun]);
 
-  function calcListHeight() {
-    const constructorElement = innerRef.current.children[0].clientHeight;
-    const priceWrapperHeight = priceWrapperRef.current.clientHeight;
-    const gap = 16;
+  const ids = useMemo(() => {
+    if (!ingredients || !bun) return;
 
-    const listHeight =
-      BurgerIngredientsHeight -
-      priceWrapperHeight -
-      constructorElement * 2 +
-      gap;
+    const ingredientIds = [bun._id];
 
-    setHeight(listHeight);
-  }
+    for (let item of ingredients) {
+      ingredientIds.push(item._id);
+    }
 
-  useEffect(() => {
-    calcListHeight();
-  }, [BurgerIngredientsHeight]);
+    ingredientIds.push(bun._id);
+
+    return ingredientIds;
+  }, [ingredients, bun]);
+
+  const handlePostOrder = () => {
+    if (!ids) return;
+
+    dispatch(postOrder(ids));
+  };
 
   return (
-    <section
-      ref={sectionConstructorRef}
-      className={`${style.constructor} mt-25 pr-4 pl-4`}
-    >
-      <div ref={innerRef}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          extraClass={`${style.top} ml-8`}
-        />
-        <ul
-          style={{ maxHeight: height }}
-          className={`${style.scroll} custom-scroll `}
-        >
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-          <li className={style.item}>
-            <img className={style.img} src={listStyleImage} alt="Иконка" />
-            <ConstructorElement
-              text={"Плоды Фалленианского дерева"}
-              price={874}
-              thumbnail={"https://code.s3.yandex.net/react/code/sp_1.png"}
-            />
-          </li>
-        </ul>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          extraClass={`${style.bottom} ml-8`}
-        />
-      </div>
-      <div ref={priceWrapperRef} className={`${style.wrapper} pt-10`}>
+    <section className={`${style.constructor} mt-25 pr-4 pl-4`}>
+      <IngredientsList scrollHeight={scrollHeight} />
+      <div className={`${style.wrapper} pt-10`}>
         <div className={`${style.price} mr-10`}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{totalPrice || 0}</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>
         <Button
-          onClick={openOrderDetails}
+          onClick={handlePostOrder}
           htmlType="button"
           type="primary"
           size="large"
@@ -131,8 +68,8 @@ function BurgerConstructor({ openOrderDetails }) {
   );
 }
 
-BurgerConstructor.propsType = {
-  BurgerConstructor: PropTypes.func.isRequired,
+BurgerConstructor.propTypes = {
+  scrollHeight: PropTypes.number,
 };
 
 export default BurgerConstructor;

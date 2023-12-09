@@ -1,0 +1,14 @@
+.img {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.item {
+  position: relative;
+  padding-left: 33px;
+  cursor: grab;
+}

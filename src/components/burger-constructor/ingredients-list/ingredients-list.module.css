@@ -1,0 +1,27 @@
+.scroll {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  margin-right: -22px;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.top {
+  margin-bottom: 16px;
+}
+
+.bottom {
+  margin-top: 16px;
+}
+
+.isDrag {
+  border: 1px solid #4c4cff;
+}

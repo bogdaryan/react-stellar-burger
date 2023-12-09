@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { setOpened } from "../../services/modalSlice";
 
 import style from "./modal.module.css";
 
@@ -9,20 +10,24 @@ import cross from "../../images/modal-cross-close-icon.svg";
 
 import ModalOverlay from "./modal-overlay/modal-overlay";
 
-function Modal({ children, close }) {
+function Modal({ children }) {
+  const dispatch = useDispatch();
+
   const closeByEscape = (e) => {
     if (e.key === "Escape") {
-      close();
+      dispatch(setOpened(false));
     }
   };
 
+  /* eslint-disable */
   useEffect(() => {
     document.addEventListener("keydown", closeByEscape);
 
     return () => {
       document.removeEventListener("keydown", closeByEscape);
     };
-  }, []);
+  }, []); // no deps cuz for set event need one mount
+  /* eslint-enable */
 
   return createPortal(
     <section className={style.modal}>
@@ -31,18 +36,14 @@ function Modal({ children, close }) {
           src={cross}
           alt="Закрыть"
           className={`${style.close} mt-15 mr-10`}
-          onClick={close}
+          onClick={() => dispatch(setOpened(false))}
         />
         {children}
       </div>
-      <ModalOverlay onClose={() => close()} />
+      <ModalOverlay />
     </section>,
     PORTAL_ROOT
   );
 }
-
-Modal.propsType = {
-  close: PropTypes.func.isRequired,
-};
 
 export default Modal;

@@ -1,7 +1,19 @@
-import React, { useEffect, useState } from "react";
-import style from "./app.module.css";
-import getIngredients from "../../utils/burger-api";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
+// Style //
+import style from "./app.module.css";
+
+// API //
+import { fetchIngredients } from "../../asyncActions/fetchIngredients";
+
+// Components //
 import Header from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -11,61 +23,60 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
 function App() {
-  const [ingredients, setIngredients] = useState();
-  const [isOpened, setIsOpened] = useState(false);
-  const [ingredient, setIngredient] = useState(null);
-  const [orderDetails, setOrderDetails] = useState(null);
+  const dispatch = useDispatch();
+  const isOpened = useSelector((store) => store.modal.isOpened);
+  const orderNumber = useSelector((store) => store.modal.orderNumber);
 
+  const ingredientDetails = useSelector(
+    (store) => store.modal.ingredientDetails
+  );
+  const { ingredientsRequest, ingredientsFailed } = useSelector(
+    (store) => store.ingredients
+  );
+
+  const [scrollHeight, setScrollHeight] = useState(0);
+
+  /* eslint-disable */
   useEffect(() => {
-    getIngredients()
-      .then((data) => setIngredients(data))
-      .catch((error) => {
-        throw new Error(error);
-      });
-  }, []);
-
-  const closeModal = () => {
-    setIsOpened(true);
-    setIngredient(null);
-    setOrderDetails(null);
-  };
-
-  const getCurrentIngredient = (item) => {
-    setIngredient(item);
-    setIsOpened(true);
-  };
-
-  const showOrderDetails = () => {
-    setOrderDetails(true);
-    setIsOpened(true);
-  };
+    dispatch(fetchIngredients());
+  }, []); // once mount cuz it's event fetch
+  /* eslint-enable */
 
   return (
     <>
       <Header />
       <main className={`${style.main} pd-10`}>
-        {ingredients && (
-          <>
+        <DndProvider backend={HTML5Backend}>
+          {ingredientsFailed ? (
+            <p className={`${style.error} text text_type_main-large`}>
+              Произошла ошибка при получении данных
+            </p>
+          ) : ingredientsRequest ? (
+            <Box className={style.loading}>
+              <CircularProgress size={100} />
+            </Box>
+          ) : (
             <BurgerIngredients
-              ingredients={ingredients}
-              getCurrentIngredient={getCurrentIngredient}
+              setScrollHeight={setScrollHeight}
+              scrollHeight={scrollHeight}
             />
-            <BurgerConstructor openOrderDetails={() => showOrderDetails()} />
-          </>
-        )}
+          )}
 
-        {isOpened && ingredient && (
-          <Modal close={closeModal}>
-            <IngredientDetails ingredient={ingredient} />
-          </Modal>
-        )}
-
-        {isOpened && ingredient === null && orderDetails && (
-          <Modal close={closeModal}>
-            <OrderDetails close={() => closeModal()} />
-          </Modal>
-        )}
+          <BurgerConstructor scrollHeight={scrollHeight} />
+        </DndProvider>
       </main>
+
+      {isOpened && orderNumber && (
+        <Modal>
+          <OrderDetails />
+        </Modal>
+      )}
+
+      {isOpened && ingredientDetails && (
+        <Modal>
+          <IngredientDetails />
+        </Modal>
+      )}
     </>
   );
 }
