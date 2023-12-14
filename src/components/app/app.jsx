@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { Outlet } from "react-router-dom";
 
 // Style //
 import style from "./app.module.css";
@@ -15,8 +10,7 @@ import { getIngredientsRequest } from "../../services/ingredientsApiSlice";
 
 // Components //
 import Header from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
+// import Home from "../../pages/home/home";
 
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -34,12 +28,6 @@ function App() {
     (store) => store.ingredientDetails.ingredientDetails
   );
 
-  const { ingredientsRequest, ingredientsFailed } = useSelector(
-    (store) => store.ingredientsApi
-  );
-
-  const [scrollHeight, setScrollHeight] = useState(0);
-
   useEffect(() => {
     dispatch(getIngredientsRequest());
   }, [dispatch]);
@@ -48,24 +36,7 @@ function App() {
     <>
       <Header />
       <main className={`${style.main} pd-10`}>
-        <DndProvider backend={HTML5Backend}>
-          {ingredientsFailed ? (
-            <p className={`${style.error} text text_type_main-large`}>
-              Произошла ошибка при получении данных
-            </p>
-          ) : ingredientsRequest ? (
-            <Box className={style.loading}>
-              <CircularProgress size={100} />
-            </Box>
-          ) : (
-            <BurgerIngredients
-              setScrollHeight={setScrollHeight}
-              scrollHeight={scrollHeight}
-            />
-          )}
-
-          <BurgerConstructor scrollHeight={scrollHeight} />
-        </DndProvider>
+        <Outlet />
       </main>
 
       {isOpenedOrderDetails && orderNumber && (
