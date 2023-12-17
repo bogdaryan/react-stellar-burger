@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Tabs from "./tabs/tabs";
 import Ingredient from "./ingredient/ingredient";
 
-import style from "./burger-ingredients.module.css";
+import styles from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useSetHeight";
 
 function BurgerIngredients({ setScrollHeight, scrollHeight }) {
@@ -68,26 +68,26 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
   };
 
   return (
-    <section className={`${style.ingredients} mr-10`}>
+    <section className={`${styles.ingredients} mr-10`}>
       <h1 className="text text_type_main-large mb-5 mt-10 ">Соберите бургер</h1>
       <Tabs activeTab={activeTab} />
       <section
-        className={`${style.scroll} custom-scroll`}
+        className={`${styles.scroll} custom-scroll`}
         ref={scrollTrackRef}
         style={{ maxHeight: scrollHeight }}
         onScroll={handlleChangeTab}
       >
         {Object.values(ingredientTypes).map(({ title, filter }) => {
           return (
-            <section key={filter} className={style.filter} data-type={filter}>
+            <section key={filter} className={styles.filter} data-type={filter}>
               <h2
-                className={`${style.title} text text_type_main-medium mb-5`}
+                className={`${styles.title} text text_type_main-medium mb-5`}
                 ref={sectionRefs[filter]}
               >
                 {title}
               </h2>
 
-              <ul className={`${style.list} mb-10`}>
+              <ul className={`${styles.list} mb-10`}>
                 {ingredients
                   .filter((el) => el.type === filter)
                   .map((ingredient) => {

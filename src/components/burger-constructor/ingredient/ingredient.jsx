@@ -10,7 +10,7 @@ import {
   moveConstructorIngredient,
 } from "../../../services/ingredientsSlice";
 
-import style from "./ingredient.module.css";
+import styles from "./ingredient.module.css";
 import listStyleImage from "../../../images/burger-constructor-list-marker.svg";
 
 const Ingredient = (props) => {
@@ -65,14 +65,14 @@ const Ingredient = (props) => {
 
   return (
     <li
-      className={style.item}
+      className={styles.item}
       draggable={true}
       index={index}
       ref={ref}
       data-handler-id={handlerId}
       id={id}
     >
-      <img className={style.img} src={listStyleImage} alt="Иконка" />
+      <img className={styles.img} src={listStyleImage} alt="Иконка" />
       <ConstructorElement
         text={name}
         price={price}

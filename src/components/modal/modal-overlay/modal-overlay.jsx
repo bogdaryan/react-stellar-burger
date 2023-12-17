@@ -1,4 +1,4 @@
-import style from "./modal-overlay.module.css";
+import styles from "./modal-overlay.module.css";
 
 import { useDispatch } from "react-redux";
 import { setOpened } from "../../../services/modalSlice";
@@ -9,7 +9,7 @@ const ModalOverlay = () => {
   return (
     <div
       onClick={() => dispatch(setOpened(false))}
-      className={`${style.overlay}`}
+      className={`${styles.overlay}`}
     ></div>
   );
 };

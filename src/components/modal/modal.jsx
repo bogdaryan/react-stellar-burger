@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { setOpened } from "../../services/modalSlice";
 
-import style from "./modal.module.css";
+import styles from "./modal.module.css";
 
 import { PORTAL_ROOT } from "../../utils/constants";
 import cross from "../../images/modal-cross-close-icon.svg";
@@ -30,12 +30,12 @@ function Modal({ children }) {
   /* eslint-enable */
 
   return createPortal(
-    <section className={style.modal}>
-      <div className={style.inner}>
+    <section className={styles.modal}>
+      <div className={styles.inner}>
         <img
           src={cross}
           alt="Закрыть"
-          className={`${style.close} mt-15 mr-10`}
+          className={`${styles.close} mt-15 mr-10`}
           onClick={() => dispatch(setOpened(false))}
         />
         {children}

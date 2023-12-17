@@ -8,7 +8,7 @@ import { getOrderRequest } from "../../services/orderApiSlice";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
-import style from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
 
 function BurgerConstructor({ scrollHeight }) {
   const dispatch = useDispatch();
@@ -48,10 +48,10 @@ function BurgerConstructor({ scrollHeight }) {
   };
 
   return (
-    <section className={`${style.constructor} mt-25 pr-4 pl-4`}>
+    <section className={`${styles.constructor} mt-25 pr-4 pl-4`}>
       <IngredientsList scrollHeight={scrollHeight} />
-      <div className={`${style.wrapper} pt-10`}>
-        <div className={`${style.price} mr-10`}>
+      <div className={`${styles.wrapper} pt-10`}>
+        <div className={`${styles.price} mr-10`}>
           <p className="text text_type_digits-medium">{totalPrice || 0}</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>

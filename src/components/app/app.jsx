@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 // Style //
-import style from "./app.module.css";
+import styles from "./app.module.css";
 
 // API //
 import { getIngredientsRequest } from "../../services/ingredientsApiSlice";
@@ -35,7 +35,7 @@ function App() {
   return (
     <>
       <Header />
-      <main className={`${style.main} pd-10`}>
+      <main className={`${styles.main} pd-10`}>
         <Outlet />
       </main>
 

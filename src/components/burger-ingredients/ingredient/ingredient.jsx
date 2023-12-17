@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import PropTypes from "prop-types";
 
-import style from "./ingredient.module.css";
+import styles from "./ingredient.module.css";
 
 import { showIngredientDetails } from "../../../services/ingredientDetailsSlice";
 
@@ -32,7 +32,7 @@ function Ingredient({ ingredientDetails, counter }) {
 
   return (
     <li
-      className={`${style.card} noselect mb-8`}
+      className={`${styles.card} noselect mb-8`}
       onClick={() => dispatch(showIngredientDetails(ingredientDetails))}
       draggable={true}
       ref={dragRef}
@@ -40,9 +40,9 @@ function Ingredient({ ingredientDetails, counter }) {
       {counter[name] && (
         <Counter count={counter[name]} size="default" extraClass="m-1" />
       )}
-      <img className={`${style.img} ml-1 mt-1`} src={image} alt={name} />
-      <div className={`${style.wrapper} mt-1 mb-1`}>
-        <p className={`${style.price} text text_type_digits-default mr-2`}>
+      <img className={`${styles.img} ml-1 mt-1`} src={image} alt={name} />
+      <div className={`${styles.wrapper} mt-1 mb-1`}>
+        <p className={`${styles.price} text text_type_digits-default mr-2`}>
           {price}
         </p>
         <CurrencyIcon type="primary" />

@@ -7,7 +7,7 @@ import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 
 import store from "./services/index.js";
-import { router } from "./components/router/index.js";
+import { router } from "./router/index.js";
 
 import reportWebVitals from "./reportWebVitals";
 

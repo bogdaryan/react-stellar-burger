@@ -1,0 +1,13 @@
+.container {
+  margin-right: 80px;
+}
+
+.orderList {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}

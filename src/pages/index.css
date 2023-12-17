@@ -14,7 +14,7 @@
 }
 
 .container__text-title {
-  color: #8585ad;
+  color: var(--dark-gray);
 }
 
 .container__text-link {

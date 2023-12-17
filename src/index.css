@@ -1,6 +1,10 @@
 :root {
   --container-header: 1280px;
   --container-main: 1240px;
+  --dark-gray: #8585ad;
+  --primary-light: #f2f2f3;
+  --feed-primary-bg: #1c1c21;
+  --success: #0cc;
 }
 
 body {
@@ -16,7 +20,7 @@ body {
 /* Firefox */
 .scroll-track {
   scrollbar-width: thin;
-  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-color: var(--dark-gray) #2f2f37;
 }
 
 /* Chrome, Edge and Safari */
@@ -31,7 +35,7 @@ body {
 
 .scroll-track::-webkit-scrollbar-thumb {
   border-radius: 0px;
-  background-color: #8585ad;
+  background-color: var(--dark-gray);
 }
 
 .scroll-track-constructor::-webkit-scrollbar-track {

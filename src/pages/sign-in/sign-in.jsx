@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import MotionElement from "../../components/motion-element/motion-element";
@@ -11,6 +11,7 @@ import {
 
 const SignIn = () => {
   const [value, setValue] = useState();
+
   const onChange = (e) => {
     setValue(e.target.value);
   };

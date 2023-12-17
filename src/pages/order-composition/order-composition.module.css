@@ -1,0 +1,50 @@
+.inner {
+  min-width: 640px;
+}
+
+.list {
+  height: 312px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  overflow-y: scroll;
+  list-style: none;
+  padding: 0;
+  margin-right: 5px;
+  padding-right: 20px;
+}
+
+.status {
+  color: var(--success);
+  text-align: start;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+}
+
+.countPrice {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.ingredientImg {
+  margin-right: 0;
+}
+
+.listTitle {
+  text-align: start;
+}
+
+.totalWrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

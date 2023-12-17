@@ -1,0 +1,22 @@
+.container {
+  margin-right: 28px;
+}
+
+.list {
+  width: 240px;
+  height: 152px;
+  display: inline-grid;
+  grid-template-columns: repeat(2, fit-content(100%));
+  grid-template-rows: repeat(5, fit-content(100%));
+  grid-auto-flow: column;
+  overflow: hidden;
+  row-gap: 8px;
+  column-gap: 35px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.number {
+  width: fit-content;
+}

@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import App from "../app/app";
+import App from "../components/app/app";
 
 import {
   Home,
@@ -9,7 +9,13 @@ import {
   ForgotPassword,
   ResetPassword,
   NotFound404,
-} from "../../pages";
+  Profile,
+  Feed,
+  Orders,
+  OrderComposition,
+} from "../pages";
+
+import UserInfo from "../components/user-info/user-info";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +41,30 @@ export const router = createBrowserRouter([
       {
         path: "/reset-password",
         element: <ResetPassword />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+        children: [
+          {
+            path: "/profile",
+            element: <UserInfo />,
+          },
+          {
+            path: "/profile/orders",
+            element: <Orders />,
+          },
+        ],
+      },
+      {
+        path: "/feed",
+        element: <OrderComposition />,
+        children: [
+          {
+            path: "/feed/:id",
+            element: <OrderComposition />,
+          },
+        ],
       },
     ],
   },

@@ -10,7 +10,7 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import TemplateIngredient from "../template-ingredient/template-ingredient";
 import TemplateBun from "../template-bun/template-bun";
 
-import style from "./ingredients-list.module.css";
+import styles from "./ingredients-list.module.css";
 import { useEffect, useRef, useState } from "react";
 
 const IngredientsList = ({ scrollHeight }) => {
@@ -52,8 +52,8 @@ const IngredientsList = ({ scrollHeight }) => {
 
     const targetDragItem = draggableItem.ingredientDetails;
     const isBun = targetDragItem.type === "bun";
-    const bunClassName = isBun ? style.isDrag : null;
-    const ingredientClassName = !isBun ? style.isDrag : null;
+    const bunClassName = isBun ? styles.isDrag : null;
+    const ingredientClassName = !isBun ? styles.isDrag : null;
 
     setBunClassName(bunClassName);
     setIngredientClassName(ingredientClassName);
@@ -68,14 +68,14 @@ const IngredientsList = ({ scrollHeight }) => {
           text={`${bun.name} (верх)`}
           price={bun.price}
           thumbnail={bun.image}
-          extraClass={`${style.top}  ml-8`}
+          extraClass={`${styles.top}  ml-8`}
         />
       ) : (
         <TemplateBun type={"top"} bunClassName={bunClassName} />
       )}
       <ul
         style={{ maxHeight: height }}
-        className={`${style.scroll} custom-scroll `}
+        className={`${styles.scroll} custom-scroll `}
         ref={listRef}
       >
         {ingredients.length !== 0 ? (
@@ -102,7 +102,7 @@ const IngredientsList = ({ scrollHeight }) => {
           text={`${bun.name} (низ)`}
           price={bun.price}
           thumbnail={bun.image}
-          extraClass={`${style.bottom} ml-8`}
+          extraClass={`${styles.bottom} ml-8`}
         />
       ) : (
         <TemplateBun type={"bottom"} bunClassName={bunClassName} />

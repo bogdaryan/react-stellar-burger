@@ -1,9 +1,9 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./tabs.module.css";
+import styles from "./tabs.module.css";
 
 function Tabs({ activeTab }) {
   return (
-    <div className={`${style.tabs} mb-10`}>
+    <div className={`${styles.tabs} mb-10`}>
       <Tab value="bun" active={activeTab === "bun"}>
         Булки
       </Tab>

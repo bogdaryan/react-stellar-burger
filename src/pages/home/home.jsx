@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 
-import style from "./home.module.css";
+import styles from "./home.module.css";
 
 const Home = () => {
   const { ingredientsRequest, ingredientsFailed } = useSelector(
@@ -22,11 +22,11 @@ const Home = () => {
     <>
       <DndProvider backend={HTML5Backend}>
         {ingredientsFailed ? (
-          <p className={`${style.error} text text_type_main-large`}>
+          <p className={`${styles.error} text text_type_main-large`}>
             Произошла ошибка при получении данных
           </p>
         ) : ingredientsRequest ? (
-          <Box className={style.loading}>
+          <Box className={styles.loading}>
             <CircularProgress size={100} />
           </Box>
         ) : (

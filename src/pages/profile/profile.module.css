@@ -1,0 +1,30 @@
+.container {
+  margin-top: 120px;
+}
+
+.containerMotion {
+  display: flex;
+}
+
+.containerLinks {
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  color: var(--dark-gray);
+}
+
+.subtitle {
+  opacity: 0.4;
+}
+
+.link {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkActive {
+  color: var(--primary-light);
+}
