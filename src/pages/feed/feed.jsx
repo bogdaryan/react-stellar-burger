@@ -1,7 +1,7 @@
 import styles from "./feed.module.css";
 
 import OrderCounter from "../../components/order-counter/order-counter";
-import ListOrdersSection from "../../components/list-orders-section/list-orders-section";
+import ListOrdersSection from "../../components/list-feed-orders-section/list-feed-orders-section";
 import OrderStatusSection from "../../components/order-status-section/order-status-section";
 
 const NumberOrdersForAllTime = ({ count }) => (

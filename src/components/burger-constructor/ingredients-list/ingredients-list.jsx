@@ -75,7 +75,7 @@ const IngredientsList = ({ scrollHeight }) => {
       )}
       <ul
         style={{ maxHeight: height }}
-        className={`${styles.scroll} custom-scroll `}
+        className={`${styles.scroll} scrollbarTrackBorder custom-scroll `}
         ref={listRef}
       >
         {ingredients.length !== 0 ? (

@@ -11,7 +11,7 @@ import {
   NotFound404,
   Profile,
   Feed,
-  Orders,
+  ProfileOrders,
   OrderComposition,
 } from "../pages";
 
@@ -52,16 +52,16 @@ export const router = createBrowserRouter([
           },
           {
             path: "/profile/orders",
-            element: <Orders />,
+            element: <ProfileOrders />,
           },
         ],
       },
       {
         path: "/feed",
-        element: <OrderComposition />,
+        element: <Feed />,
         children: [
           {
-            path: "/feed/:id",
+            path: "/feed/order",
             element: <OrderComposition />,
           },
         ],

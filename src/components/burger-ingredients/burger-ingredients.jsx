@@ -5,7 +5,7 @@ import Tabs from "./tabs/tabs";
 import Ingredient from "./ingredient/ingredient";
 
 import styles from "./burger-ingredients.module.css";
-import useHeight from "../../hooks/useSetHeight";
+import useHeight from "../../hooks/useHeight";
 
 function BurgerIngredients({ setScrollHeight, scrollHeight }) {
   const [activeTab, setActiveTab] = useState("bun");
@@ -72,7 +72,7 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
       <h1 className="text text_type_main-large mb-5 mt-10 ">Соберите бургер</h1>
       <Tabs activeTab={activeTab} />
       <section
-        className={`${styles.scroll} custom-scroll`}
+        className={`${styles.scroll} scrollbarTrackBorder custom-scroll`}
         ref={scrollTrackRef}
         style={{ maxHeight: scrollHeight }}
         onScroll={handlleChangeTab}

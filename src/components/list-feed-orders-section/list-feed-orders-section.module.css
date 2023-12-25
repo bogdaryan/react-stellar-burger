@@ -8,6 +8,9 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 13px;
   margin-top: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
 }

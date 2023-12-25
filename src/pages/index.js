@@ -9,7 +9,7 @@ import ResetPassword from "./reset-password/reset-password";
 import Profile from "./profile/profile";
 import Feed from "./feed/feed";
 import NotFound404 from "./not-found-404/not-found-404";
-import Orders from "./orders/orders";
+import ProfileOrders from "../components/profile-orders/profile-orders";
 import OrderComposition from "./order-composition/order-composition";
 
 export {
@@ -21,6 +21,6 @@ export {
   Profile,
   Feed,
   NotFound404,
-  Orders,
+  ProfileOrders,
   OrderComposition,
 };
