@@ -4,11 +4,29 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useForm from "../../hooks/useForm";
 
 import MotionElement from "../../components/motion-element/motion-element";
 
-const SignUp = () => {
+import { userRegisterRequest } from "../../services/auth/registerApi";
+
+import { useDispatch } from "react-redux";
+
+const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { values, handleChange } = useForm({});
+
+  const onChange = (e) => {
+    handleChange(e);
+  };
+
+  const onSubmit = () => {
+    dispatch(userRegisterRequest(values));
+    navigate("/login");
+  };
+
   return (
     <section className="container">
       <MotionElement>
@@ -17,25 +35,35 @@ const SignUp = () => {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            value={""}
             name={"name"}
             error={false}
             errorText={"Ошибка"}
             size={"default"}
             extraClass="mt-6"
+            value={values.name || ""}
+            onChange={onChange}
           />
           <EmailInput
-            value={""}
             name={"email"}
             isIcon={false}
             extraClass="mt-6"
+            autoComplete="current-email"
+            value={values.email || ""}
+            onChange={onChange}
           />
-          <PasswordInput value={""} name={"password"} extraClass="mt-6" />
+          <PasswordInput
+            name={"password"}
+            extraClass="mt-6"
+            autoComplete="current-password"
+            value={values.password || ""}
+            onChange={onChange}
+          />
           <Button
             htmlType="button"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
+            onClick={onSubmit}
           >
             Зарегистрироваться
           </Button>
@@ -51,4 +79,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;

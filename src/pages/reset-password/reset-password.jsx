@@ -1,4 +1,4 @@
-import { useState } from "react";
+import useForm from "../../hooks/useForm";
 import {
   PasswordInput,
   Button,
@@ -9,9 +9,14 @@ import { Link } from "react-router-dom";
 import MotionElement from "../../components/motion-element/motion-element";
 
 const ResetPassword = () => {
-  const [value, setValue] = useState();
+  const { values, handleChange } = useForm({});
+
   const onChange = (e) => {
-    setValue(e.target.value);
+    handleChange(e);
+  };
+
+  const onSubmit = () => {
+    console.log(values);
   };
 
   return (
@@ -20,29 +25,32 @@ const ResetPassword = () => {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <form>
           <PasswordInput
-            onChange={onChange}
-            value={value}
             name={"password"}
             extraClass="mt-6"
             placeholder="Введите новый пароль"
+            autoComplete="password"
+            value={values.password || ""}
+            onChange={onChange}
           />
           <Input
             type={"text"}
             placeholder={"Введите код из письма"}
-            value={value}
-            name={"name"}
+            name={"code"}
             error={false}
             errorText={"Ошибка"}
             size={"default"}
             extraClass="mt-6"
+            value={values.code || ""}
+            onChange={onChange}
           />
           <Button
             htmlType="button"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
+            onClick={onSubmit}
           >
-            Войти
+            Сохранить
           </Button>
         </form>
         <div className="container__text-wrapper text text_type_main-default mb-4">

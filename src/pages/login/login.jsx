@@ -1,4 +1,4 @@
-import { useState } from "react";
+import useForm from "../../hooks/useForm";
 import { Link } from "react-router-dom";
 
 import MotionElement from "../../components/motion-element/motion-element";
@@ -9,11 +9,19 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const SignIn = () => {
-  const [value, setValue] = useState();
+import { useDispatch } from "react-redux";
+import { userLoginRequest } from "../../services/auth/loginApi";
+
+const Login = () => {
+  const dispatch = useDispatch();
+  const { values, handleChange } = useForm({});
 
   const onChange = (e) => {
-    setValue(e.target.value);
+    handleChange(e);
+  };
+
+  const onSubmit = () => {
+    dispatch(userLoginRequest(values));
   };
 
   return (
@@ -22,23 +30,26 @@ const SignIn = () => {
         <h2 className="text text_type_main-medium">Вход</h2>
         <form>
           <EmailInput
-            onChange={onChange}
-            value={""}
             name={"email"}
             isIcon={false}
             extraClass="mt-6"
+            autoComplete="current-email"
+            value={values.email || ""}
+            onChange={onChange}
           />
           <PasswordInput
-            onChange={onChange}
-            value={""}
             name={"password"}
             extraClass="mt-6"
+            autoComplete="current-password"
+            value={values.password || ""}
+            onChange={onChange}
           />
           <Button
             htmlType="button"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
+            onClick={onSubmit}
           >
             Войти
           </Button>
@@ -51,7 +62,7 @@ const SignIn = () => {
         </div>
         <div className="container__text-wrapper text_type_main-default">
           <p className="container__text-title text">Забыли пароль?</p>
-          <Link className="container__text-link" to={"/recovery-password"}>
+          <Link className="container__text-link" to={"/forgot-password "}>
             Восстановить пароль
           </Link>
         </div>
@@ -60,4 +71,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;

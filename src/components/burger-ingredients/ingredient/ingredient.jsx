@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import styles from "./ingredient.module.css";
 
-import { showIngredientDetails } from "../../../services/ingredientDetailsSlice";
+import { showIngredientDetails } from "../../../services/ingredients/ingredientDetails";
 
 import { ingredientPropType } from "../../../utils/prop-types";
 
@@ -13,7 +13,6 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect } from "react";
 
 function Ingredient({ ingredientDetails, counter }) {
   const dispatch = useDispatch();
@@ -27,8 +26,6 @@ function Ingredient({ ingredientDetails, counter }) {
       isDrag: monitor.isDragging(),
     }),
   });
-
-  useEffect(() => {});
 
   return (
     <li
@@ -54,7 +51,7 @@ function Ingredient({ ingredientDetails, counter }) {
 
 Ingredient.propTypes = {
   ingredientDetails: ingredientPropType.isRequired,
-  counter: PropTypes.object,
+  counters: PropTypes.object,
 };
 
 export default Ingredient;

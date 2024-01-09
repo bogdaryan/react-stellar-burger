@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 
-import { addIngredient } from "../../../services/ingredientsSlice";
+import { addIngredient } from "../../../services/ingredients/ingredients";
 
 import Ingredient from "../ingredient/ingredient";
 
@@ -13,6 +13,8 @@ import TemplateBun from "../template-bun/template-bun";
 import styles from "./ingredients-list.module.css";
 import { useEffect, useRef, useState } from "react";
 
+import { getConstructorItems } from "../../../services/ingredients/selectors";
+
 const IngredientsList = ({ scrollHeight }) => {
   const [height, setHeight] = useState(null);
   const [bunClassName, setBunClassName] = useState();
@@ -20,10 +22,7 @@ const IngredientsList = ({ scrollHeight }) => {
   const listRef = useRef();
 
   const dispatch = useDispatch();
-  const bun = useSelector((store) => store.ingredients.bun);
-  const ingredients = useSelector(
-    (store) => store.ingredients.constructorIngredients
-  );
+  const { bun, ingredients } = useSelector(getConstructorItems);
 
   const [{ canDrop, draggableItem }, dropTarget] = useDrop({
     accept: "ingredient",

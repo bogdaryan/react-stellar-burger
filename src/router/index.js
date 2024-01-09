@@ -1,11 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 
+import {
+  OnlyAuth,
+  OnlyUnAuth,
+} from "../components/protected-route/ProtectedRoute";
+
 import App from "../components/app/app";
 
 import {
   Home,
-  SignUp,
-  SignIn,
+  Register,
+  Login,
   ForgotPassword,
   ResetPassword,
   NotFound404,
@@ -13,9 +18,11 @@ import {
   Feed,
   ProfileOrders,
   OrderComposition,
+  IngredientDetailsCover,
 } from "../pages";
 
 import UserInfo from "../components/user-info/user-info";
+import IngredientDetails from "../components/ingredient-details/ingredient-details";
 
 export const router = createBrowserRouter([
   {
@@ -28,23 +35,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <SignIn />,
+        element: <OnlyUnAuth component={<Login />} />,
       },
       {
         path: "/register",
-        element: <SignUp />,
+        element: <OnlyUnAuth component={<Register />} />,
       },
       {
-        path: "/recovery-password",
-        element: <ForgotPassword />,
+        path: "/forgot-password",
+        element: <OnlyUnAuth component={<ForgotPassword />} />,
       },
       {
         path: "/reset-password",
-        element: <ResetPassword />,
+        element: <OnlyUnAuth component={<ResetPassword />} />,
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <OnlyAuth component={<Profile />} />,
         children: [
           {
             path: "/profile",
@@ -65,6 +72,10 @@ export const router = createBrowserRouter([
             element: <OrderComposition />,
           },
         ],
+      },
+      {
+        path: "/test",
+        element: <IngredientDetailsCover />,
       },
     ],
   },

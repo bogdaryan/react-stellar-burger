@@ -2,34 +2,46 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 
+import { getUser, getNewToken } from "../../utils/api";
+
 // Style //
 import styles from "./app.module.css";
 
-// API //
-import { getIngredientsRequest } from "../../services/ingredientsApiSlice";
+//
+import { getIngredientsRequest } from "../../services/ingredients/ingredientsApi";
+
+import { setUser } from "../../services/auth/user";
 
 // Components //
 import Header from "../app-header/app-header";
-// import Home from "../../pages/home/home";
 
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 
+import {
+  getOrderNumber,
+  getStatusModalOrderDetails,
+} from "../../services/order/selectors";
+
+import {
+  getIngredientDetails,
+  getStatusModalIngredientDetails,
+} from "../../services/ingredients/selectors";
+
 function App() {
   const dispatch = useDispatch();
-  const isOpenedOrderDetails = useSelector((store) => store.order.isOpened);
+  const orderNumber = useSelector(getOrderNumber);
+  const ingredientDetails = useSelector(getIngredientDetails);
+  const isOpenedOrderDetails = useSelector(getStatusModalOrderDetails);
   const isOpenedIngredientDetails = useSelector(
-    (store) => store.ingredientDetails.isOpened
-  );
-  const orderNumber = useSelector((store) => store.order.orderNumber);
-
-  const ingredientDetails = useSelector(
-    (store) => store.ingredientDetails.ingredientDetails
+    getStatusModalIngredientDetails
   );
 
   useEffect(() => {
     dispatch(getIngredientsRequest());
+
+    // getUser();
   }, [dispatch]);
 
   return (

@@ -11,9 +11,11 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 
 import styles from "./home.module.css";
 
+import { getIngredientsRequestStatus } from "../../services/ingredients/selectors";
+
 const Home = () => {
   const { ingredientsRequest, ingredientsFailed } = useSelector(
-    (store) => store.ingredientsApi
+    getIngredientsRequestStatus
   );
 
   const [scrollHeight, setScrollHeight] = useState(0);

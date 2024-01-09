@@ -7,7 +7,7 @@ import {
   getOrderSuccess,
   getOrderFailed,
   getOrderRequest,
-} from "../services/orderApiSlice";
+} from "../services/order/orderApi";
 
 function* workOrderSaga(action) {
   const { payload: ingredients } = action;

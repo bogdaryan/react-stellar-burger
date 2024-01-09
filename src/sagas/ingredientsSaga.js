@@ -7,7 +7,7 @@ import {
   getIngredientsSuccess,
   getIngredientsFailed,
   getIngredientsRequest,
-} from "../services/ingredientsApiSlice";
+} from "../services/ingredients/ingredientsApi";
 
 function* workIngredientsSaga() {
   try {

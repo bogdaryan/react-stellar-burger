@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
-import { setOpened } from "../../services/modalSlice";
+import { setOpened } from "../../services/modal/modal";
 
 import styles from "./modal.module.css";
 
@@ -31,7 +31,7 @@ function Modal({ children }) {
 
   return createPortal(
     <section className={styles.modal}>
-      <div className={styles.inner}>
+      <div className={`${styles.inner}`}>
         <img
           src={cross}
           alt="Закрыть"

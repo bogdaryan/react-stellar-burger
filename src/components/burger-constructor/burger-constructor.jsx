@@ -1,45 +1,23 @@
-import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
-import { getOrderRequest } from "../../services/orderApiSlice";
+import { getOrderRequest } from "../../services/order/orderApi";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
 import styles from "./burger-constructor.module.css";
 
+import {
+  getPrice,
+  getConstructorItemsIds,
+} from "../../services/ingredients/selectors";
+
 function BurgerConstructor({ scrollHeight }) {
   const dispatch = useDispatch();
-  const bun = useSelector((store) => store.ingredients.bun);
-  const ingredients = useSelector(
-    (store) => store.ingredients.constructorIngredients
-  );
-
-  const totalPrice = useMemo(() => {
-    const ingredientsPrice = ingredients.reduce(
-      (acc, ingredient) => acc + ingredient.price,
-      0
-    );
-    const bunPrice = bun ? bun.price * 2 : 0;
-
-    return ingredientsPrice + bunPrice;
-  }, [ingredients, bun]);
-
-  const ids = useMemo(() => {
-    if (!ingredients || !bun) return;
-
-    const ingredientIds = [bun._id];
-
-    for (let item of ingredients) {
-      ingredientIds.push(item._id);
-    }
-
-    ingredientIds.push(bun._id);
-
-    return ingredientIds;
-  }, [ingredients, bun]);
+  const totalPrice = useSelector(getPrice);
+  const ids = useSelector(getConstructorItemsIds);
 
   const handlePostOrder = () => {
     if (!ids) return;

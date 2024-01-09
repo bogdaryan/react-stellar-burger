@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 import Tabs from "./tabs/tabs";
@@ -7,31 +7,16 @@ import Ingredient from "./ingredient/ingredient";
 import styles from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useHeight";
 
+import {
+  getIngredientsCounters,
+  getIngredients,
+} from "../../services/ingredients/selectors";
+
 function BurgerIngredients({ setScrollHeight, scrollHeight }) {
+  const counter = useSelector(getIngredientsCounters);
+  const ingredients = useSelector(getIngredients);
+
   const [activeTab, setActiveTab] = useState("bun");
-  const ingredients = useSelector((store) => store.ingredientsApi.ingredients);
-
-  const { constructorIngredients, bun } = useSelector(
-    (store) => store.ingredients
-  );
-
-  const ingredientsInConstructor = useMemo(
-    () => [...constructorIngredients, bun, bun],
-    [constructorIngredients, bun]
-  );
-
-  const counter = useMemo(() => {
-    const counterObj = {};
-
-    ingredientsInConstructor.forEach((ingredient) => {
-      if (!ingredient) return;
-
-      const ingredientName = ingredient.name;
-      counterObj[ingredientName] = (counterObj[ingredientName] || 0) + 1;
-    });
-
-    return counterObj;
-  }, [ingredientsInConstructor]);
 
   const ingredientTypes = {
     buns: { title: "Булки", filter: "bun" },

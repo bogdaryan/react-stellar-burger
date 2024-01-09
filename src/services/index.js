@@ -3,19 +3,29 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "../sagas/rootSaga";
 
-import ingredientsSlice from "./ingredientsSlice";
-import ingredientDetailsSlice from "./ingredientDetailsSlice";
-import modalSlice from "./modalSlice";
+import ingredients from "./ingredients/ingredients";
+import ingredientDetails from "./ingredients/ingredientDetails";
+import modal from "./modal/modal";
+import register from "./auth/registerApi";
+import login from "./auth/loginApi";
+import logout from "./auth/logoutApi";
+import forgotPasswordApi from "./auth/forgotPasswordApi";
 
-import ingredientsApiSlice from "./ingredientsApiSlice";
-import orderApiSlice from "./orderApiSlice";
+import ingredientsApi from "./ingredients/ingredientsApi";
+import orderApi from "./order/orderApi";
+import user from "./auth/user";
 
 const rootReducer = combineReducers({
-  ingredientsApi: ingredientsApiSlice,
-  ingredients: ingredientsSlice,
-  modal: modalSlice,
-  order: orderApiSlice,
-  ingredientDetails: ingredientDetailsSlice,
+  ingredientsApi: ingredientsApi,
+  ingredients: ingredients,
+  modal: modal,
+  order: orderApi,
+  ingredientDetails: ingredientDetails,
+  user: user,
+  register: register,
+  login: login,
+  logout: logout,
+  forgotPasswordApi: forgotPasswordApi,
 });
 
 const saga = createSagaMiddleware();

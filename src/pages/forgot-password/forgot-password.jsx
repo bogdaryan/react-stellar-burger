@@ -1,4 +1,4 @@
-import { useState } from "react";
+import useForm from "../../hooks/useForm";
 import {
   EmailInput,
   Button,
@@ -7,16 +7,24 @@ import { Link, useNavigate } from "react-router-dom";
 
 import MotionElement from "../../components/motion-element/motion-element";
 
+import { sendCodeRequest } from "../../services/auth/forgotPasswordApi";
+
+import { useDispatch } from "react-redux";
+
 const ForgotPassword = () => {
-  const [value, setValue] = useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { values, handleChange } = useForm({});
 
   const onChange = (e) => {
-    setValue(e.target.value);
+    handleChange(e);
   };
 
-  const onClick = () => {
-    navigate("/reset-password");
+  const onSubmit = () => {
+    // console.log(values);
+    // navigate("/reset-password");
+    dispatch(sendCodeRequest("likeonion420@gmail.com"));
   };
 
   return (
@@ -25,21 +33,22 @@ const ForgotPassword = () => {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <form>
           <EmailInput
-            onChange={onChange}
-            value={value}
             name={"email"}
             isIcon={false}
             extraClass="mt-6"
             placeholder="Укажите e-mail"
+            autoComplete="current-email"
+            value={values.email || ""}
+            onChange={onChange}
           />
           <Button
             htmlType="button"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
-            onClick={onClick}
+            onClick={onSubmit}
           >
-            Войти
+            Восстановить
           </Button>
         </form>
         <div className="container__text-wrapper text text_type_main-default mb-4">

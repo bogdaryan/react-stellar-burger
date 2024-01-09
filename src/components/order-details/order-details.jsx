@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setOpened } from "../../services/modalSlice";
+import { setOpened } from "../../services/modal/modal";
 
 import done from "../../images/done-icon-order-details.svg";
 import styles from "./order-details.module.css";
 
+import { getOrderNumber } from "../../services/order/selectors";
+
 function OrderDetails() {
-  const orderNumber = useSelector((store) => store.order.orderNumber);
+  const orderNumber = useSelector(getOrderNumber);
   const dispatch = useDispatch();
 
   return (

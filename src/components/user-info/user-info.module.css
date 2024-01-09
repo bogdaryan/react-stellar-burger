@@ -1,3 +1,7 @@
 .userInfo {
   margin-top: 120px;
 }
+
+.active {
+  color: white;
+}

@@ -1,40 +1,50 @@
 import styles from "./user-info.module.css";
 
-import { useState } from "react";
+import useForm from "../../hooks/useForm";
 
 import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import CustomInput from "./custom-input/custom-input";
+import { useSelector } from "react-redux";
+import { getUser } from "../../services/auth/selectors";
+
 const UserInfo = () => {
-  const [value, setValue] = useState("value");
+  const { email, name } = useSelector(getUser);
+
+  const { values, handleChange } = useForm({
+    email: email,
+    name: name,
+    password: "",
+  });
+
   const onChange = (e) => {
-    setValue(e.target.value);
+    handleChange(e);
   };
+
   return (
     <div className={styles.userInfo}>
-      <EmailInput
-        onChange={onChange}
-        value={value}
-        name={"name"}
-        placeholder="Имя"
-        isIcon={true}
-      />
-      <EmailInput
-        onChange={onChange}
-        value={value}
-        name={"email"}
-        placeholder="Логин"
-        isIcon={true}
-        extraClass="mt-6 mb-6"
-      />
-      <PasswordInput
-        onChange={onChange}
-        value={value}
-        name={"password"}
-        icon="EditIcon"
-      />
+      <form>
+        <CustomInput onChange={onChange} value={values.name} />
+        <EmailInput
+          onChange={onChange}
+          value={values.email}
+          name={"email"}
+          placeholder="Логин"
+          isIcon={true}
+          autoComplete="current-email"
+          extraClass="mt-6 mb-6"
+        />
+        <PasswordInput
+          onChange={onChange}
+          value={values.password}
+          name={"password"}
+          icon="EditIcon"
+          autoComplete="current-password"
+        />
+      </form>
     </div>
   );
 };

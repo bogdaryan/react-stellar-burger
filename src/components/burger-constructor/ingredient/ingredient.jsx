@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import {
   deleteIngredient,
   moveConstructorIngredient,
-} from "../../../services/ingredientsSlice";
+} from "../../../services/ingredients/ingredients";
 
 import styles from "./ingredient.module.css";
 import listStyleImage from "../../../images/burger-constructor-list-marker.svg";

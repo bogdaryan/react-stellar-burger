@@ -6,7 +6,7 @@ const initialState = {
   ingredients: [],
 };
 
-const ingredientsApiSlice = createSlice({
+const ingredientsApi = createSlice({
   name: "ingredientsApi",
   initialState,
   reducers: {
@@ -25,10 +25,10 @@ const ingredientsApiSlice = createSlice({
   },
 });
 
-export default ingredientsApiSlice.reducer;
+export default ingredientsApi.reducer;
 
 export const {
   getIngredientsRequest,
   getIngredientsSuccess,
   getIngredientsFailed,
-} = ingredientsApiSlice.actions;
+} = ingredientsApi.actions;

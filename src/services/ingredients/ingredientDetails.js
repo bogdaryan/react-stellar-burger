@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setOpened } from "./modalSlice";
+import { setOpened } from "../modal/modal";
 
 const initialState = {
   ingredientDetails: null,
-
   isOpened: false,
 };
 
-const ingredientDetailsSlice = createSlice({
+const ingredientDetails = createSlice({
   name: "ingredientDetails",
   initialState,
   reducers: {
@@ -16,7 +15,6 @@ const ingredientDetailsSlice = createSlice({
       state.isOpened = true;
     },
   },
-
   extraReducers: (builder) => {
     builder.addCase(setOpened, (state) => {
       state.ingredientDetails = null;
@@ -25,6 +23,6 @@ const ingredientDetailsSlice = createSlice({
   },
 });
 
-export default ingredientDetailsSlice.reducer;
+export default ingredientDetails.reducer;
 
-export const { showIngredientDetails } = ingredientDetailsSlice.actions;
+export const { showIngredientDetails } = ingredientDetails.actions;

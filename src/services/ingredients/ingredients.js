@@ -5,7 +5,7 @@ const initialState = {
   constructorIngredients: [],
 };
 
-const ingredientsSlice = createSlice({
+const ingredients = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
@@ -36,7 +36,7 @@ const ingredientsSlice = createSlice({
   },
 });
 
-export default ingredientsSlice.reducer;
+export default ingredients.reducer;
 
 export const { addIngredient, deleteIngredient, moveConstructorIngredient } =
-  ingredientsSlice.actions;
+  ingredients.actions;

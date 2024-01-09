@@ -1,31 +1,46 @@
 import styles from "./profile.module.css";
 
-import { Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 
-import CustomLink from "./custom-link/custom-link";
+import { useDispatch } from "react-redux";
+import { userLogoutRequest } from "../../services/auth/logoutApi";
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  const logout = () => {
+    dispatch(userLogoutRequest(refreshToken));
+  };
+
+  const setActive = (isActive, defaultClass) => {
+    return [defaultClass, isActive && styles.active].filter(Boolean).join(" ");
+  };
+
   return (
     <section className={styles.container}>
       <nav className={`${styles.containerLinks} mr-15`}>
-        <CustomLink
-          classNameActive={styles.linkActive}
-          className={`${styles.link} text text_type_main-medium`}
+        <NavLink
+          className={({ isActive }) =>
+            setActive(isActive, `${styles.link} text text_type_main-medium`)
+          }
           to={"/profile"}
         >
           Профиль
-        </CustomLink>
-        <CustomLink
-          classNameActive={styles.linkActive}
-          className={`${styles.link} text text_type_main-medium`}
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            setActive(isActive, `${styles.link} text text_type_main-medium`)
+          }
           to={"/profile/orders"}
         >
           История заказов
-        </CustomLink>
+        </NavLink>
+
         <button
-          classNameActive={styles.linkActive}
+          active={styles.linkActive}
           className={`${styles.link} ${styles.logoutBtn} text text_type_main-medium`}
-          to={""}
+          onClick={logout}
         >
           Выход
         </button>

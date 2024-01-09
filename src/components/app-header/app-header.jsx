@@ -1,8 +1,6 @@
 import styles from "./app-header.module.css";
-import React from "react";
 
-import CustomLink from "./custom-link/custom-link";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import {
   Logo,
@@ -11,40 +9,63 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+const setActive = (isActive, defaultClass) => {
+  return [defaultClass, isActive && styles.active].filter(Boolean).join(" ");
+};
+
 const AppHeader = () => {
   return (
     <header className={`${styles.header} mt-10 pt-4 pb-3`}>
       <nav className={styles.nav}>
-        <CustomLink
+        <NavLink
           to="/"
-          className={`${styles.link} pt-5 pb-5 pl-5 pr-5`}
-          classNameActive={styles.active}
-          Icon={BurgerIcon}
+          className={({ isActive }) =>
+            setActive(isActive, `${styles.link} pt-5 pb-5 pl-5 pr-5`)
+          }
         >
-          <p className={`text text_type_main-default ml-2`}>Конструктор</p>
-        </CustomLink>
+          {({ isActive }) => (
+            <>
+              <BurgerIcon type={isActive ? "primary" : "secondary"} />
+              <p className={`text text_type_main-default ml-2`}>Конструктор</p>
+            </>
+          )}
+        </NavLink>
 
-        <CustomLink
+        <NavLink
           to="/feed"
-          className={` ${styles.link} pt-5 pb-5 pl-5 pr-5 ml-3`}
-          classNameActive={styles.active}
-          Icon={ListIcon}
+          className={({ isActive }) =>
+            setActive(isActive, `${styles.link} pt-5 pb-5 pl-5 pr-5 ml-3 `)
+          }
         >
-          <p className={`text text_type_main-default ml-2`}>Лента заказов</p>
-        </CustomLink>
+          {({ isActive }) => (
+            <>
+              <ListIcon type={isActive ? "primary" : "secondary"} />
+              <p className={`text text_type_main-default ml-2`}>
+                Лента заказов
+              </p>
+            </>
+          )}
+        </NavLink>
 
         <Link to="/" className={`${(styles.link, styles.logo)}`}>
           <Logo />
         </Link>
 
-        <CustomLink
+        <NavLink
           to="/profile"
-          className={`${styles.link} p-5`}
-          classNameActive={styles.active}
-          Icon={ProfileIcon}
+          className={({ isActive }) =>
+            setActive(isActive, `${styles.link} p-5`)
+          }
         >
-          <p className={`text text_type_main-default ml-2`}>Личный кабинет</p>
-        </CustomLink>
+          {({ isActive }) => (
+            <>
+              <ProfileIcon type={isActive ? "primary" : "secondary"} />
+              <p className={`text text_type_main-default ml-2`}>
+                Личный кабинет
+              </p>
+            </>
+          )}
+        </NavLink>
       </nav>
     </header>
   );

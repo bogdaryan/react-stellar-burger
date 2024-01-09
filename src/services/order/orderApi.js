@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { setOpened } from "./modalSlice";
+import { setOpened } from "../modal/modal";
 
 const initialState = {
   orderRequest: false,
@@ -10,7 +10,7 @@ const initialState = {
   isOpened: false,
 };
 
-const orderApiSlice = createSlice({
+const orderApi = createSlice({
   name: "order",
   initialState,
   reducers: {
@@ -36,7 +36,7 @@ const orderApiSlice = createSlice({
   },
 });
 
-export default orderApiSlice.reducer;
+export default orderApi.reducer;
 
 export const { getOrderRequest, getOrderSuccess, getOrderFailed } =
-  orderApiSlice.actions;
+  orderApi.actions;
