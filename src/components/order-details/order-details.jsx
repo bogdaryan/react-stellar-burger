@@ -1,13 +1,10 @@
-import { useSelector } from "react-redux";
 import done from "../../images/done-icon-order-details.svg";
 import styles from "./order-details.module.css";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { getOrderRequestStatus } from "../../services/order/selectors";
 
 function OrderDetails() {
   const navigate = useNavigate();
-  const { orderNumber } = useSelector(getOrderRequestStatus);
   const { number } = useParams();
 
   return (

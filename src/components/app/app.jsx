@@ -7,7 +7,6 @@ import { getUser } from "../../utils/api";
 // Style //
 import styles from "./app.module.css";
 
-//
 import { getIngredientsRequest } from "../../services/ingredients/ingredientsApi";
 
 import { setUser } from "../../services/auth/user";
