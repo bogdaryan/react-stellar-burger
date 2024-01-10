@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
-import { getOrderRequest, resetState } from "../../services/order/orderApi";
+import { getOrderRequest } from "../../services/order/orderApi";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
