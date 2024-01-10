@@ -1,9 +1,15 @@
 import { put, takeLatest } from "redux-saga/effects";
-import axios from "axios";
-import { URL } from "../utils/constants";
 
-import { setUserDataToLocalStorage } from "../utils/helpers";
 import { setUser } from "../services/auth/user";
+
+import {
+  login,
+  register,
+  logout,
+  sendCodeToEmail,
+  resetPassword,
+  patchUser,
+} from "../utils/api";
 
 import {
   userRegisterSuccess,
@@ -28,70 +34,84 @@ import {
   sendCodeRequest,
   sendCodeFailed,
 } from "../services/auth/forgotPasswordApi";
-import { login } from "../utils/api";
 
-function* workUserLoginSaga(action) {
+import {
+  resetPasswordSuccess,
+  resetPasswordRequest,
+  resetPasswordFailed,
+} from "../services/auth/resetPasswordApi";
+
+import {
+  editUserSuccess,
+  editUserRequest,
+  editUserFailed,
+} from "../services/auth/editUser";
+
+function* workLoginSaga(action) {
   try {
     const { data } = yield login(action.payload);
     yield put(userLoginSuccess());
-
-    yield setUserDataToLocalStorage(data);
     yield put(setUser(data.user));
   } catch {
     yield put(userLoginFailed());
   }
 }
 
-function* workUserRegisterSaga(action) {
-  const { name, email, password } = action.payload;
-
+function* workRegisterSaga(action) {
   try {
-    const { data } = yield axios.post(`${URL}/auth/register`, {
-      name,
-      email,
-      password,
-    });
-
+    const { data } = yield register(action.payload);
     yield put(userRegisterSuccess());
-    yield setUserDataToLocalStorage(data);
     yield put(setUser(data.user));
   } catch {
     yield put(userRegisterFailed());
   }
 }
 
-function* workUserLogoutSaga(action) {
+function* workLogoutSaga(action) {
   const refreshToken = action.payload;
 
   try {
-    const response = yield axios.post(`${URL}/auth/logout`, {
-      token: `${refreshToken}`,
-    });
-
+    yield logout(refreshToken);
     yield put(userLogoutSuccess());
     yield put(setUser(null));
     yield localStorage.clear();
-    return response;
   } catch {
     yield put(userLogoutFailed());
   }
 }
 
-function* workUserForgotPasswordSaga(action) {
-  const email = action.payload;
-
+function* workSendCodeSaga(action) {
   try {
-    const response = yield axios.post(`${URL}/password-reset`, { email });
-
+    yield sendCodeToEmail(action.payload);
     yield put(sendCodeSuccess());
   } catch {
     yield put(sendCodeFailed());
   }
 }
 
+function* workResetPasswordSaga(action) {
+  try {
+    yield resetPassword(action.payload);
+    yield put(resetPasswordSuccess());
+  } catch {
+    yield put(resetPasswordFailed());
+  }
+}
+
+function* workEditUserSaga(action) {
+  try {
+    yield patchUser(action.payload);
+    yield put(editUserSuccess());
+  } catch {
+    yield put(editUserFailed());
+  }
+}
+
 export default function* watchUserSaga() {
-  yield takeLatest(userRegisterRequest.type, workUserRegisterSaga);
-  yield takeLatest(userLoginRequest.type, workUserLoginSaga);
-  yield takeLatest(userLogoutRequest.type, workUserLogoutSaga);
-  yield takeLatest(sendCodeRequest.type, workUserForgotPasswordSaga);
+  yield takeLatest(userRegisterRequest.type, workRegisterSaga);
+  yield takeLatest(userLoginRequest.type, workLoginSaga);
+  yield takeLatest(userLogoutRequest.type, workLogoutSaga);
+  yield takeLatest(sendCodeRequest.type, workSendCodeSaga);
+  yield takeLatest(resetPasswordRequest.type, workResetPasswordSaga);
+  yield takeLatest(editUserRequest.type, workEditUserSaga);
 }

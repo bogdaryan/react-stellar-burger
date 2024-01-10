@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { setOpened } from "../modal/modal";
-
 const initialState = {
   orderRequest: false,
   orderFailed: false,
-  orderNumber: null,
+  orderSuccess: false,
 
-  isOpened: false,
+  orderNumber: null,
 };
 
 const orderApi = createSlice({
@@ -17,26 +15,34 @@ const orderApi = createSlice({
     getOrderRequest(state) {
       state.orderRequest = true;
       state.orderFailed = false;
-      state.isOpened = true;
     },
     getOrderSuccess(state, action) {
       state.orderRequest = false;
+      state.orderSuccess = true;
+
       state.orderNumber = action.payload;
+
+      localStorage.setItem("orderNumber", action.payload);
     },
     getOrderFailed(state) {
       state.orderFailed = true;
       state.orderRequest = false;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(setOpened, (state) => {
+    resetState(state) {
+      state.orderRequest = false;
+      state.orderFailed = false;
+      state.orderSuccess = false;
       state.orderNumber = null;
-      state.isOpened = false;
-    });
+    },
   },
 });
 
 export default orderApi.reducer;
 
-export const { getOrderRequest, getOrderSuccess, getOrderFailed } =
-  orderApi.actions;
+export const {
+  getOrderRequest,
+  getOrderSuccess,
+  getOrderFailed,
+  setDefaultStatuses,
+  resetState,
+} = orderApi.actions;

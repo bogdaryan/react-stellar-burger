@@ -1,11 +1,12 @@
-export const setUserDataToLocalStorage = ({
-  user,
-  accessToken,
-  refreshToken,
-}) => {
+export const setUserDataToLocalStorage = ({ accessToken, refreshToken }) => {
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
+};
 
-  const userData = JSON.stringify(user);
-  localStorage.setItem("user", userData);
+export const getAccessToken = () => {
+  return localStorage.getItem("accessToken");
+};
+
+export const getRefreshToken = () => {
+  return localStorage.getItem("refreshToken");
 };

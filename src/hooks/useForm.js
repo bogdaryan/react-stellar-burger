@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const useForm = (initialState) => {
-  const [values, setValues] = useState(initialState);
+  const [formData, setValues] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -9,7 +9,7 @@ const useForm = (initialState) => {
   };
 
   return {
-    values,
+    formData,
     handleChange,
   };
 };

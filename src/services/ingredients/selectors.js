@@ -1,16 +1,15 @@
 import { createSelector } from "@reduxjs/toolkit";
 
+// ITEMS
 export const getIngredients = (store) => store.ingredientsApi.ingredients;
 export const getConstructorBun = (store) => store.ingredients.bun;
 export const getConstructorIngredients = (store) =>
   store.ingredients.constructorIngredients;
-export const getIngredientDetails = (store) =>
-  store.ingredientDetails.ingredientDetails;
-export const getStatusModalIngredientDetails = (store) =>
-  store.ingredientDetails.isOpened;
 
+// STATUSES
 export const getIngredientsRequestStatus = (store) => store.ingredientsApi;
 
+//
 export const getConstructorItems = createSelector(
   getConstructorBun,
   getConstructorIngredients,

@@ -22,7 +22,10 @@ import {
 } from "../pages";
 
 import UserInfo from "../components/user-info/user-info";
+
+import Modal from "../components/modal/modal";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
+import OrderDetails from "../components/order-details/order-details";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +35,24 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        children: [
+          {
+            path: "ingredients/:id",
+            element: (
+              <Modal>
+                <IngredientDetails />
+              </Modal>
+            ),
+          },
+          {
+            path: "order/:number",
+            element: (
+              <Modal>
+                <OrderDetails />
+              </Modal>
+            ),
+          },
+        ],
       },
       {
         path: "/login",
@@ -74,7 +95,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "/test",
+        path: "/ingredients/:id",
         element: <IngredientDetailsCover />,
       },
     ],

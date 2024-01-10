@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
-import { getOrderRequest } from "../../services/order/orderApi";
+import { getOrderRequest, resetState } from "../../services/order/orderApi";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
@@ -13,9 +13,16 @@ import {
   getPrice,
   getConstructorItemsIds,
 } from "../../services/ingredients/selectors";
+import { useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { getOrderRequestStatus } from "../../services/order/selectors";
 
 function BurgerConstructor({ scrollHeight }) {
   const dispatch = useDispatch();
+  const { orderSuccess, orderNumber } = useSelector(getOrderRequestStatus);
+  const navigate = useNavigate();
+
   const totalPrice = useSelector(getPrice);
   const ids = useSelector(getConstructorItemsIds);
 
@@ -24,6 +31,12 @@ function BurgerConstructor({ scrollHeight }) {
 
     dispatch(getOrderRequest(ids));
   };
+
+  useEffect(() => {
+    if (orderSuccess) {
+      navigate(`order/${orderNumber}`);
+    }
+  }, [orderSuccess, navigate, dispatch, orderNumber]);
 
   return (
     <section className={`${styles.constructor} mt-25 pr-4 pl-4`}>

@@ -14,7 +14,9 @@ function* workOrderSaga(action) {
 
   try {
     const response = yield axios.post(`${URL}/orders`, { ingredients });
-    yield put(getOrderSuccess(response.data.order.number));
+    const orderNumber = response.data.order.number;
+
+    yield put(getOrderSuccess(orderNumber));
   } catch (error) {
     yield put(getOrderFailed());
   }

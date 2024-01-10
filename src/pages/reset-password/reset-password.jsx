@@ -4,20 +4,35 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import MotionElement from "../../components/motion-element/motion-element";
 
+import { useDispatch, useSelector } from "react-redux";
+import { resetPasswordRequest } from "../../services/auth/resetPasswordApi";
+import { getResetRequestStatus } from "../../services/auth/selectors";
+import { useEffect } from "react";
+
 const ResetPassword = () => {
-  const { values, handleChange } = useForm({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const resetPasswordSuccess = useSelector(getResetRequestStatus);
+  const { formData, handleChange } = useForm({});
 
   const onChange = (e) => {
     handleChange(e);
   };
 
   const onSubmit = () => {
-    console.log(values);
+    if (!formData.password || !formData.code) return;
+
+    dispatch(resetPasswordRequest(formData));
   };
+
+  useEffect(() => {
+    if (!resetPasswordSuccess) return;
+
+    navigate("/login");
+  }, [resetPasswordSuccess, navigate]);
 
   return (
     <section className="container">
@@ -29,7 +44,7 @@ const ResetPassword = () => {
             extraClass="mt-6"
             placeholder="Введите новый пароль"
             autoComplete="password"
-            value={values.password || ""}
+            value={formData.password || ""}
             onChange={onChange}
           />
           <Input
@@ -40,7 +55,7 @@ const ResetPassword = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="mt-6"
-            value={values.code || ""}
+            value={formData.code || ""}
             onChange={onChange}
           />
           <Button

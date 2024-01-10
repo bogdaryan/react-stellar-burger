@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
-import { getIngredientDetails } from "../../services/ingredients/selectors";
 
 function IngredientDetails() {
-  const ingredientDetails = useSelector(getIngredientDetails);
+  const ingredientDetails = JSON.parse(
+    localStorage.getItem("ingredientDetails")
+  );
 
   const { name, image_large, calories, proteins, fat, carbohydrates } =
     ingredientDetails;

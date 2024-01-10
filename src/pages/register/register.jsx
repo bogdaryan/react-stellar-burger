@@ -16,14 +16,14 @@ import { useDispatch } from "react-redux";
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { values, handleChange } = useForm({});
+  const { formData, handleChange } = useForm({});
 
   const onChange = (e) => {
     handleChange(e);
   };
 
   const onSubmit = () => {
-    dispatch(userRegisterRequest(values));
+    dispatch(userRegisterRequest(formData));
     navigate("/login");
   };
 
@@ -40,7 +40,7 @@ const Register = () => {
             errorText={"Ошибка"}
             size={"default"}
             extraClass="mt-6"
-            value={values.name || ""}
+            value={formData.name || ""}
             onChange={onChange}
           />
           <EmailInput
@@ -48,14 +48,14 @@ const Register = () => {
             isIcon={false}
             extraClass="mt-6"
             autoComplete="current-email"
-            value={values.email || ""}
+            value={formData.email || ""}
             onChange={onChange}
           />
           <PasswordInput
             name={"password"}
             extraClass="mt-6"
             autoComplete="current-password"
-            value={values.password || ""}
+            value={formData.password || ""}
             onChange={onChange}
           />
           <Button

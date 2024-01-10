@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setOpened } from "../modal/modal";
 
 const initialState = {
   ingredientDetails: null,
@@ -14,12 +13,6 @@ const ingredientDetails = createSlice({
       state.ingredientDetails = { ...action.payload };
       state.isOpened = true;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(setOpened, (state) => {
-      state.ingredientDetails = null;
-      state.isOpened = false;
-    });
   },
 });
 

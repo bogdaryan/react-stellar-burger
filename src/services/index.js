@@ -10,10 +10,12 @@ import register from "./auth/registerApi";
 import login from "./auth/loginApi";
 import logout from "./auth/logoutApi";
 import forgotPasswordApi from "./auth/forgotPasswordApi";
+import resetPasswordApi from "./auth/resetPasswordApi";
 
 import ingredientsApi from "./ingredients/ingredientsApi";
 import orderApi from "./order/orderApi";
 import user from "./auth/user";
+import editUser from "./auth/editUser";
 
 const rootReducer = combineReducers({
   ingredientsApi: ingredientsApi,
@@ -25,7 +27,9 @@ const rootReducer = combineReducers({
   register: register,
   login: login,
   logout: logout,
-  forgotPasswordApi: forgotPasswordApi,
+  forgotPassword: forgotPasswordApi,
+  resetPassword: resetPasswordApi,
+  editUser: editUser,
 });
 
 const saga = createSagaMiddleware();

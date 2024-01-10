@@ -8,24 +8,33 @@ import { Link, useNavigate } from "react-router-dom";
 import MotionElement from "../../components/motion-element/motion-element";
 
 import { sendCodeRequest } from "../../services/auth/forgotPasswordApi";
+import { getCodeRequestStatus } from "../../services/auth/selectors";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const ForgotPassword = () => {
+  const sendCodeSuccess = useSelector(getCodeRequestStatus);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { values, handleChange } = useForm({});
+  const { formData, handleChange } = useForm({});
 
   const onChange = (e) => {
     handleChange(e);
   };
 
   const onSubmit = () => {
-    // console.log(values);
-    // navigate("/reset-password");
-    dispatch(sendCodeRequest("likeonion420@gmail.com"));
+    if (!formData.email) return;
+
+    dispatch(sendCodeRequest(formData.email));
   };
+
+  useEffect(() => {
+    if (!sendCodeSuccess) return;
+
+    navigate("/reset-password");
+  }, [sendCodeSuccess, navigate]);
 
   return (
     <section className="container">
@@ -38,7 +47,7 @@ const ForgotPassword = () => {
             extraClass="mt-6"
             placeholder="Укажите e-mail"
             autoComplete="current-email"
-            value={values.email || ""}
+            value={formData.email || ""}
             onChange={onChange}
           />
           <Button

@@ -13,11 +13,12 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from "react-router-dom";
 
 function Ingredient({ ingredientDetails, counter }) {
   const dispatch = useDispatch();
 
-  const { name, price, image } = ingredientDetails;
+  const { name, price, image, _id } = ingredientDetails;
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -27,12 +28,22 @@ function Ingredient({ ingredientDetails, counter }) {
     }),
   });
 
+  const onClick = () => {
+    dispatch(showIngredientDetails(ingredientDetails));
+
+    localStorage.setItem(
+      "ingredientDetails",
+      JSON.stringify(ingredientDetails)
+    );
+  };
+
   return (
-    <li
+    <Link
       className={`${styles.card} noselect mb-8`}
-      onClick={() => dispatch(showIngredientDetails(ingredientDetails))}
+      onClick={onClick}
       draggable={true}
       ref={dragRef}
+      to={`/ingredients/${_id}`}
     >
       {counter[name] && (
         <Counter count={counter[name]} size="default" extraClass="m-1" />
@@ -45,7 +56,7 @@ function Ingredient({ ingredientDetails, counter }) {
         <CurrencyIcon type="primary" />
       </div>
       <p className="text text_type_main-default">{name}</p>
-    </li>
+    </Link>
   );
 }
 

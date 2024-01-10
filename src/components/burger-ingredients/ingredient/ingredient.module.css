@@ -2,6 +2,9 @@
   position: relative;
   text-align: center;
   cursor: grab;
+  color: inherit;
+  border: none;
+  text-decoration: none;
 }
 
 .wrapper {

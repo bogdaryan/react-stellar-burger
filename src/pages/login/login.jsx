@@ -14,14 +14,14 @@ import { userLoginRequest } from "../../services/auth/loginApi";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { values, handleChange } = useForm({});
+  const { formData, handleChange } = useForm({});
 
   const onChange = (e) => {
     handleChange(e);
   };
 
   const onSubmit = () => {
-    dispatch(userLoginRequest(values));
+    dispatch(userLoginRequest(formData));
   };
 
   return (
@@ -34,14 +34,14 @@ const Login = () => {
             isIcon={false}
             extraClass="mt-6"
             autoComplete="current-email"
-            value={values.email || ""}
+            value={formData.email || ""}
             onChange={onChange}
           />
           <PasswordInput
             name={"password"}
             extraClass="mt-6"
             autoComplete="current-password"
-            value={values.password || ""}
+            value={formData.password || ""}
             onChange={onChange}
           />
           <Button
