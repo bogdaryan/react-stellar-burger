@@ -9,7 +9,7 @@ const ingredientDetails = createSlice({
   name: "ingredientDetails",
   initialState,
   reducers: {
-    showIngredientDetails(state, action) {
+    setIngredientDetails(state, action) {
       state.ingredientDetails = { ...action.payload };
       state.isOpened = true;
     },
@@ -18,4 +18,4 @@ const ingredientDetails = createSlice({
 
 export default ingredientDetails.reducer;
 
-export const { showIngredientDetails } = ingredientDetails.actions;
+export const { setIngredientDetails } = ingredientDetails.actions;

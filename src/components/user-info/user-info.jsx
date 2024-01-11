@@ -1,5 +1,5 @@
 import styles from "./user-info.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import useForm from "../../hooks/useForm";
 
@@ -13,15 +13,11 @@ import CustomInput from "./custom-input/custom-input";
 import { useDispatch, useSelector } from "react-redux";
 import { editUserRequest } from "../../services/auth/editUser";
 
-import {
-  getEditUserRequestStatus,
-  getUser,
-} from "../../services/auth/selectors";
+import { getUser } from "../../services/auth/selectors";
 
 const UserInfo = () => {
   const dispatch = useDispatch();
   const [isVisible, setVisible] = useState(false);
-  const editUserSuccess = useSelector(getEditUserRequestStatus);
   const { email, name } = useSelector(getUser);
 
   const { formData, handleChange } = useForm({
@@ -42,13 +38,8 @@ const UserInfo = () => {
 
   const onSubmit = () => {
     dispatch(editUserRequest(updatedData));
+    setVisible(false);
   };
-
-  useEffect(() => {
-    if (editUserSuccess) {
-      setVisible(false);
-    }
-  }, [editUserSuccess]);
 
   return (
     <div className={styles.userInfo}>
@@ -57,7 +48,7 @@ const UserInfo = () => {
         <EmailInput
           onChange={onChange}
           value={formData.email}
-          name={"email"}
+          name="email"
           placeholder="Логин"
           isIcon={true}
           autoComplete="current-email"
@@ -66,7 +57,7 @@ const UserInfo = () => {
         <PasswordInput
           onChange={onChange}
           value={formData.password}
-          name={"password"}
+          name="password"
           icon="EditIcon"
           autoComplete="current-password"
         />

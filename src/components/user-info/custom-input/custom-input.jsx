@@ -21,7 +21,7 @@ const CustomInput = ({ onChange, value }) => {
       onChange={onChange}
       onIconClick={onIconClick}
       value={value}
-      name={"name"}
+      name="name"
       placeholder="Имя"
       icon="EditIcon"
       autoComplete="current-name"

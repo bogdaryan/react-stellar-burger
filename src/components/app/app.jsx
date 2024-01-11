@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 
-import { getUser } from "../../utils/api";
+import { getUser as getUserApi } from "../../utils/api";
 
 // Style //
 import styles from "./app.module.css";
@@ -16,14 +16,16 @@ import Header from "../app-header/app-header";
 
 function App() {
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     dispatch(getIngredientsRequest());
+    getUserApi();
 
-    getUser().then((res) => {
-      dispatch(setUser(res.data.user));
-    });
-  }, [dispatch]);
+    if (user) {
+      dispatch(setUser(user));
+    }
+  }, [dispatch, user]);
 
   return (
     <>

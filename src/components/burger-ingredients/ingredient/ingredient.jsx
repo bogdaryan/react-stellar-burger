@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import styles from "./ingredient.module.css";
 
-import { showIngredientDetails } from "../../../services/ingredients/ingredientDetails";
+import { setIngredientDetails } from "../../../services/ingredients/ingredientDetails";
 
 import { ingredientPropType } from "../../../utils/prop-types";
 
@@ -13,10 +13,11 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Ingredient({ ingredientDetails, counter }) {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { name, price, image, _id } = ingredientDetails;
 
@@ -29,7 +30,7 @@ function Ingredient({ ingredientDetails, counter }) {
   });
 
   const onClick = () => {
-    dispatch(showIngredientDetails(ingredientDetails));
+    dispatch(setIngredientDetails(ingredientDetails));
 
     localStorage.setItem(
       "ingredientDetails",
@@ -44,6 +45,7 @@ function Ingredient({ ingredientDetails, counter }) {
       draggable={true}
       ref={dragRef}
       to={`/ingredients/${_id}`}
+      state={{ background: location }}
     >
       {counter[name] && (
         <Counter count={counter[name]} size="default" extraClass="m-1" />

@@ -30,7 +30,7 @@ const Login = () => {
         <h2 className="text text_type_main-medium">Вход</h2>
         <form>
           <EmailInput
-            name={"email"}
+            name="email"
             isIcon={false}
             extraClass="mt-6"
             autoComplete="current-email"
@@ -38,7 +38,7 @@ const Login = () => {
             onChange={onChange}
           />
           <PasswordInput
-            name={"password"}
+            name="password"
             extraClass="mt-6"
             autoComplete="current-password"
             value={formData.password || ""}
@@ -56,13 +56,13 @@ const Login = () => {
         </form>
         <div className="container__text-wrapper text text_type_main-default mb-4">
           <p className="container__text-title text">Вы — новый пользователь?</p>
-          <Link className="container__text-link" to={"/register"}>
+          <Link className="container__text-link" to="/register">
             Зарегистрироваться
           </Link>
         </div>
         <div className="container__text-wrapper text_type_main-default">
           <p className="container__text-title text">Забыли пароль?</p>
-          <Link className="container__text-link" to={"/forgot-password "}>
+          <Link className="container__text-link" to="/forgot-password ">
             Восстановить пароль
           </Link>
         </div>

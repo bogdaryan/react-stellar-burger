@@ -62,7 +62,7 @@ const ForgotPassword = () => {
         </form>
         <div className="container__text-wrapper text text_type_main-default mb-4">
           <p className="container__text-title text">Вспомнили пароль?</p>
-          <Link className="container__text-link" to={"/login"}>
+          <Link className="container__text-link" to="/login">
             Войти
           </Link>
         </div>

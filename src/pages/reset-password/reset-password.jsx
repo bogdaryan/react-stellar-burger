@@ -40,7 +40,7 @@ const ResetPassword = () => {
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <form>
           <PasswordInput
-            name={"password"}
+            name="password"
             extraClass="mt-6"
             placeholder="Введите новый пароль"
             autoComplete="password"
@@ -48,12 +48,12 @@ const ResetPassword = () => {
             onChange={onChange}
           />
           <Input
-            type={"text"}
-            placeholder={"Введите код из письма"}
-            name={"code"}
+            type="text"
+            placeholder="Введите код из письма"
+            name="code"
             error={false}
-            errorText={"Ошибка"}
-            size={"default"}
+            errorText="Ошибка"
+            size="default"
             extraClass="mt-6"
             value={formData.code || ""}
             onChange={onChange}

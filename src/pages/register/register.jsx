@@ -33,18 +33,18 @@ const Register = () => {
         <h2 className="text text_type_main-medium">Регистрация</h2>
         <form>
           <Input
-            type={"text"}
-            placeholder={"Имя"}
-            name={"name"}
+            type="text"
+            placeholder="Имя"
+            name="name"
             error={false}
-            errorText={"Ошибка"}
-            size={"default"}
+            errorText="Ошибка"
+            size="default"
             extraClass="mt-6"
             value={formData.name || ""}
             onChange={onChange}
           />
           <EmailInput
-            name={"email"}
+            name="email"
             isIcon={false}
             extraClass="mt-6"
             autoComplete="current-email"
@@ -52,7 +52,7 @@ const Register = () => {
             onChange={onChange}
           />
           <PasswordInput
-            name={"password"}
+            name="password"
             extraClass="mt-6"
             autoComplete="current-password"
             value={formData.password || ""}

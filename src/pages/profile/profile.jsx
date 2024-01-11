@@ -1,6 +1,6 @@
 import styles from "./profile.module.css";
 
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { userLogoutRequest } from "../../services/auth/logoutApi";
@@ -24,7 +24,7 @@ const Profile = () => {
           className={({ isActive }) =>
             setActive(isActive, `${styles.link} text text_type_main-medium`)
           }
-          to={"/profile"}
+          to="/profile"
         >
           Профиль
         </NavLink>
@@ -32,7 +32,7 @@ const Profile = () => {
           className={({ isActive }) =>
             setActive(isActive, `${styles.link} text text_type_main-medium`)
           }
-          to={"/profile/orders"}
+          to="/profile/orders"
         >
           История заказов
         </NavLink>

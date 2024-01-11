@@ -13,17 +13,13 @@ import {
 } from "../../services/ingredients/selectors";
 import { Outlet } from "react-router-dom";
 
+import { ingredientTypes } from "../../utils/constants";
+
 function BurgerIngredients({ setScrollHeight, scrollHeight }) {
   const counter = useSelector(getIngredientsCounters);
   const ingredients = useSelector(getIngredients);
 
   const [activeTab, setActiveTab] = useState("bun");
-
-  const ingredientTypes = {
-    buns: { title: "Булки", filter: "bun" },
-    sauce: { title: "Соусы", filter: "sauce" },
-    main: { title: "Начинки", filter: "main" },
-  };
 
   const scrollTrackRef = useRef();
   const height = useHeight(scrollTrackRef);

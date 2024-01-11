@@ -20,8 +20,10 @@ axiosInstance.interceptors.response.use(
   },
   async (err) => {
     const errorMessage = err.response.data.message;
+
     if (errorMessage === "jwt expired") {
       await getNewToken();
+      await getUser();
     }
   }
 );
@@ -67,12 +69,21 @@ export const patchUser = (formData) => {
     headers: { Authorization: getAccessToken() },
   });
 };
-export const getUser = () => {
-  const request = axiosInstance.get("/auth/user", {
-    headers: {
-      authorization: getAccessToken(),
-    },
-  });
+
+export const getUser = async () => {
+  const request = await axiosInstance
+    .get("/auth/user", {
+      headers: {
+        authorization: getAccessToken(),
+      },
+    })
+    .then((res) => {
+      if (!res || !res.data.success) return;
+
+      const { data } = res;
+
+      localStorage.setItem("user", JSON.stringify(data.user));
+    });
 
   return request;
 };
