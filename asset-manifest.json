@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "./static/css/main.31f3cb8a.css",
-    "main.js": "./static/js/main.f83b344f.js",
+    "main.css": "./static/css/main.09849a3b.css",
+    "main.js": "./static/js/main.b2217f7e.js",
     "static/js/787.c3572a12.chunk.js": "./static/js/787.c3572a12.chunk.js",
     "static/media/JetBrainsMono-Bold.woff": "./static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "./static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
@@ -14,12 +14,12 @@
     "static/media/burger-constructor-list-marker.svg": "./static/media/burger-constructor-list-marker.893bc5d443b90694a038f9be09058be9.svg",
     "static/media/modal-cross-close-icon.svg": "./static/media/modal-cross-close-icon.88418e89ea34598e05bda021620545a9.svg",
     "index.html": "./index.html",
-    "main.31f3cb8a.css.map": "./static/css/main.31f3cb8a.css.map",
-    "main.f83b344f.js.map": "./static/js/main.f83b344f.js.map",
+    "main.09849a3b.css.map": "./static/css/main.09849a3b.css.map",
+    "main.b2217f7e.js.map": "./static/js/main.b2217f7e.js.map",
     "787.c3572a12.chunk.js.map": "./static/js/787.c3572a12.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.31f3cb8a.css",
-    "static/js/main.f83b344f.js"
+    "static/css/main.09849a3b.css",
+    "static/js/main.b2217f7e.js"
   ]
 }
