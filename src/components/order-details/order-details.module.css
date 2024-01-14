@@ -12,5 +12,5 @@
 }
 
 .text {
-  color: #8585ad;
+  color: var(--dark-gray);
 }

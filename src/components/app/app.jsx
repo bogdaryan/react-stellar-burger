@@ -1,82 +1,38 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Outlet } from "react-router-dom";
 
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { getUser as getUserApi } from "../../utils/api";
 
 // Style //
-import style from "./app.module.css";
+import styles from "./app.module.css";
 
-// API //
-import { fetchIngredients } from "../../asyncActions/fetchIngredients";
+import { getIngredientsRequest } from "../../services/ingredients/ingredientsApi";
+
+import { setUser } from "../../services/auth/user";
 
 // Components //
 import Header from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrderDetails from "../order-details/order-details";
 
 function App() {
   const dispatch = useDispatch();
-  const isOpened = useSelector((store) => store.modal.isOpened);
-  const orderNumber = useSelector((store) => store.modal.orderNumber);
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const ingredientDetails = useSelector(
-    (store) => store.modal.ingredientDetails
-  );
-  const { ingredientsRequest, ingredientsFailed } = useSelector(
-    (store) => store.ingredients
-  );
-
-  const [scrollHeight, setScrollHeight] = useState(0);
-
-  /* eslint-disable */
   useEffect(() => {
-    dispatch(fetchIngredients());
-  }, []); // once mount cuz it's event fetch
-  /* eslint-enable */
+    dispatch(getIngredientsRequest());
+    getUserApi();
+
+    if (user) {
+      dispatch(setUser(user));
+    }
+  }, [dispatch, user]);
 
   return (
     <>
       <Header />
-      <main className={`${style.main} pd-10`}>
-        <DndProvider backend={HTML5Backend}>
-          {ingredientsFailed ? (
-            <p className={`${style.error} text text_type_main-large`}>
-              Произошла ошибка при получении данных
-            </p>
-          ) : ingredientsRequest ? (
-            <Box className={style.loading}>
-              <CircularProgress size={100} />
-            </Box>
-          ) : (
-            <BurgerIngredients
-              setScrollHeight={setScrollHeight}
-              scrollHeight={scrollHeight}
-            />
-          )}
-
-          <BurgerConstructor scrollHeight={scrollHeight} />
-        </DndProvider>
+      <main className={`${styles.main} pd-10`}>
+        <Outlet />
       </main>
-
-      {isOpened && orderNumber && (
-        <Modal>
-          <OrderDetails />
-        </Modal>
-      )}
-
-      {isOpened && ingredientDetails && (
-        <Modal>
-          <IngredientDetails />
-        </Modal>
-      )}
     </>
   );
 }

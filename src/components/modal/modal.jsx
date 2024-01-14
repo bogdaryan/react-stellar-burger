@@ -1,21 +1,20 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useDispatch } from "react-redux";
-import { setOpened } from "../../services/modalSlice";
 
-import style from "./modal.module.css";
+import styles from "./modal.module.css";
 
 import { PORTAL_ROOT } from "../../utils/constants";
 import cross from "../../images/modal-cross-close-icon.svg";
 
 import ModalOverlay from "./modal-overlay/modal-overlay";
+import { useNavigate } from "react-router-dom";
 
 function Modal({ children }) {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const closeByEscape = (e) => {
     if (e.key === "Escape") {
-      dispatch(setOpened(false));
+      navigate(-1);
     }
   };
 
@@ -30,13 +29,13 @@ function Modal({ children }) {
   /* eslint-enable */
 
   return createPortal(
-    <section className={style.modal}>
-      <div className={style.inner}>
+    <section className={styles.modal}>
+      <div className={`${styles.inner}`}>
         <img
           src={cross}
           alt="Закрыть"
-          className={`${style.close} mt-15 mr-10`}
-          onClick={() => dispatch(setOpened(false))}
+          className={`${styles.close} mt-15 mr-10`}
+          onClick={() => navigate(-1)}
         />
         {children}
       </div>

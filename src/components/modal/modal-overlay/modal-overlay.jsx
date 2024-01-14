@@ -1,16 +1,12 @@
-import style from "./modal-overlay.module.css";
+import styles from "./modal-overlay.module.css";
 
-import { useDispatch } from "react-redux";
-import { setOpened } from "../../../services/modalSlice";
+import { useNavigate } from "react-router-dom";
 
 const ModalOverlay = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
-    <div
-      onClick={() => dispatch(setOpened(false))}
-      className={`${style.overlay}`}
-    ></div>
+    <div onClick={() => navigate(-1)} className={`${styles.overlay}`}></div>
   );
 };
 

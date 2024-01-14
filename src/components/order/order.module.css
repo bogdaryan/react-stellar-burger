@@ -1,0 +1,38 @@
+.order {
+  min-width: 584px;
+  box-sizing: border-box;
+  background-color: var(--feed-primary-bg);
+  border-radius: 40px;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date {
+  color: var(--dark-gray);
+}
+
+.ingredientsList {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.priceWrapper {
+  display: flex;
+  gap: 8px;
+  align-self: center;
+}
+
+.success {
+  color: var(--success);
+}

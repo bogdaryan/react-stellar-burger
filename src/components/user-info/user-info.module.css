@@ -1,0 +1,15 @@
+.userInfo {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.active {
+  color: white;
+}
+
+.buttonsBox {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}

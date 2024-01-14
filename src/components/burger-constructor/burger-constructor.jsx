@@ -1,57 +1,48 @@
-import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
-import { postOrder } from "../../asyncActions/postOrder";
+import { getOrderRequest } from "../../services/order/orderApi";
 
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import currencyIcon from "../../images/currency_icon.svg";
-import style from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
+
+import {
+  getPrice,
+  getConstructorItemsIds,
+} from "../../services/ingredients/selectors";
+import { useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { getOrderRequestStatus } from "../../services/order/selectors";
 
 function BurgerConstructor({ scrollHeight }) {
   const dispatch = useDispatch();
-  const bun = useSelector((store) => store.ingredients.bun);
-  const ingredients = useSelector(
-    (store) => store.ingredients.constructorIngredients
-  );
+  const { orderSuccess, orderNumber } = useSelector(getOrderRequestStatus);
+  const navigate = useNavigate();
 
-  const totalPrice = useMemo(() => {
-    const ingredientsPrice = ingredients.reduce(
-      (acc, ingredient) => acc + ingredient.price,
-      0
-    );
-    const bunPrice = bun ? bun.price * 2 : 0;
-
-    return ingredientsPrice + bunPrice;
-  }, [ingredients, bun]);
-
-  const ids = useMemo(() => {
-    if (!ingredients || !bun) return;
-
-    const ingredientIds = [bun._id];
-
-    for (let item of ingredients) {
-      ingredientIds.push(item._id);
-    }
-
-    ingredientIds.push(bun._id);
-
-    return ingredientIds;
-  }, [ingredients, bun]);
+  const totalPrice = useSelector(getPrice);
+  const ids = useSelector(getConstructorItemsIds);
 
   const handlePostOrder = () => {
     if (!ids) return;
 
-    dispatch(postOrder(ids));
+    dispatch(getOrderRequest(ids));
   };
 
+  useEffect(() => {
+    if (orderSuccess) {
+      navigate(`order/${orderNumber}`);
+    }
+  }, [orderSuccess, navigate, dispatch, orderNumber]);
+
   return (
-    <section className={`${style.constructor} mt-25 pr-4 pl-4`}>
+    <section className={`${styles.constructor} mt-25 pr-4 pl-4`}>
       <IngredientsList scrollHeight={scrollHeight} />
-      <div className={`${style.wrapper} pt-10`}>
-        <div className={`${style.price} mr-10`}>
+      <div className={`${styles.wrapper} pt-10`}>
+        <div className={`${styles.price} mr-10`}>
           <p className="text text_type_digits-medium">{totalPrice || 0}</p>
           <img src={currencyIcon} alt="Иконка валюты" />
         </div>

@@ -1,0 +1,39 @@
+.container {
+  width: 100%;
+  display: flex;
+}
+
+.containerLinks {
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  color: var(--dark-gray);
+  margin-top: 120px;
+}
+
+.subtitle {
+  opacity: 0.4;
+}
+
+.link {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s linear;
+}
+
+.link:hover {
+  color: var(--primary-light);
+}
+
+.logoutBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.active {
+  color: var(--primary-light);
+}

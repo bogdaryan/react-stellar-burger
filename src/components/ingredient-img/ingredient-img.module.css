@@ -1,0 +1,60 @@
+.ingredient {
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(var(--background-alt), var(--background-alt))
+      padding-box,
+    linear-gradient(to right, #4c4cff, #801ab2) border-box;
+  border-radius: 50em;
+  border: 2px solid transparent;
+  margin-right: -20px;
+}
+
+.img {
+  width: 100px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ingredient:nth-child(1) {
+  z-index: 5;
+}
+
+.ingredient:nth-child(2) {
+  z-index: 4;
+}
+
+.ingredient:nth-child(3) {
+  z-index: 3;
+}
+
+.ingredient:nth-child(4) {
+  z-index: 2;
+}
+
+.ingredient:nth-child(5) {
+  z-index: 1;
+}
+
+.ingredient:nth-child(6) {
+  z-index: 0;
+  position: relative;
+}
+
+.ingredient:nth-child(6)::before {
+  content: "+3";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  z-index: 999;
+}
+
+.ingredient:nth-child(6) img {
+  opacity: 0.6;
+}
