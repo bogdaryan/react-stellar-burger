@@ -4,6 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { Order as OrderTemplate } from "../order/order";
 
 import useHeight from "../../hooks/useHeight";
+import { useDispatch } from "react-redux";
+import { wsConectionStart } from "../../services/websoket/actions";
+import { wsURL } from "../../utils/constants";
+import { getAccessToken } from "../../utils/helpers";
 
 const Order = () => <OrderTemplate isUserHistoryOrder={true} />;
 
@@ -15,6 +19,14 @@ const ProfileOrders = () => {
   useEffect(() => {
     setScrollHeight(height);
   }, [height, setScrollHeight]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = getAccessToken("noBearer");
+
+    dispatch(wsConectionStart(`${wsURL}?token=${token}`));
+  }, []);
 
   return (
     <section className={styles.container}>

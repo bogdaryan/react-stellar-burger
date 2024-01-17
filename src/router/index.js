@@ -89,7 +89,7 @@ export const router = createBrowserRouter([
         element: <Feed />,
         children: [
           {
-            path: "/feed/order",
+            path: "/feed/:number",
             element: <OrderComposition />,
           },
         ],

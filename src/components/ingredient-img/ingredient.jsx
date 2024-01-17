@@ -1,15 +1,10 @@
 import styles from "./ingredient-img.module.css";
 
-const IngredientImg = ({ image, title, className }) => {
+const IngredientImg = () => {
   return (
-    <div
-      className={`${styles.ingredient} ${className} text text_type_digits-default`}
-    >
-      <img
-        className={styles.img}
-        src={image || "https://code.s3.yandex.net/react/code/sauce-04.png"}
-        alt={title || "title"}
-      />
+    // ${className}
+    <div className={`${styles.ingredient}  text text_type_digits-default`}>
+      {/* <img className={styles.img} src={image} alt={name} /> */}
     </div>
   );
 };
