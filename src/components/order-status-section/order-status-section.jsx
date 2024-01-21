@@ -1,40 +1,30 @@
 import styles from "./order-status-section.module.css";
-
 import NumberOrderStatus from "./number-order-status/number-order-status";
 
+const ReadyOrders = ({ arr }) => (
+  <NumberOrderStatus
+    orderNumbers={arr}
+    title={"Готовы:"}
+    classNameSuccess={styles.success}
+  />
+);
+
+const PendingOrders = ({ arr }) => (
+  <NumberOrderStatus orderNumbers={arr} title={"В работе:"} />
+);
+
 const OrderStatusSection = () => {
-  const tempArr = [
-    "111111",
-    "222222",
-    "333333",
-    "444444",
-    "555555",
-    "666666",
-    "777777",
-    "888888",
-    "999999",
-    "000000",
-    "000000",
-    "000000",
-  ];
-
-  const ReadyOrders = ({ arr }) => (
-    <NumberOrderStatus
-      orderNumbers={arr}
-      title={"Готовы:"}
-      classNameSuccess={styles.success}
-    />
-  );
-  const PreparingOrders = ({ arr }) => (
-    <NumberOrderStatus orderNumbers={arr} title={"В работе:"} />
-  );
-
   return (
     <section className={styles.container}>
-      <ReadyOrders arr={tempArr} />
-      <PreparingOrders arr={tempArr} />
+      <ReadyOrders arr={[]} />
+      <PendingOrders arr={[[]]} />
     </section>
   );
 };
 
 export default OrderStatusSection;
+
+/*
+  создать заказ
+  добавить в масив заказов 
+*/

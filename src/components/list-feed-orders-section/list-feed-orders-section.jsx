@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import useHeight from "../../hooks/useHeight";
 import { Order } from "../order/order";
 import { Link } from "react-router-dom";
+
 import { wsConectionStart } from "../../services/websoket/actions";
 
-import {
-  getFeedOrders,
-  getOrderDetails,
-} from "../../services/websoket/selectors";
+import { getOnlyValidFeed } from "../../services/websoket/selectors";
 
 const ListFeedOrdersSection = () => {
+  const dispatch = useDispatch();
+  const validOrders = useSelector(getOnlyValidFeed);
+
   const [scrollHeight, setScrollHeight] = useState(null);
   const scrollTrackRef = useRef();
   const height = useHeight(scrollTrackRef);
@@ -21,12 +22,25 @@ const ListFeedOrdersSection = () => {
     setScrollHeight(height);
   }, [height, setScrollHeight]);
 
-  const dispatch = useDispatch();
-  const orders = useSelector(getFeedOrders);
-
   useEffect(() => {
-    dispatch(wsConectionStart(wsURL));
-  }, []);
+    dispatch(wsConectionStart(`${wsURL}/orders/all`));
+
+    return () => {};
+  }, [dispatch]);
+
+  const renderOrders = () => {
+    if (!validOrders) return;
+
+    return validOrders.map((order) => {
+      const { number, _id } = order;
+
+      return (
+        <Link className={styles.link} to={number} key={_id}>
+          <Order orderDetails={order} />
+        </Link>
+      );
+    });
+  };
 
   return (
     <section className={styles.container}>
@@ -35,15 +49,7 @@ const ListFeedOrdersSection = () => {
         className={`${styles.orderList} scrollbarTrackBorder custom-scroll`}
         ref={scrollTrackRef}
       >
-        {orders.map((order) => {
-          const { number, _id } = order;
-
-          return (
-            <Link className={styles.link} to={number} key={_id}>
-              <Order {...order} />
-            </Link>
-          );
-        })}
+        {renderOrders()}
       </div>
     </section>
   );

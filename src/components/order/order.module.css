@@ -33,6 +33,14 @@
   align-self: center;
 }
 
-.success {
+.done {
   color: var(--success);
+}
+
+.cancel {
+  color: var(--canceled);
+}
+
+.pending {
+  color: var(--pending);
 }

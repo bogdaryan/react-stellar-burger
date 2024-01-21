@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
-  wsConectionStart,
   wsConnectionSuccess,
   wsConnectionError,
   wsConnectionClosed,
@@ -10,7 +9,6 @@ import {
 
 const initialState = {
   wsConnected: false,
-  wsConnecting: false,
   error: null,
   orders: [],
 };
@@ -20,9 +18,6 @@ const wsUserOrderFeed = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(wsConectionStart, (state) => {
-        state.wsConnecting = true;
-      })
       .addCase(wsConnectionSuccess, (state) => {
         state.wsConnected = true;
         state.error = null;
@@ -38,12 +33,9 @@ const wsUserOrderFeed = createSlice({
         state.wsConnecting = false;
       })
       .addCase(wsOnMessage, (state, action) => {
-        const { orders, total, totalToday } = action.payload;
+        const { orders } = action.payload;
 
         state.orders = [...orders];
-        state.total = total;
-        state.totalToday = totalToday;
-
         state.error = null;
       });
   },

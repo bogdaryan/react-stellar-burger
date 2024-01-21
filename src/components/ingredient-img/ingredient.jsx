@@ -1,10 +1,13 @@
 import styles from "./ingredient-img.module.css";
 
-const IngredientImg = () => {
+const IngredientImg = ({ ingredientDetails }) => {
+  if (!ingredientDetails) return;
+
+  const { image, name } = ingredientDetails;
+
   return (
-    // ${className}
     <div className={`${styles.ingredient}  text text_type_digits-default`}>
-      {/* <img className={styles.img} src={image} alt={name} /> */}
+      <img className={styles.img} src={image} alt={name} />
     </div>
   );
 };

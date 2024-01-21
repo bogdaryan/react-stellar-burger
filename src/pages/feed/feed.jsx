@@ -8,6 +8,7 @@ import {
   getTotal,
   getTotalToday,
 } from "../../services/websoket/selectors";
+import { Outlet } from "react-router-dom";
 
 const NumberOrdersForAllTime = ({ count }) => (
   <OrderCounter count={count} title={"Выполнено за все время:"} />
@@ -36,6 +37,7 @@ const Feed = () => {
           </section>
         </div>
       </section>
+      <Outlet />
     </>
   );
 };

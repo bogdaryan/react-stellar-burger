@@ -26,6 +26,7 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
 
   useEffect(() => {
     setScrollHeight(height);
+    localStorage.setItem("height", height);
   }, [height, setScrollHeight]);
 
   const sectionRefs = {

@@ -24,6 +24,12 @@ axiosInstance.interceptors.response.use(
     if (errorMessage === "jwt expired") {
       await getNewToken();
       await getUser();
+    } else if (
+      errorMessage === "Token is invalid" ||
+      errorMessage === "invalid token"
+    ) {
+      localStorage.clear();
+      window.location.reload();
     }
   }
 );
@@ -79,7 +85,6 @@ export const getUser = async () => {
     })
     .then((res) => {
       if (!res || !res.data.success) return;
-
       const { data } = res;
 
       localStorage.setItem("user", JSON.stringify(data.user));

@@ -14,10 +14,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { editUserRequest } from "../../services/auth/editUser";
 
 import { getUser } from "../../services/auth/selectors";
+import { getUser as getUserApi } from "../../utils/api";
 
 const UserInfo = () => {
   const dispatch = useDispatch();
   const [isVisible, setVisible] = useState(false);
+
+  // const { email, name } = JSON.parse(localStorage.getItem("user"));
   const { email, name } = useSelector(getUser);
 
   const { formData, handleChange } = useForm({
@@ -38,6 +41,7 @@ const UserInfo = () => {
 
   const onSubmit = () => {
     dispatch(editUserRequest(updatedData));
+    setTimeout(() => getUserApi(), 0);
     setVisible(false);
   };
 

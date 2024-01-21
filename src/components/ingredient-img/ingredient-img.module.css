@@ -47,14 +47,14 @@
 }
 
 .ingredient:nth-child(6)::before {
-  content: "+3";
+  width: 64px;
+  height: 64px;
+  content: "1";
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   z-index: 999;
-}
-
-.ingredient:nth-child(6) img {
-  opacity: 0.6;
+  background: rgba(0, 0, 0, 0.6);
 }
