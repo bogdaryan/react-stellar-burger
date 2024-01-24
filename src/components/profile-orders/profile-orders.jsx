@@ -9,7 +9,7 @@ import { wsConnect } from "../../services/websoket/actions";
 import { wsURL } from "../../utils/constants";
 import { getAccessToken } from "../../utils/helpers";
 import { getOnlyValidFeedUser } from "../../services/websoket/selectors";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const Order = (order) => <OrderTemplate {...order} isUserHistoryOrder={true} />;
 
@@ -31,32 +31,35 @@ const ProfileOrders = () => {
   }, [dispatch, height]);
 
   return (
-    <section className={styles.container}>
-      <ul
-        style={{
-          maxHeight: scrollHeight,
-        }}
-        className={`${styles.list} ${styles.scroll} scrollbarTrackBorder custom-scroll`}
-        ref={scrollTrackRef}
-      >
-        {validOrders && validOrders.length ? (
-          validOrders
-            .sort((a, b) => b.number - a.number)
-            .slice(0, 50)
-            .map((order) => {
-              const { number, _id, status } = order;
+    <>
+      <section className={styles.container}>
+        <ul
+          style={{
+            maxHeight: scrollHeight,
+          }}
+          className={`${styles.list} ${styles.scroll} scrollbarTrackBorder custom-scroll`}
+          ref={scrollTrackRef}
+        >
+          {validOrders && validOrders.length ? (
+            validOrders
+              .sort((a, b) => b.number - a.number)
+              .slice(0, 50)
+              .map((order) => {
+                const { number, _id, status } = order;
 
-              return (
-                <Link className={styles.link} to={`${number}`} key={_id}>
-                  <Order orderDetails={order} status={status} />
-                </Link>
-              );
-            })
-        ) : (
-          <h2>Нет заказов</h2>
-        )}
-      </ul>
-    </section>
+                return (
+                  <Link className={styles.link} to={`${number}`} key={_id}>
+                    <Order orderDetails={order} status={status} />
+                  </Link>
+                );
+              })
+          ) : (
+            <h2>Нет заказов</h2>
+          )}
+        </ul>
+      </section>
+      <Outlet />
+    </>
   );
 };
 

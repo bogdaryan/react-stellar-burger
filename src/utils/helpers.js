@@ -25,8 +25,11 @@ export const countIngredients = (options) => {
 
   const counters = {};
 
-  ingredients.forEach((ingredient) => {
-    counters[ingredient.name] = (counters[ingredient.name] || 0) + 1;
+  ingredients.forEach(({ name, type }) => {
+    if (!bun && type === "bun") {
+      return (counters[name] = 2);
+    }
+    counters[name] = (counters[name] || 0) + 1;
   });
 
   if (bun) {
