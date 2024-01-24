@@ -44,3 +44,20 @@
 .pending {
   color: var(--pending);
 }
+
+.countHidden {
+  position: relative;
+}
+
+.countHidden::before {
+  width: 64px;
+  height: 64px;
+  content: attr(data-count);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.6);
+}

@@ -6,8 +6,8 @@
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(var(--background-alt), var(--background-alt))
-      padding-box,
+  background:
+    linear-gradient(var(--background-alt), var(--background-alt)) padding-box,
     linear-gradient(to right, #4c4cff, #801ab2) border-box;
   border-radius: 50em;
   border: 2px solid transparent;
@@ -43,18 +43,4 @@
 
 .ingredient:nth-child(6) {
   z-index: 0;
-  position: relative;
-}
-
-.ingredient:nth-child(6)::before {
-  width: 64px;
-  height: 64px;
-  content: "1";
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 999;
-  background: rgba(0, 0, 0, 0.6);
 }

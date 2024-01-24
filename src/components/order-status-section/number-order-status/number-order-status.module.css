@@ -20,3 +20,7 @@
 .number {
   width: fit-content;
 }
+
+.success {
+  color: var(--success);
+}

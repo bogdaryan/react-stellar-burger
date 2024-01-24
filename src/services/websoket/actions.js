@@ -1,9 +1,9 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const wsConectionStart = createAction("wsFeed/wsConectionStart");
-export const wsDisconect = createAction("wsFeed/wsDisconect");
-export const wsConnectionSuccess = createAction("wsFeed/wsConnectionSuccess");
-export const wsConnectionError = createAction("wsFeed/wsConnectionError");
-export const wsConnectionClosed = createAction("wsFeed/wsConnectionClosed");
+export const wsConnect = createAction("wsFeed/wsConnect");
+export const wsDisconnect = createAction("wsFeed/wsDisconnect");
+export const wsSuccess = createAction("wsFeed/wsSuccess");
+export const wsError = createAction("wsFeed/wsError");
+export const wsClosed = createAction("wsFeed/wsClosed");
 export const wsOnMessage = createAction("wsFeed/wsOnMessage");
 export const wsSendMessage = createAction("wsFeed/wsSendMessage");

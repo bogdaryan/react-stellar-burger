@@ -1,4 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
+import { countIngredients } from "../../utils/helpers";
 
 // ITEMS
 export const getIngredients = (store) => store.ingredientsApi.ingredients;
@@ -34,16 +35,7 @@ export const getPrice = createSelector(
 export const getIngredientsCounters = createSelector(
   getConstructorItems,
   ({ bun, ingredients }) => {
-    const counters = {};
-    ingredients.forEach((ingredient) => {
-      if (!ingredient) return;
-
-      counters[ingredient.name] = (counters[ingredient.name] || 0) + 1;
-    });
-
-    if (bun) {
-      counters[bun.name] = 2;
-    }
+    const counters = countIngredients({ bun, ingredients });
 
     return counters;
   }

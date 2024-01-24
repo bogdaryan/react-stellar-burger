@@ -1,3 +1,10 @@
+.container {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
 .inner {
   min-width: 640px;
 }
@@ -14,11 +21,6 @@
   padding-right: 20px;
 }
 
-.status {
-  color: var(--success);
-  text-align: start;
-}
-
 .ingredient {
   display: flex;
   align-items: center;
@@ -30,12 +32,8 @@
   margin-left: auto;
 }
 
-.ingredientImg {
+.ingredientModal {
   margin-right: 0;
-}
-
-.listTitle {
-  text-align: start;
 }
 
 .totalWrapper {

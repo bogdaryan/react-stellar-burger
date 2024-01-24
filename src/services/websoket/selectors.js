@@ -1,6 +1,10 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { getIngredients } from "../ingredients/selectors";
-import { countOrderPrice, cutIngredients } from "../../utils/helpers";
+import {
+  countOrderPrice,
+  cutIngredients,
+  updateOrder,
+} from "../../utils/helpers";
 
 // Feed All //
 export const getTotal = (store) => store.wsFeed.total;
@@ -63,9 +67,10 @@ const createCheckValidityOrders = (getOrdersWithDetails) => {
         if (isValidOrder) {
           const price = countOrderPrice(ingredients);
           ingredients.pop();
+          const updatedOrder = updateOrder(order);
           const { hiddenIngredients } = cutIngredients(ingredients);
 
-          return { ...order, hiddenIngredients, price: price };
+          return { ...updatedOrder, hiddenIngredients, price: price };
         }
 
         return null;
@@ -78,6 +83,6 @@ export const getOnlyValidFeed = createCheckValidityOrders(
   getOrderDetailsFeedAll
 );
 
-// export const getOnlyValidFeedUser = createCheckValidityOrders(
-//   getOrderDetailsFeedUser
-// );
+export const getOnlyValidFeedUser = createCheckValidityOrders(
+  getOrderDetailsFeedUser
+);

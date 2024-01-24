@@ -3,11 +3,7 @@ import OrderCounter from "../../components/order-counter/order-counter";
 import ListOrdersSection from "../../components/list-feed-orders-section/list-feed-orders-section";
 import OrderStatusSection from "../../components/order-status-section/order-status-section";
 import { useSelector } from "react-redux";
-import {
-  // getStatusWsFeed,
-  getTotal,
-  getTotalToday,
-} from "../../services/websoket/selectors";
+import { getTotal, getTotalToday } from "../../services/websoket/selectors";
 import { Outlet } from "react-router-dom";
 
 const NumberOrdersForAllTime = ({ count }) => (
@@ -20,8 +16,6 @@ const NumberOrdersToday = ({ count }) => (
 const Feed = () => {
   const total = useSelector(getTotal);
   const totalToday = useSelector(getTotalToday);
-
-  // const wsConnected = useSelector(getStatusWsFeed);
 
   return (
     <>
@@ -37,6 +31,7 @@ const Feed = () => {
           </section>
         </div>
       </section>
+
       <Outlet />
     </>
   );

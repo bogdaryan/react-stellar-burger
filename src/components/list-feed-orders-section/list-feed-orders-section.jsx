@@ -6,8 +6,7 @@ import useHeight from "../../hooks/useHeight";
 import { Order } from "../order/order";
 import { Link } from "react-router-dom";
 
-import { wsConectionStart } from "../../services/websoket/actions";
-
+import { wsConnect } from "../../services/websoket/actions";
 import { getOnlyValidFeed } from "../../services/websoket/selectors";
 
 const ListFeedOrdersSection = () => {
@@ -23,24 +22,12 @@ const ListFeedOrdersSection = () => {
   }, [height, setScrollHeight]);
 
   useEffect(() => {
-    dispatch(wsConectionStart(`${wsURL}/orders/all`));
-
-    return () => {};
+    dispatch(wsConnect(`${wsURL}/orders/all`));
   }, [dispatch]);
 
-  const renderOrders = () => {
-    if (!validOrders) return;
-
-    return validOrders.map((order) => {
-      const { number, _id } = order;
-
-      return (
-        <Link className={styles.link} to={number} key={_id}>
-          <Order orderDetails={order} />
-        </Link>
-      );
-    });
-  };
+  function onClick(order) {
+    localStorage.setItem("order", JSON.stringify(order));
+  }
 
   return (
     <section className={styles.container}>
@@ -49,7 +36,20 @@ const ListFeedOrdersSection = () => {
         className={`${styles.orderList} scrollbarTrackBorder custom-scroll`}
         ref={scrollTrackRef}
       >
-        {renderOrders()}
+        {validOrders.map((order) => {
+          const { number, _id } = order;
+
+          return (
+            <Link
+              to={`${number}`}
+              className={styles.link}
+              key={_id}
+              onClick={() => onClick(order)}
+            >
+              <Order orderDetails={order} />
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

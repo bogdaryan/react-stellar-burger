@@ -1,5 +1,3 @@
-import ingredients from "../services/ingredients/ingredients";
-
 export const setUserDataToLocalStorage = ({
   accessToken,
   refreshToken,
@@ -22,6 +20,22 @@ export const countOrderPrice = (ingredients) => {
   return ingredients.reduce((acc, ingredient) => (acc += ingredient.price), 0);
 };
 
+export const countIngredients = (options) => {
+  const { bun = false, ingredients = [] } = options || {};
+
+  const counters = {};
+
+  ingredients.forEach((ingredient) => {
+    counters[ingredient.name] = (counters[ingredient.name] || 0) + 1;
+  });
+
+  if (bun) {
+    counters[bun.name] = 2;
+  }
+
+  return counters;
+};
+
 export const cutIngredients = (ingredients) => {
   let visibleIngredients;
   let hiddenIngredients;
@@ -35,4 +49,35 @@ export const cutIngredients = (ingredients) => {
   }
 
   return { visibleIngredients, hiddenIngredients };
+};
+
+export const updateOrder = (order) => {
+  for (let key in order) {
+    if (key === "status") {
+      const status = order[key];
+
+      switch (status) {
+        case "done":
+          order.statusDetails = { title: "Выполнен", className: "success" };
+          break;
+        case "canceled":
+          order.statusDetails = { title: "Отменен", className: "canceled" };
+          break;
+        case "generated":
+        case "pending":
+          order.statusDetails = { title: "Отменен", className: "pending" };
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (key === "ingredients") {
+      const ingredients = order[key];
+      const counters = countIngredients({ ingredients });
+      order.counters = counters;
+    }
+  }
+
+  return order;
 };

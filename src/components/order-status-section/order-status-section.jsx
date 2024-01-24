@@ -1,30 +1,38 @@
 import styles from "./order-status-section.module.css";
-import NumberOrderStatus from "./number-order-status/number-order-status";
 
-const ReadyOrders = ({ arr }) => (
-  <NumberOrderStatus
-    orderNumbers={arr}
-    title={"Готовы:"}
-    classNameSuccess={styles.success}
-  />
-);
+import {
+  OrdersDone,
+  OrdersPending,
+} from "./number-order-status/number-order-status";
 
-const PendingOrders = ({ arr }) => (
-  <NumberOrderStatus orderNumbers={arr} title={"В работе:"} />
-);
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import {
+  getOrdersDone,
+  getOrdersPending,
+} from "../../services/order/selectors";
+
+import { setOrderStatus } from "../../services/order/ordersNumberStatus";
+import { getOnlyValidFeed } from "../../services/websoket/selectors";
 
 const OrderStatusSection = () => {
+  const dispatch = useDispatch();
+  const validOrders = useSelector(getOnlyValidFeed);
+
+  const ordersDone = useSelector(getOrdersDone);
+  const ordersPending = useSelector(getOrdersPending);
+
+  useEffect(() => {
+    dispatch(setOrderStatus(validOrders));
+  }, [validOrders, dispatch]);
+
   return (
     <section className={styles.container}>
-      <ReadyOrders arr={[]} />
-      <PendingOrders arr={[[]]} />
+      <OrdersDone arr={ordersDone} />
+      <OrdersPending arr={ordersPending} />
     </section>
   );
 };
 
 export default OrderStatusSection;
-
-/*
-  создать заказ
-  добавить в масив заказов 
-*/

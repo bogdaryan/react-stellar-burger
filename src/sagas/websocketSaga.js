@@ -2,18 +2,18 @@ import { eventChannel } from "redux-saga";
 import { call, put, take, takeLatest } from "redux-saga/effects";
 
 import {
-  wsConectionStart,
-  wsConnectionSuccess,
-  wsConnectionError,
-  wsConnectionClosed,
+  wsConnect,
+  wsSuccess,
+  wsError,
+  wsClosed,
   wsOnMessage,
 } from "../services/websoket/actions";
 
 function createWebSocketChannel(socket) {
   return eventChannel((emit) => {
-    socket.onopen = (event) => emit(wsConnectionSuccess(event));
-    socket.onerror = (error) => emit(wsConnectionError(error));
-    socket.onclose = (event) => emit(wsConnectionClosed(event));
+    socket.onopen = (event) => emit(wsSuccess(event));
+    socket.onerror = (error) => emit(wsError(error));
+    socket.onclose = (event) => emit(wsClosed(event));
     socket.onmessage = ({ data }) => emit(wsOnMessage(JSON.parse(data)));
 
     return () => {
@@ -35,5 +35,5 @@ function* workWebSoketSaga(action) {
 }
 
 export default function* watchWebSocketSaga() {
-  yield takeLatest(wsConectionStart.type, workWebSoketSaga);
+  yield takeLatest(wsConnect.type, workWebSoketSaga);
 }

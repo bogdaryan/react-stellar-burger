@@ -18,3 +18,14 @@ body {
 .scrollbarTrackBorder::-webkit-scrollbar-track {
   border-radius: 50px;
 }
+
+.success {
+  color: var(--success);
+}
+.canceled {
+  color: var(--canceled);
+}
+
+.pending {
+  color: var(--pending);
+}
