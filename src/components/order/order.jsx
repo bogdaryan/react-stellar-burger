@@ -34,7 +34,7 @@ export const Order = (props) => {
   /* eslint-disable */
   useEffect(() => {
     setAttribute();
-  }, []);
+  }, [ingredientsListRef]);
   /* eslint-enable */
 
   return (

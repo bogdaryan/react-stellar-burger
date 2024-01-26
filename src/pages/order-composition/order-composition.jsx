@@ -5,10 +5,11 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientImg from "../../components/ingredient-img/ingredient-img";
-import { nanoid } from "@reduxjs/toolkit";
+import { useMemo } from "react";
 
 const OrderComposition = () => {
-  const order = JSON.parse(localStorage.getItem("order"));
+  const order = useMemo(() => JSON.parse(localStorage.getItem("order")), []);
+
   const {
     number,
     name,
@@ -33,10 +34,10 @@ const OrderComposition = () => {
           Состав:
         </p>
         <ul className={`${styles.list} custom-scroll mr-6`}>
-          {ingredients.map((ingredient) => {
+          {ingredients.map((ingredient, idx) => {
             const { name, price } = ingredient;
             return (
-              <li className={styles.ingredient} key={nanoid()}>
+              <li className={styles.ingredient} key={idx}>
                 <IngredientImg
                   ingredientDetails={ingredient}
                   className={styles.ingredientImg}

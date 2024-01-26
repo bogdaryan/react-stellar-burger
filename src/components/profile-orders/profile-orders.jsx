@@ -5,7 +5,7 @@ import { Order as OrderTemplate } from "../order/order";
 
 import useHeight from "../../hooks/useHeight";
 import { useDispatch, useSelector } from "react-redux";
-import { wsConnect } from "../../services/websoket/actions";
+import { wsConnect, wsDisconnect } from "../../services/websoket/actions";
 import { wsURL } from "../../utils/constants";
 import { getAccessToken } from "../../utils/helpers";
 import { getOnlyValidFeedUser } from "../../services/websoket/selectors";
@@ -28,6 +28,8 @@ const ProfileOrders = () => {
     token = token.split(" ")[1];
 
     dispatch(wsConnect(`${wsURL}/orders?token=${token}`));
+
+    return () => dispatch(wsDisconnect());
   }, [dispatch, height]);
 
   return (

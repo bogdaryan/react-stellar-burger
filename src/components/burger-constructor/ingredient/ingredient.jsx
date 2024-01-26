@@ -2,7 +2,10 @@ import { useRef } from "react";
 
 import { useDrag, useDrop } from "react-dnd";
 
-import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  ConstructorElement,
+  DragIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useDispatch } from "react-redux";
 import {
@@ -11,7 +14,6 @@ import {
 } from "../../../services/ingredients/ingredients";
 
 import styles from "./ingredient.module.css";
-import listStyleImage from "../../../images/burger-constructor-list-marker.svg";
 
 const Ingredient = (props) => {
   const { id, name, price, image, index } = props;
@@ -72,7 +74,9 @@ const Ingredient = (props) => {
       data-handler-id={handlerId}
       id={id}
     >
-      <img className={styles.img} src={listStyleImage} alt="Иконка" />
+      <div className={styles.img}>
+        <DragIcon type="primary" />
+      </div>
       <ConstructorElement
         text={name}
         price={price}

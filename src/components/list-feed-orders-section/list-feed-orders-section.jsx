@@ -6,7 +6,7 @@ import useHeight from "../../hooks/useHeight";
 import { Order } from "../order/order";
 import { Link } from "react-router-dom";
 
-import { wsConnect } from "../../services/websoket/actions";
+import { wsConnect, wsDisconnect } from "../../services/websoket/actions";
 import { getOnlyValidFeed } from "../../services/websoket/selectors";
 
 const ListFeedOrdersSection = () => {
@@ -23,6 +23,8 @@ const ListFeedOrdersSection = () => {
 
   useEffect(() => {
     dispatch(wsConnect(`${wsURL}/orders/all`));
+
+    return () => dispatch(wsDisconnect());
   }, [dispatch]);
 
   function onClick(order) {

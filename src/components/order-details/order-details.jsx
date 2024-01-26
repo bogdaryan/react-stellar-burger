@@ -1,4 +1,4 @@
-import done from "../../images/done-icon-order-details.svg";
+import done from "./../../images/done-icon-order-details.svg";
 import styles from "./order-details.module.css";
 
 import { useNavigate, useParams } from "react-router-dom";

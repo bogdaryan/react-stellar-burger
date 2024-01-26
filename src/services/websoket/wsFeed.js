@@ -19,16 +19,13 @@ const wsFeed = createSlice({
       .addCase(wsSuccess, (state) => {
         state.wsConnected = true;
         state.error = null;
-        state.wsConnecting = false;
       })
       .addCase(wsError, (state, action) => {
         state.error = action.payload;
         state.wsConnected = false;
-        state.wsConnecting = false;
       })
       .addCase(wsClosed, (state) => {
         state.wsConnected = false;
-        state.wsConnecting = false;
       })
       .addCase(wsOnMessage, (state, action) => {
         const { orders, total, totalToday } = action.payload;
