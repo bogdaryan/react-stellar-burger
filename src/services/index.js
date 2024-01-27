@@ -17,6 +17,10 @@ import orderApi from "./order/orderApi";
 import user from "./auth/user";
 import editUser from "./auth/editUser";
 
+import wsFeed from "./websoket/wsFeed";
+import wsUserOrderFeed from "./websoket/wsUserOrderFeed";
+import orderStatus from "./order/ordersNumberStatus";
+
 const rootReducer = combineReducers({
   ingredientsApi: ingredientsApi,
   ingredients: ingredients,
@@ -30,6 +34,9 @@ const rootReducer = combineReducers({
   forgotPassword: forgotPasswordApi,
   resetPassword: resetPasswordApi,
   editUser: editUser,
+  wsFeed: wsFeed,
+  wsUserOrderFeed: wsUserOrderFeed,
+  orderStatus: orderStatus,
 });
 
 const saga = createSagaMiddleware();

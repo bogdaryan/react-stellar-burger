@@ -17,3 +17,8 @@
 .scroll::-webkit-scrollbar-track {
   margin-bottom: 64px;
 }
+
+.link {
+  all: unset;
+  cursor: pointer;
+}

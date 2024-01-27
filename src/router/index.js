@@ -18,7 +18,6 @@ import {
   Feed,
   ProfileOrders,
   OrderComposition,
-  IngredientDetailsCover,
 } from "../pages";
 
 import UserInfo from "../components/user-info/user-info";
@@ -81,6 +80,16 @@ export const router = createBrowserRouter([
           {
             path: "/profile/orders",
             element: <ProfileOrders />,
+            children: [
+              {
+                path: "/profile/orders/:id",
+                element: (
+                  <Modal>
+                    <OrderComposition />
+                  </Modal>
+                ),
+              },
+            ],
           },
         ],
       },
@@ -89,14 +98,14 @@ export const router = createBrowserRouter([
         element: <Feed />,
         children: [
           {
-            path: "/feed/order",
-            element: <OrderComposition />,
+            path: ":number",
+            element: (
+              <Modal>
+                <OrderComposition />
+              </Modal>
+            ),
           },
         ],
-      },
-      {
-        path: "/ingredients/:id",
-        element: <IngredientDetailsCover />,
       },
     ],
   },

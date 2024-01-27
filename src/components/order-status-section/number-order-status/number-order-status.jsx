@@ -1,5 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
-
 import styles from "./number-order-status.module.css";
 
 const NumberOrderStatus = ({
@@ -11,19 +9,32 @@ const NumberOrderStatus = ({
     <div className={styles.container}>
       <h2 className="text text_type_main-medium mb-6">{title}</h2>
       <ul className={styles.list}>
-        {orderNumbers.map((number) => {
-          return (
-            <li
-              className={`${styles.number} ${classNameSuccess} text text_type_digits-default`}
-              key={nanoid()}
-            >
-              {number}
-            </li>
-          );
-        })}
+        {Array.from(orderNumbers)
+          .sort((a, b) => b - a)
+          .slice(0, 10)
+          .map((number, idx) => {
+            return (
+              <li
+                className={`${styles.number} ${classNameSuccess} text text_type_digits-default`}
+                key={idx}
+              >
+                {number}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
 };
 
-export default NumberOrderStatus;
+export const OrdersDone = ({ arr }) => (
+  <NumberOrderStatus
+    orderNumbers={arr}
+    title={"Готовы:"}
+    classNameSuccess={styles.success}
+  />
+);
+
+export const OrdersPending = ({ arr }) => (
+  <NumberOrderStatus orderNumbers={arr} title={"В работе:"} />
+);

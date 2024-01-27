@@ -1,7 +1,3 @@
-.success {
-  color: var(--success);
-}
-
 .container {
   display: flex;
   gap: 36px;

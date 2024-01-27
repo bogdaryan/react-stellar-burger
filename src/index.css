@@ -5,6 +5,8 @@
   --primary-light: #f2f2f3;
   --feed-primary-bg: #1c1c21;
   --success: #0cc;
+  --canceled: #e52b1a;
+  --pending: #f2f2f3;
 }
 
 body {
@@ -15,4 +17,15 @@ body {
 
 .scrollbarTrackBorder::-webkit-scrollbar-track {
   border-radius: 50px;
+}
+
+.success {
+  color: var(--success);
+}
+.canceled {
+  color: var(--canceled);
+}
+
+.pending {
+  color: var(--pending);
 }

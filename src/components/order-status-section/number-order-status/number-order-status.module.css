@@ -3,7 +3,7 @@
 }
 
 .list {
-  width: 240px;
+  width: 200px;
   height: 152px;
   display: inline-grid;
   grid-template-columns: repeat(2, fit-content(100%));
@@ -19,4 +19,8 @@
 
 .number {
   width: fit-content;
+}
+
+.success {
+  color: var(--success);
 }

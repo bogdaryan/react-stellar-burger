@@ -1,46 +1,78 @@
 import styles from "./order.module.css";
 
-import Ingredient from "../ingredient-img/ingredient";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import IngredientImg from "../ingredient-img/ingredient-img";
+import {
+  CurrencyIcon,
+  FormattedDate,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect, useRef } from "react";
 
 export const Order = (props) => {
+  const {
+    createdAt,
+    name,
+    number,
+    ingredients,
+    price,
+    hiddenIngredients,
+    statusDetails,
+  } = props.orderDetails;
+
   const { isUserHistoryOrder } = props;
 
+  const ingredientsListRef = useRef();
+
+  const setAttribute = () => {
+    if (hiddenIngredients?.length === 0 || !hiddenIngredients) return;
+    const ingredients = ingredientsListRef.current.childNodes;
+    const lastIngredient = ingredients[ingredients.length - 1];
+
+    lastIngredient.setAttribute("data-count", `+${hiddenIngredients?.length}`);
+    lastIngredient.classList.add(styles.countHidden);
+  };
+
+  /* eslint-disable */
+  useEffect(() => {
+    setAttribute();
+  }, [ingredientsListRef]);
+  /* eslint-enable */
+
   return (
-    <li className={styles.order}>
+    <div className={styles.order}>
       <div className={styles.header}>
         <p className={`${styles.number} text text_type_digits-default`}>
-          #034534
+          {`#${number}`} <br />
         </p>
         <p className={`${styles.date} text text_type_main-default`}>
-          Сегодня, 13:20 i-GMT+3
+          <FormattedDate date={new Date(createdAt)} />
         </p>
       </div>
 
-      <div className={`${styles.main} mt-6`}>
-        <p className={`${styles.title} text text_type_main-medium`}>
-          Interstellar бургер
-        </p>
+      <div className="mt-6">
+        <p className={`${styles.title}  text text_type_main-medium`}>{name}</p>
         {isUserHistoryOrder && (
-          <p className="text text_type_main-default mt-2">{"Выполнен"}</p>
+          <p
+            className={`${statusDetails.className} text text_type_main-default mt-2`}
+          >
+            {statusDetails.title}
+          </p>
         )}
       </div>
 
       <div className={`${styles.footer} mt-6`}>
-        <div className={styles.ingredientsList}>
-          <Ingredient />
-          <Ingredient />
-          <Ingredient />
-          <Ingredient />
-          <Ingredient />
-          <Ingredient />
+        <div className={styles.ingredientsList} ref={ingredientsListRef}>
+          {ingredients.map((ingredient, idx) => {
+            return <IngredientImg ingredientDetails={ingredient} key={idx} />;
+          })}
         </div>
 
         <div className={styles.priceWrapper}>
-          <p className={`${styles.price} text text_type_digits-default`}>560</p>
+          <p className={`${styles.price} text text_type_digits-default`}>
+            {price}
+          </p>
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </li>
+    </div>
   );
 };

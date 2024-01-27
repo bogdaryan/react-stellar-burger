@@ -1,20 +1,25 @@
 import { put, takeLatest } from "redux-saga/effects";
 
-import axios from "axios";
-import { URL } from "../utils/constants";
-
 import {
   getOrderSuccess,
   getOrderFailed,
   getOrderRequest,
 } from "../services/order/orderApi";
 
+import { axiosInstance } from "../utils/api";
+import { getAccessToken } from "../utils/helpers";
+
 function* workOrderSaga(action) {
   const { payload: ingredients } = action;
 
   try {
-    const response = yield axios.post(`${URL}/orders`, { ingredients });
-    const orderNumber = response.data.order.number;
+    const { data } = yield axiosInstance.post(
+      `/orders`,
+      { ingredients },
+      { headers: { Authorization: getAccessToken() } }
+    );
+
+    const orderNumber = data.order.number;
 
     yield put(getOrderSuccess(orderNumber));
   } catch (error) {

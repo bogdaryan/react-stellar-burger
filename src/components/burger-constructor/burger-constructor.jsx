@@ -5,8 +5,10 @@ import IngredientsList from "./ingredients-list/ingredients-list";
 
 import { getOrderRequest } from "../../services/order/orderApi";
 
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import currencyIcon from "../../images/currency_icon.svg";
+import {
+  Button,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 
 import {
@@ -44,7 +46,7 @@ function BurgerConstructor({ scrollHeight }) {
       <div className={`${styles.wrapper} pt-10`}>
         <div className={`${styles.price} mr-10`}>
           <p className="text text_type_digits-medium">{totalPrice || 0}</p>
-          <img src={currencyIcon} alt="Иконка валюты" />
+          <CurrencyIcon type="primary" />
         </div>
         <Button
           onClick={handlePostOrder}

@@ -1,3 +1,10 @@
+.container {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
 .inner {
   min-width: 640px;
 }
@@ -7,16 +14,11 @@
   display: flex;
   flex-direction: column;
   gap: 13px;
-  overflow-y: scroll;
+  overflow-y: auto;
   list-style: none;
   padding: 0;
   margin-right: 5px;
   padding-right: 20px;
-}
-
-.status {
-  color: var(--success);
-  text-align: start;
 }
 
 .ingredient {
@@ -30,12 +32,8 @@
   margin-left: auto;
 }
 
-.ingredientImg {
+.ingredientModal {
   margin-right: 0;
-}
-
-.listTitle {
-  text-align: start;
 }
 
 .totalWrapper {

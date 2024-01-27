@@ -22,9 +22,7 @@ function App() {
     dispatch(getIngredientsRequest());
     getUserApi();
 
-    if (user) {
-      dispatch(setUser(user));
-    }
+    dispatch(setUser(user));
   }, [dispatch, user]);
 
   return (

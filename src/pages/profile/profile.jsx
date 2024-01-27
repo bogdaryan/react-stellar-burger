@@ -1,41 +1,42 @@
 import styles from "./profile.module.css";
 
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 import { userLogoutRequest } from "../../services/auth/logoutApi";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const refreshToken = localStorage.getItem("refreshToken");
 
   const logout = () => {
     dispatch(userLogoutRequest(refreshToken));
   };
 
-  const setActive = (isActive, defaultClass) => {
-    return [defaultClass, isActive && styles.active].filter(Boolean).join(" ");
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
     <section className={styles.container}>
       <nav className={`${styles.containerLinks} mr-15`}>
-        <NavLink
-          className={({ isActive }) =>
-            setActive(isActive, `${styles.link} text text_type_main-medium`)
-          }
+        <Link
+          className={`
+          ${styles.link} text text_type_main-medium 
+          ${isActive("/profile") ? styles.active : ""}`}
           to="/profile"
         >
           Профиль
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            setActive(isActive, `${styles.link} text text_type_main-medium`)
-          }
+        </Link>
+        <Link
+          className={`
+          ${styles.link} text text_type_main-medium 
+          ${isActive("/profile/orders") ? styles.active : ""}`}
           to="/profile/orders"
         >
           История заказов
-        </NavLink>
+        </Link>
 
         <button
           active={styles.linkActive}
