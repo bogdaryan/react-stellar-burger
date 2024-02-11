@@ -1,10 +1,14 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { getIngredients } from "../ingredients/selectors";
+
 import {
   countOrderPrice,
   cutIngredients,
   updateOrder,
 } from "../../utils/helpers";
+
+import { getIngredients } from "../ingredients/selectors";
+
+// const getIngredients = {};
 
 // Feed All //
 export const getTotal = (store) => store.wsFeed.total;
@@ -19,6 +23,8 @@ export const getUserFeedOrders = (store) => store.wsUserOrderFeed.orders;
 
 export const createOrderDetailsSelector = (getOrders) => {
   return createSelector(getIngredients, getOrders, (ingredients, orders) => {
+    // if (!ingredients) return;
+
     const details = [];
 
     orders.forEach((order) => {
@@ -50,7 +56,7 @@ const createCheckValidityOrders = (getOrdersWithDetails) => {
         const ingredientsLength = order.ingredients.length;
 
         const numberOfBun = order.ingredients.reduce(
-          (acc, ingredient) => (acc += ingredient.type === "bun"),
+          (acc, ingredient) => (acc += ingredient?.type === "bun"),
           0
         );
 

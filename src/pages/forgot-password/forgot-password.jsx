@@ -1,22 +1,17 @@
+import { Link, useNavigate } from "react-router-dom";
+import MotionElement from "../../components/motion-element/motion-element";
 import useForm from "../../hooks/useForm";
+import { useSendResetPasswordCodeMutation } from "../../services/api/user.api";
+
 import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router-dom";
-
-import MotionElement from "../../components/motion-element/motion-element";
-
-import { sendCodeRequest } from "../../services/auth/forgotPasswordApi";
-import { getCodeRequestStatus } from "../../services/auth/selectors";
-
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 
 const ForgotPassword = () => {
-  const sendCodeSuccess = useSelector(getCodeRequestStatus);
+  const [sendResetCodeToEmail] = useSendResetPasswordCodeMutation();
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const { formData, handleChange } = useForm({});
 
@@ -27,14 +22,10 @@ const ForgotPassword = () => {
   const onSubmit = () => {
     if (!formData.email) return;
 
-    dispatch(sendCodeRequest(formData.email));
+    sendResetCodeToEmail(formData.email).then(() => {
+      navigate("/reset-password");
+    });
   };
-
-  useEffect(() => {
-    if (!sendCodeSuccess) return;
-
-    navigate("/reset-password");
-  }, [sendCodeSuccess, navigate]);
 
   return (
     <section className="container">

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
-import { getUser } from "../../services/auth/selectors";
+import { getUser } from "../../services/user/selectors";
 
 const Protected = ({ onlyUnAuth = false, component }) => {
   const user = useSelector(getUser);

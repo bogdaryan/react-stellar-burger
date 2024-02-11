@@ -2,26 +2,24 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 
-import { getUser as getUserApi } from "../../utils/api";
-
 // Style //
 import styles from "./app.module.css";
 
-import { getIngredientsRequest } from "../../services/ingredients/ingredientsApi";
-
-import { setUser } from "../../services/auth/user";
+import { setUser } from "../../services/user/user";
 
 // Components //
 import Header from "../app-header/app-header";
+import { useGetIngredientsQuery } from "../../services/api/ingredients.api";
+import { useGetUserQuery } from "../../services/api/user.api";
 
-function App() {
+const App = () => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    dispatch(getIngredientsRequest());
-    getUserApi();
+  useGetUserQuery();
+  useGetIngredientsQuery();
 
+  useEffect(() => {
     dispatch(setUser(user));
   }, [dispatch, user]);
 
@@ -33,6 +31,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

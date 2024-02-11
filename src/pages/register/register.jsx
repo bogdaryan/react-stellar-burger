@@ -9,12 +9,11 @@ import useForm from "../../hooks/useForm";
 
 import MotionElement from "../../components/motion-element/motion-element";
 
-import { userRegisterRequest } from "../../services/auth/registerApi";
-
-import { useDispatch } from "react-redux";
+import { useRegisterMutation } from "../../services/api/user.api";
 
 const Register = () => {
-  const dispatch = useDispatch();
+  const [register] = useRegisterMutation();
+
   const navigate = useNavigate();
   const { formData, handleChange } = useForm({});
 
@@ -23,8 +22,7 @@ const Register = () => {
   };
 
   const onSubmit = () => {
-    dispatch(userRegisterRequest(formData));
-    navigate("/login");
+    register(formData).then(() => navigate("/login"));
   };
 
   return (

@@ -1,16 +1,11 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { countIngredients } from "../../utils/helpers";
 
-// ITEMS
-export const getIngredients = (store) => store.ingredientsApi.ingredients;
-export const getConstructorBun = (store) => store.ingredients.bun;
+export const getIngredients = (store) => store.ingredients.ingredients;
+export const getConstructorBun = (store) => store.ingredientsConstructor.bun;
 export const getConstructorIngredients = (store) =>
-  store.ingredients.constructorIngredients;
+  store.ingredientsConstructor.ingredients;
 
-// STATUSES
-export const getIngredientsRequestStatus = (store) => store.ingredientsApi;
-
-//
 export const getConstructorItems = createSelector(
   getConstructorBun,
   getConstructorIngredients,

@@ -2,11 +2,11 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
   bun: null,
-  constructorIngredients: [],
+  ingredients: [],
 };
 
-const ingredients = createSlice({
-  name: "ingredients",
+const ingredientsConstructor = createSlice({
+  name: "ingredientsConstructor",
   initialState,
   reducers: {
     addIngredient(state, action) {
@@ -16,27 +16,27 @@ const ingredients = createSlice({
       };
 
       if (ingredient.type !== "bun") {
-        state.constructorIngredients.push(ingredient);
+        state.ingredients.push(ingredient);
       } else {
         state.bun = action.payload;
       }
     },
     deleteIngredient(state, action) {
-      state.constructorIngredients = state.constructorIngredients.filter(
+      state.ingredients = state.ingredients.filter(
         (el) => el._key !== action.payload
       );
     },
     moveConstructorIngredient(state, action) {
-      state.constructorIngredients.splice(
+      state.ingredients.splice(
         action.payload.hoverIndex,
         0,
-        state.constructorIngredients.splice(action.payload.dragIndex, 1)[0]
+        state.ingredients.splice(action.payload.dragIndex, 1)[0]
       );
     },
   },
 });
 
-export default ingredients.reducer;
+export default ingredientsConstructor.reducer;
 
 export const { addIngredient, deleteIngredient, moveConstructorIngredient } =
-  ingredients.actions;
+  ingredientsConstructor.actions;

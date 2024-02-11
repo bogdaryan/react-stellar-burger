@@ -10,18 +10,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import CustomInput from "./custom-input/custom-input";
-import { useDispatch, useSelector } from "react-redux";
-import { editUserRequest } from "../../services/auth/editUser";
 
-import { getUser } from "../../services/auth/selectors";
-import { getUser as getUserApi } from "../../utils/api";
+import { useEditUserMutation } from "../../services/api/user.api";
 
 const UserInfo = () => {
-  const dispatch = useDispatch();
+  const [editUserInfo] = useEditUserMutation();
   const [isVisible, setVisible] = useState(false);
-
-  // const { email, name } = JSON.parse(localStorage.getItem("user"));
-  const { email, name } = useSelector(getUser);
+  const { email, name } = JSON.parse(localStorage.getItem("user"));
 
   const { formData, handleChange } = useForm({
     email: email,
@@ -40,8 +35,7 @@ const UserInfo = () => {
   };
 
   const onSubmit = () => {
-    dispatch(editUserRequest(updatedData));
-    setTimeout(() => getUserApi(), 0);
+    editUserInfo(updatedData);
     setVisible(false);
   };
 

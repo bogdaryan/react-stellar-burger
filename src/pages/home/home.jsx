@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -11,23 +10,20 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 
 import styles from "./home.module.css";
 
-import { getIngredientsRequestStatus } from "../../services/ingredients/selectors";
+import { useGetIngredientsQuery } from "../../services/api/ingredients.api";
 
 const Home = () => {
-  const { ingredientsRequest, ingredientsFailed } = useSelector(
-    getIngredientsRequestStatus
-  );
-
+  const { isError, isLoading } = useGetIngredientsQuery();
   const [scrollHeight, setScrollHeight] = useState(0);
 
   return (
     <>
       <DndProvider backend={HTML5Backend}>
-        {ingredientsFailed ? (
+        {isError ? (
           <p className={`${styles.error} text text_type_main-large`}>
             Произошла ошибка при получении данных
           </p>
-        ) : ingredientsRequest ? (
+        ) : isLoading ? (
           <Box className={styles.loading}>
             <CircularProgress size={100} />
           </Box>

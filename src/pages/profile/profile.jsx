@@ -1,18 +1,11 @@
 import styles from "./profile.module.css";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
-
-import { useDispatch } from "react-redux";
-import { userLogoutRequest } from "../../services/auth/logoutApi";
+import { useLogoutMutation } from "../../services/api/user.api";
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
   const location = useLocation();
-  const refreshToken = localStorage.getItem("refreshToken");
-
-  const logout = () => {
-    dispatch(userLogoutRequest(refreshToken));
-  };
 
   const isActive = (path) => {
     return location.pathname === path;
@@ -41,7 +34,7 @@ const Profile = () => {
         <button
           active={styles.linkActive}
           className={`${styles.link} ${styles.logoutBtn} text text_type_main-medium`}
-          onClick={logout}
+          onClick={() => logout()}
         >
           Выход
         </button>

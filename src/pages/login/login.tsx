@@ -9,19 +9,19 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useDispatch } from "react-redux";
-import { userLoginRequest } from "../../services/auth/loginApi";
+import { useLoginMutation } from "../../services/api/user.api";
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const [login] = useLoginMutation();
+
   const { formData, handleChange } = useForm({});
 
-  const onChange = (e) => {
+  const onChange = (e: any) => {
     handleChange(e);
   };
 
   const onSubmit = () => {
-    dispatch(userLoginRequest(formData));
+    login(formData);
   };
 
   return (

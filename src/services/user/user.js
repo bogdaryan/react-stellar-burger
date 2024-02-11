@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: null,
-  isAuthCheked: false,
 };
 
 const user = createSlice({
@@ -16,5 +15,4 @@ const user = createSlice({
 });
 
 export default user.reducer;
-
-export const { setUser, setAuthCheked } = user.actions;
+export const { setUser } = user.actions;

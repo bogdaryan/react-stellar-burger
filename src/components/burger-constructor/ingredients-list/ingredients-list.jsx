@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 
-import { addIngredient } from "../../../services/ingredients/ingredients";
+import { addIngredient } from "../../../services/ingredients/ingredientsConstructor";
 
 import Ingredient from "../ingredient/ingredient";
 

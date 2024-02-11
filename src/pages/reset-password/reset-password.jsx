@@ -7,15 +7,12 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import MotionElement from "../../components/motion-element/motion-element";
 
-import { useDispatch, useSelector } from "react-redux";
-import { resetPasswordRequest } from "../../services/auth/resetPasswordApi";
-import { getResetRequestStatus } from "../../services/auth/selectors";
-import { useEffect } from "react";
+import { useResetPasswordMutation } from "../../services/api/user.api";
 
 const ResetPassword = () => {
-  const dispatch = useDispatch();
+  const [resetPassword] = useResetPasswordMutation();
   const navigate = useNavigate();
-  const resetPasswordSuccess = useSelector(getResetRequestStatus);
+
   const { formData, handleChange } = useForm({});
 
   const onChange = (e) => {
@@ -24,15 +21,9 @@ const ResetPassword = () => {
 
   const onSubmit = () => {
     if (!formData.password || !formData.code) return;
-
-    dispatch(resetPasswordRequest(formData));
+    console.log(formData);
+    resetPassword(formData).then(() => navigate("/login"));
   };
-
-  useEffect(() => {
-    if (!resetPasswordSuccess) return;
-
-    navigate("/login");
-  }, [resetPasswordSuccess, navigate]);
 
   return (
     <section className="container">

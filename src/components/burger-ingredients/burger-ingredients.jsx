@@ -8,16 +8,16 @@ import styles from "./burger-ingredients.module.css";
 import useHeight from "../../hooks/useHeight";
 
 import {
-  getIngredientsCounters,
   getIngredients,
+  getIngredientsCounters,
 } from "../../services/ingredients/selectors";
 import { Outlet } from "react-router-dom";
 
 import { ingredientTypes } from "../../utils/constants";
 
 function BurgerIngredients({ setScrollHeight, scrollHeight }) {
-  const counter = useSelector(getIngredientsCounters);
   const ingredients = useSelector(getIngredients);
+  const counter = useSelector(getIngredientsCounters);
 
   const [activeTab, setActiveTab] = useState("bun");
 
@@ -78,17 +78,19 @@ function BurgerIngredients({ setScrollHeight, scrollHeight }) {
                 </h2>
 
                 <div className={`${styles.list} mb-10`}>
-                  {ingredients
-                    .filter((el) => el.type === filter)
-                    .map((ingredient) => {
-                      return (
-                        <Ingredient
-                          ingredientDetails={ingredient}
-                          key={ingredient._id}
-                          counter={counter}
-                        />
-                      );
-                    })}
+                  {ingredients.length &&
+                    ingredients &&
+                    ingredients
+                      .filter((el) => el.type === filter)
+                      .map((ingredient) => {
+                        return (
+                          <Ingredient
+                            ingredientDetails={ingredient}
+                            key={ingredient._id}
+                            counter={counter}
+                          />
+                        );
+                      })}
                 </div>
               </section>
             );

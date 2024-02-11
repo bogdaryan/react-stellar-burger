@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import {
   deleteIngredient,
   moveConstructorIngredient,
-} from "../../../services/ingredients/ingredients";
+} from "../../../services/ingredients/ingredientsConstructor";
 
 import styles from "./ingredient.module.css";
 

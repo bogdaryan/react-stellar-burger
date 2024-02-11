@@ -5,7 +5,10 @@ export const setUserDataToLocalStorage = ({
 }) => {
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
-  localStorage.setItem("user", JSON.stringify(user));
+
+  if (user) {
+    localStorage.setItem("user", JSON.stringify(user));
+  }
 };
 
 export const getAccessToken = () => {
@@ -68,7 +71,7 @@ export const updateOrder = (order) => {
           break;
         case "generated":
         case "pending":
-          order.statusDetails = { title: "Отменен", className: "pending" };
+          order.statusDetails = { title: "Готовится ", className: "pending" };
           break;
         default:
           break;
