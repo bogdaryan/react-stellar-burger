@@ -1,5 +1,4 @@
 import styles from "./app-header.module.css";
-import { FC } from "react";
 
 import { Link, NavLink } from "react-router-dom";
 
@@ -10,7 +9,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-type TisActive = {
+type isActive = {
   isActive: boolean;
 };
 
@@ -18,17 +17,17 @@ const setActive = (isActive: boolean, defaultClass: string) => {
   return [defaultClass, isActive && styles.active].filter(Boolean).join(" ");
 };
 
-const AppHeader: FC = () => {
+function AppHeader() {
   return (
     <header className={`${styles.header} mt-10 pt-4 pb-3`}>
       <nav className={styles.nav}>
         <NavLink
           to="/"
-          className={({ isActive }: TisActive) =>
+          className={({ isActive }: isActive) =>
             setActive(isActive, `${styles.link} pt-5 pb-5 pl-5 pr-5`)
           }
         >
-          {({ isActive }: TisActive) => (
+          {({ isActive }: isActive) => (
             <>
               <BurgerIcon type={isActive ? "primary" : "secondary"} />
               <p className={`text text_type_main-default ml-2`}>Конструктор</p>
@@ -38,11 +37,11 @@ const AppHeader: FC = () => {
 
         <NavLink
           to="/feed"
-          className={({ isActive }: TisActive) =>
+          className={({ isActive }: isActive) =>
             setActive(isActive, `${styles.link} pt-5 pb-5 pl-5 pr-5 ml-3 `)
           }
         >
-          {({ isActive }: TisActive) => (
+          {({ isActive }: isActive) => (
             <>
               <ListIcon type={isActive ? "primary" : "secondary"} />
               <p className={`text text_type_main-default ml-2`}>
@@ -58,11 +57,11 @@ const AppHeader: FC = () => {
 
         <NavLink
           to="/profile"
-          className={({ isActive }: TisActive) =>
+          className={({ isActive }: isActive) =>
             setActive(isActive, `${styles.link} p-5`)
           }
         >
-          {({ isActive }: TisActive) => (
+          {({ isActive }: isActive) => (
             <>
               <ProfileIcon type={isActive ? "primary" : "secondary"} />
               <p className={`text text_type_main-default ml-2`}>
@@ -74,6 +73,6 @@ const AppHeader: FC = () => {
       </nav>
     </header>
   );
-};
+}
 
 export default AppHeader;

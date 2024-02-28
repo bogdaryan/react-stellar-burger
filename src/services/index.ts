@@ -3,14 +3,14 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "../sagas/rootSaga";
 
-import ingredientsConstructor from "./ingredients/ingredientsConstructor";
-import ingredients from "./ingredients/ingredients";
-import ingredientDetails from "./ingredients/ingredientDetails";
-import modal from "./modal/modal";
-import user from "./user/user";
-import wsFeed from "./websoket/wsFeed";
-import wsUserOrderFeed from "./websoket/wsUserOrderFeed";
-import orderStatus from "./order/ordersNumberStatus";
+import ingredientsConstructor from "./ingredients/ingredientsConstructorSlice";
+import ingredients from "./ingredients/ingredientsSlice";
+import ingredientDetails from "./ingredients/ingredientDetailsSlice";
+import modal from "./modal/modalSlice";
+import user from "./user/userSlice";
+import wsFeed from "./websoket/wsFeedSlice";
+import wsUserOrderFeed from "./websoket/wsUserFeedSlice";
+import orderStatus from "./order/ordersStatusSlice";
 
 import { api } from "./api/api";
 
@@ -38,5 +38,8 @@ const store = configureStore({
 });
 
 saga.run(rootSaga);
+
+export type RootStore = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

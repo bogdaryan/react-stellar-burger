@@ -19,7 +19,7 @@ export const getRefreshToken = () => {
   return localStorage.getItem("refreshToken");
 };
 
-export const countOrderPrice = (ingredients) => {
+export const calculateOrderPrice = (ingredients) => {
   return ingredients.reduce((acc, ingredient) => (acc += ingredient.price), 0);
 };
 

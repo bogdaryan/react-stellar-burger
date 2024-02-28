@@ -1,3 +1,4 @@
+import { TUseForm } from "../../types/types";
 import { getRefreshToken } from "../../utils/helpers";
 import { api } from "./api";
 
@@ -7,7 +8,7 @@ export const userApi = api.injectEndpoints({
       query: () => ({ url: "/auth/user" }),
     }),
     login: builder.mutation({
-      query: ({ email, password }) => ({
+      query: ({ email, password }: TUseForm) => ({
         url: "/auth/login",
         body: {
           email,
@@ -17,7 +18,7 @@ export const userApi = api.injectEndpoints({
       }),
     }),
     register: builder.mutation({
-      query: ({ name, email, password }) => ({
+      query: ({ name, email, password }: TUseForm) => ({
         url: "/auth/register",
         body: {
           name,
@@ -37,14 +38,14 @@ export const userApi = api.injectEndpoints({
       }),
     }),
     sendResetPasswordCode: builder.mutation({
-      query: (email) => ({
+      query: (email: TUseForm) => ({
         url: "/password-reset",
         body: { email },
         method: "POST",
       }),
     }),
     resetPassword: builder.mutation({
-      query: ({ password, code }) => ({
+      query: ({ password, code }: TUseForm) => ({
         url: "/password-reset/reset",
         body: {
           password: password,
@@ -54,7 +55,7 @@ export const userApi = api.injectEndpoints({
       }),
     }),
     editUser: builder.mutation({
-      query: (formData) => ({
+      query: (formData: TUseForm) => ({
         url: "/auth/user",
         body: formData,
         method: "PATCH",

@@ -1,5 +1,4 @@
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector } from "../../hooks/hooks";
 
 import IngredientsList from "./ingredients-list/ingredients-list";
 
@@ -16,12 +15,9 @@ import {
 
 import { useCreateOrderMutation } from "../../services/api/order.api";
 import { Outlet, useNavigate } from "react-router-dom";
+import { TCreateOrder } from "../../types/types";
 
-const BurgerConstructor = ({
-  scrollHeight,
-}: {
-  scrollHeight: number | string;
-}) => {
+function BurgerConstructor() {
   const navigate = useNavigate();
   const [createOrder] = useCreateOrderMutation();
 
@@ -31,16 +27,19 @@ const BurgerConstructor = ({
   const handlePostOrder = () => {
     if (!ids) return;
 
-    createOrder(ids).then(({ data }: any) => {
-      const orderNumber = data.order.number;
-      navigate(`order/${orderNumber}`);
+    createOrder(ids).then((res: { data: TCreateOrder } | { error: any }) => {
+      if ("data" in res) {
+        const data = res.data;
+        const orderNumber = data.order.number;
+        navigate(`order/${orderNumber}`);
+      }
     });
   };
 
   return (
     <>
       <section className={`${styles.constructor} mt-25 pr-4 pl-4`}>
-        <IngredientsList scrollHeight={scrollHeight} />
+        <IngredientsList />
         <div className={`${styles.wrapper} pt-10`}>
           <div className={`${styles.price} mr-10`}>
             <p className="text text_type_digits-medium">{totalPrice || 0}</p>
@@ -59,10 +58,6 @@ const BurgerConstructor = ({
       <Outlet />
     </>
   );
-};
-
-BurgerConstructor.propTypes = {
-  scrollHeight: PropTypes.number,
-};
+}
 
 export default BurgerConstructor;

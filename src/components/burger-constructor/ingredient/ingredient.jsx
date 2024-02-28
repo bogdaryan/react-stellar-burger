@@ -7,15 +7,16 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../../hooks/hooks";
+
 import {
   deleteIngredient,
   moveConstructorIngredient,
-} from "../../../services/ingredients/ingredientsConstructor";
+} from "../../../services/ingredients/ingredientsConstructorSlice";
 
 import styles from "./ingredient.module.css";
 
-const Ingredient = (props) => {
+function Ingredient(props) {
   const { id, name, price, image, index } = props;
   const dispatch = useDispatch();
 
@@ -85,6 +86,6 @@ const Ingredient = (props) => {
       />
     </li>
   );
-};
+}
 
 export default Ingredient;

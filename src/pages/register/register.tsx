@@ -1,19 +1,21 @@
-import useForm from "../../hooks/useForm";
-import { Link } from "react-router-dom";
-
-import MotionElement from "../../components/motion-element/motion-element";
-
 import {
   PasswordInput,
   EmailInput,
   Button,
+  Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useNavigate } from "react-router-dom";
+import useForm from "../../hooks/useForm";
 
-import { useLoginMutation } from "../../services/api/user.api";
+import MotionElement from "../../components/motion-element/motion-element";
+
+import { useRegisterMutation } from "../../services/api/user.api";
 import { ChangeEvent } from "react";
 
-function Login() {
-  const [login] = useLoginMutation();
+function Register() {
+  const [register] = useRegisterMutation();
+
+  const navigate = useNavigate();
   const { formData, handleChange } = useForm({});
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,14 +23,25 @@ function Login() {
   };
 
   const onSubmit = () => {
-    login(formData);
+    register(formData).then(() => navigate("/login"));
   };
 
   return (
     <section className="container">
       <MotionElement>
-        <h2 className="text text_type_main-medium">Вход</h2>
+        <h2 className="text text_type_main-medium">Регистрация</h2>
         <form>
+          <Input
+            type="text"
+            placeholder="Имя"
+            name="name"
+            error={false}
+            errorText="Ошибка"
+            size="default"
+            extraClass="mt-6"
+            value={formData.name || ""}
+            onChange={onChange}
+          />
           <EmailInput
             name="email"
             isIcon={false}
@@ -51,19 +64,13 @@ function Login() {
             extraClass="mt-6 mb-20"
             onClick={onSubmit}
           >
-            Войти
+            Зарегистрироваться
           </Button>
         </form>
         <div className="container__text-wrapper text text_type_main-default mb-4">
-          <p className="container__text-title text">Вы — новый пользователь?</p>
-          <Link className="container__text-link" to="/register">
-            Зарегистрироваться
-          </Link>
-        </div>
-        <div className="container__text-wrapper text_type_main-default">
-          <p className="container__text-title text">Забыли пароль?</p>
-          <Link className="container__text-link" to="/forgot-password ">
-            Восстановить пароль
+          <p className="container__text-title text">Уже зарегистрированы?</p>
+          <Link className="container__text-link" to={"/login"}>
+            Войти
           </Link>
         </div>
       </MotionElement>
@@ -71,4 +78,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
