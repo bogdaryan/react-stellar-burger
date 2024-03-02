@@ -19,10 +19,12 @@ import {
 
 function createWebSocketChannel(socket) {
   return eventChannel((emit) => {
-    socket.onopen = (event) => emit(wsSuccess(event));
-    socket.onerror = (error) => emit(wsError(error));
-    socket.onclose = (event) => emit(wsClosed(event));
-    socket.onmessage = ({ data }) => emit(wsOnMessage(JSON.parse(data)));
+    socket.onopen = () => emit(wsSuccess());
+    socket.onerror = () => emit(wsError());
+    socket.onclose = () => emit(wsClosed());
+    socket.onmessage = ({ data }) => {
+      emit(wsOnMessage(JSON.parse(data)));
+    };
 
     const unsubscribe = () => {
       socket.close();
@@ -55,6 +57,7 @@ export default function* watchWebSocketSaga() {
 
 export function* cancelWebSocketSaga() {
   const task = yield takeLatest(wsDisconnect.type, workWebSocketSaga);
+
   yield take(wsDisconnect);
   yield cancel(task);
 }

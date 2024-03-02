@@ -10,46 +10,42 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useLoginMutation } from "../../services/api/user.api";
-import { ChangeEvent } from "react";
+import { FormEvent } from "react";
 
 function Login() {
   const [login] = useLoginMutation();
   const { formData, handleChange } = useForm({});
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-  };
-
-  const onSubmit = () => {
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
     login(formData);
-  };
+  }
 
   return (
     <section className="container">
       <MotionElement>
         <h2 className="text text_type_main-medium">Вход</h2>
-        <form>
+        <form onSubmit={onSubmit}>
           <EmailInput
             name="email"
             isIcon={false}
             extraClass="mt-6"
             autoComplete="current-email"
             value={formData.email || ""}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <PasswordInput
             name="password"
             extraClass="mt-6"
             autoComplete="current-password"
             value={formData.password || ""}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
-            onClick={onSubmit}
           >
             Войти
           </Button>

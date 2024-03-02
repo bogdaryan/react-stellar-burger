@@ -30,9 +30,16 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     }
     // Get user data
     if (result.data?.accessToken) {
-      let { success: _, ...userData } = result.data;
-      api.dispatch(setUser(userData.user));
-      setUserDataToLocalStorage(userData);
+      let { success: _, user, ...tokens } = result.data;
+      api.dispatch(
+        setUser({
+          user: user,
+          isLoggedIn: true,
+        })
+      );
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("user", JSON.stringify(user));
+      setUserDataToLocalStorage(tokens);
     }
   }
 
@@ -55,6 +62,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
       setUserDataToLocalStorage(tokens);
     }
   }
+
   return result;
 };
 

@@ -60,10 +60,6 @@ export const userApi = api.injectEndpoints({
         body: formData,
         method: "PATCH",
       }),
-      async onQueryStarted(_, { queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        localStorage.setItem("user", JSON.stringify(data.user));
-      },
     }),
   }),
 });

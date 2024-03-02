@@ -10,7 +10,6 @@ import {
   getIngredients,
   getIngredientsCounters,
 } from "../../services/ingredients/selectors";
-import { Outlet } from "react-router-dom";
 
 import { ingredientTypes } from "../../utils/constants";
 
@@ -51,53 +50,44 @@ function BurgerIngredients() {
   };
 
   return (
-    <>
-      <section className={`${styles.ingredients} mr-10`}>
-        <h1 className="text text_type_main-large mb-5 mt-10 ">
-          Соберите бургер
-        </h1>
-        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <section
-          className={`${styles.scroll} scrollbarTrackBorder custom-scroll`}
-          ref={scrollTrackRef}
-          style={{ maxHeight: height }}
-          onScroll={handlleChangeTab}
-        >
-          {Object.values(ingredientTypes).map(({ title, filter }) => {
-            return (
-              <section
-                key={filter}
-                className={styles.filter}
-                data-type={filter}
+    <section className={`${styles.ingredients} mr-10`}>
+      <h1 className="text text_type_main-large mb-5 mt-10 ">Соберите бургер</h1>
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <section
+        className={`${styles.scroll} scrollbarTrackBorder custom-scroll`}
+        ref={scrollTrackRef}
+        style={{ maxHeight: height }}
+        onScroll={handlleChangeTab}
+      >
+        {Object.values(ingredientTypes).map(({ title, filter }) => {
+          return (
+            <section key={filter} className={styles.filter} data-type={filter}>
+              <h2
+                className={`${styles.title} text text_type_main-medium mb-5`}
+                ref={sectionRefs[filter]}
               >
-                <h2
-                  className={`${styles.title} text text_type_main-medium mb-5`}
-                  ref={sectionRefs[filter]}
-                >
-                  {title}
-                </h2>
+                {title}
+              </h2>
 
-                <div className={`${styles.list} mb-10`}>
-                  {ingredients &&
-                    ingredients
-                      .filter((i: TIngredient) => i.type === filter)
-                      .map((ingredient: TIngredient) => {
-                        return (
-                          <Ingredient
-                            ingredientDetails={ingredient}
-                            key={ingredient._id}
-                            counter={counter}
-                          />
-                        );
-                      })}
-                </div>
-              </section>
-            );
-          })}
-        </section>
+              <div className={`${styles.list} mb-10`}>
+                {ingredients &&
+                  ingredients
+                    .filter((i: TIngredient) => i.type === filter)
+                    .map((ingredient: TIngredient) => {
+                      return (
+                        <Ingredient
+                          ingredientDetails={ingredient}
+                          key={ingredient._id}
+                          counter={counter}
+                        />
+                      );
+                    })}
+              </div>
+            </section>
+          );
+        })}
       </section>
-      <Outlet />
-    </>
+    </section>
   );
 }
 

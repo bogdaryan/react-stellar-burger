@@ -5,7 +5,8 @@ import {
   OrdersPending,
 } from "./number-order-status/number-order-status";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../hooks/hooks";
+
 import { useEffect } from "react";
 
 import {
@@ -15,6 +16,7 @@ import {
 
 import { setOrderStatus } from "../../services/order/ordersStatusSlice";
 import { getValidPublicFeed } from "../../services/websoket/selectors";
+import { TOrderDetails } from "../../types/types";
 
 function OrderStatusSection() {
   const dispatch = useDispatch();
@@ -24,7 +26,9 @@ function OrderStatusSection() {
   const ordersPending = useSelector(getOrdersPending);
 
   useEffect(() => {
-    dispatch(setOrderStatus(validOrders));
+    if (validOrders) {
+      dispatch(setOrderStatus(validOrders as TOrderDetails[]));
+    }
   }, [validOrders, dispatch]);
 
   return (

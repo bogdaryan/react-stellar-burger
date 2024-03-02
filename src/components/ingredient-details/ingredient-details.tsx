@@ -1,10 +1,18 @@
-import { TIngredient } from "../../types/types";
+import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
+import { getIngredients } from "../../services/ingredients/selectors";
+import { useParams } from "react-router-dom";
 
 function IngredientDetails() {
-  const ingredientDetails: TIngredient = JSON.parse(
-    localStorage.getItem("ingredientDetails") as string
-  );
+  const { id } = useParams();
+
+  const ingredients = useSelector(getIngredients);
+  const ingredientDetails =
+    ingredients && ingredients.find(({ _id }) => _id === id);
+
+  if (!ingredientDetails) {
+    return null;
+  }
 
   const { name, image_large, calories, proteins, fat, carbohydrates } =
     ingredientDetails;

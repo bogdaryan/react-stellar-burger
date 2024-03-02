@@ -16,11 +16,20 @@ import {
 
 import styles from "./ingredient.module.css";
 
-function Ingredient(props) {
+type Props = {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  index: number;
+};
+
+function Ingredient(props: Props) {
   const { id, name, price, image, index } = props;
   const dispatch = useDispatch();
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
+
   const [{ handlerId }, drop] = useDrop({
     accept: "sort_ingredient",
     collect(monitor) {
@@ -28,7 +37,7 @@ function Ingredient(props) {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: Props, monitor) {
       if (!ref.current) {
         return;
       }
@@ -43,7 +52,12 @@ function Ingredient(props) {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      let hoverClientY = 0; // Устанавливаем значение по умолчанию
+
+      if (clientOffset) {
+        hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      }
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -70,7 +84,7 @@ function Ingredient(props) {
     <li
       className={styles.item}
       draggable={true}
-      index={index}
+      data-index={index}
       ref={ref}
       data-handler-id={handlerId}
       id={id}

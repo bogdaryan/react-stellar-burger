@@ -1,4 +1,4 @@
-export type TStatus = "done" | "created" | "pending";
+export type TStatus = "done" | "created" | "pending" | "canceled" | "generated";
 
 export type TUser = {
   email: string;

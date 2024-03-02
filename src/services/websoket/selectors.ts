@@ -20,55 +20,56 @@ export const getTotalToday: TGetTotalToday = (store) => store.wsFeed.totalToday;
 export const getPublicFeed: TFeedOrders = (store) => store.wsFeed.orders;
 export const getUserFeed: TFeedOrders = (store) => store.wsUserOrderFeed.orders;
 
-function addDetailsToOrder(getOrders: any) {
-  return createSelector(
-    getIngredients,
-    getOrders,
-    (ingredients: any, orders: TWebSocketOrder[]) => {
-      const details: TOrderDetails[] = [];
+function addDetailsToOrder(getOrders: TFeedOrders) {
+  return createSelector([getIngredients, getOrders], (ingredients, orders) => {
+    const details: TOrderDetails[] = [];
 
-      orders.forEach((order: TWebSocketOrder) => {
-        const ingredientsIds = order.ingredients;
+    orders.forEach((order: TWebSocketOrder) => {
+      const ingredientsIds = order.ingredients;
 
-        const ingredientsDetails = ingredientsIds.map((id) => {
-          const ingredientDetails = ingredients.find(
-            (ingredient: TIngredient) => ingredient._id === id
-          );
+      const ingredientsDetails = ingredientsIds.map((id) => {
+        const ingredientDetails = ingredients.find(
+          (ingredient: TIngredient) => ingredient._id === id
+        );
 
+        if (ingredientDetails) {
           return ingredientDetails;
-        });
-
-        details.push({ ...order, ingredients: ingredientsDetails });
+        } else {
+          return {} as TIngredient;
+        }
       });
 
-      return details;
-    }
-  );
+      details.push({ ...order, ingredients: ingredientsDetails });
+    });
+
+    return details;
+  });
 }
 
-function getValidOrders(getOrdersWithDetails: any) {
+function getValidOrders(
+  getOrdersWithDetails: ReturnType<typeof addDetailsToOrder>
+) {
   return createSelector(getOrdersWithDetails, (orders) => {
     return orders
       .filter((order: TOrderDetails) => {
         const ingredientsLength = order.ingredients.length;
 
-        const numberOfBun = order.ingredients.reduce((acc, ingredient) => {
-          const isBun = ingredient?.type === "bun";
-          if (isBun) {
-            return (acc += 1);
-          }
+        const numberOfBun = order.ingredients.reduce(
+          (acc, ingredient) => (acc += ingredient.type === "bun" ? 1 : 0),
+          0
+        );
 
-          return acc;
-        }, 0);
+        if (numberOfBun === 2 && ingredientsLength >= 1) {
+          return order;
+        }
 
-        if (ingredientsLength < 1 || numberOfBun > 2) return null;
-
-        return order;
+        return null;
       })
       .map((order: TOrderDetails) => {
         const { ingredients } = order;
         const isFirstBun = ingredients[0]?.type === "bun";
         const isLastBun = ingredients[ingredients.length - 1]?.type === "bun";
+
         const isValidOrder = isFirstBun && isLastBun;
 
         if (isValidOrder) {
@@ -95,5 +96,3 @@ function handleValidOrders(getFeedOrders: TFeedOrders) {
 
 export const getValidPublicFeed = handleValidOrders(getPublicFeed);
 export const getValidUserFeed = handleValidOrders(getUserFeed);
-
-// @ts-nocheck

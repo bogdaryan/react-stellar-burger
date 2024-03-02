@@ -6,14 +6,13 @@ import { Outlet } from "react-router-dom";
 import { UserOrder } from "../order/order";
 import { getValidUserFeed } from "../../services/websoket/selectors";
 import useViewportHeight from "../../hooks/useViewportHeight";
-import { TOrderDetails } from "../../types/types";
 import { getAccessToken } from "../../utils/helpers";
 import { wsConnect, wsDisconnect } from "../../services/websoket/actions";
 import { wsURL } from "../../utils/constants";
 
 function ProfileOrders() {
   const dispatch = useDispatch();
-  let validOrders = useSelector(getValidUserFeed);
+  const validOrders = useSelector(getValidUserFeed);
   const scrollTrackRef = useRef(null);
   const height = useViewportHeight(scrollTrackRef, 0);
 
@@ -42,15 +41,15 @@ function ProfileOrders() {
         >
           {validOrders && validOrders.length ? (
             validOrders
-              .sort((a: TOrderDetails, b: TOrderDetails) => b.number - a.number)
+              .filter((order) => order !== null)
+              .filter(Boolean)
+              .sort((a, b) => (a && b ? b.number - a.number : 0))
               .slice(0, 50)
-              .map((order: TOrderDetails) => (
-                <UserOrder
-                  orderDetails={order}
-                  // status={order.status}
-                  key={order._id}
-                />
-              ))
+              .map((order) => {
+                return (
+                  order && <UserOrder orderDetails={order} key={order._id} />
+                );
+              })
           ) : (
             <h2>Нет заказов</h2>
           )}

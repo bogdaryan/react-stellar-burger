@@ -3,12 +3,15 @@ import { countIngredients } from "../../utils/helpers";
 import { TIngredient } from "../../types/types";
 import { RootStore } from "../index";
 
-export const getIngredients = (store: RootStore) =>
+export const getIngredients = (store: RootStore): TIngredient[] =>
   store.ingredients.ingredients;
-export const getConstructorBun = (store: RootStore) =>
+export const getConstructorBun = (store: RootStore): TIngredient | null =>
   store.ingredientsConstructor.bun;
-export const getConstructorIngredients = (store: RootStore) =>
+export const getConstructorIngredients = (store: RootStore): TIngredient[] =>
   store.ingredientsConstructor.ingredients;
+
+export const getIngredientDetails = (store: RootStore) =>
+  store.ingredientDetails.ingredientDetails;
 
 export const getConstructorItems = createSelector(
   getConstructorBun,
@@ -34,9 +37,8 @@ export const getPrice = createSelector(
 export const getIngredientsCounters = createSelector(
   getConstructorItems,
   ({ bun, ingredients }) => {
-    const counters = countIngredients({ bun, ingredients });
-
-    return counters;
+    const items = bun ? [bun, ...ingredients] : ingredients;
+    return countIngredients(items);
   }
 );
 

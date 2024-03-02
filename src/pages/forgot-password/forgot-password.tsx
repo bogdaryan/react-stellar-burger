@@ -7,7 +7,7 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent } from "react";
+import { FormEvent } from "react";
 import { TUseForm } from "../../types/types";
 
 function ForgotPassword() {
@@ -15,11 +15,8 @@ function ForgotPassword() {
   const navigate = useNavigate();
   const { formData, handleChange } = useForm({});
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-  };
-
-  const onSubmit = () => {
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
     if (!formData.email) return;
 
     const email = formData.email as TUseForm;
@@ -27,13 +24,13 @@ function ForgotPassword() {
     sendResetCodeToEmail(email).then(() => {
       navigate("/reset-password");
     });
-  };
+  }
 
   return (
     <section className="container">
       <MotionElement>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
-        <form>
+        <form onSubmit={onSubmit}>
           <EmailInput
             name={"email"}
             isIcon={false}
@@ -41,14 +38,13 @@ function ForgotPassword() {
             placeholder="Укажите e-mail"
             autoComplete="current-email"
             value={formData.email || ""}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
-            onClick={onSubmit}
           >
             Восстановить
           </Button>

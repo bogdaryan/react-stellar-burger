@@ -1,14 +1,14 @@
+import { TCounter, TIngredient, TOrderDetails } from "../types/types";
+
 export const setUserDataToLocalStorage = ({
   accessToken,
   refreshToken,
-  user,
+}: {
+  accessToken: string;
+  refreshToken: string;
 }) => {
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
-
-  if (user) {
-    localStorage.setItem("user", JSON.stringify(user));
-  }
 };
 
 export const getAccessToken = () => {
@@ -19,30 +19,27 @@ export const getRefreshToken = () => {
   return localStorage.getItem("refreshToken");
 };
 
-export const calculateOrderPrice = (ingredients) => {
+export const calculateOrderPrice = (ingredients: TIngredient[]) => {
   return ingredients.reduce((acc, ingredient) => (acc += ingredient.price), 0);
 };
 
-export const countIngredients = (options) => {
-  const { bun = false, ingredients = [] } = options || {};
+export function countIngredients(ingredients: TIngredient[]) {
+  const counters: TCounter = {};
 
-  const counters = {};
-
-  ingredients.forEach(({ name, type }) => {
-    if (!bun && type === "bun") {
-      return (counters[name] = 2);
-    }
-    counters[name] = (counters[name] || 0) + 1;
-  });
-
-  if (bun) {
-    counters[bun.name] = 2;
-  }
+  ingredients
+    .filter((i) => i)
+    .forEach(({ name, type }) => {
+      if (type === "bun") {
+        counters[name] = 2;
+      } else {
+        counters[name] = (counters[name] || 0) + 1;
+      }
+    });
 
   return counters;
-};
+}
 
-export const cutIngredients = (ingredients) => {
+export const cutIngredients = (ingredients: TIngredient[]) => {
   let visibleIngredients;
   let hiddenIngredients;
 
@@ -57,7 +54,7 @@ export const cutIngredients = (ingredients) => {
   return { visibleIngredients, hiddenIngredients };
 };
 
-export const updateOrder = (order) => {
+export const updateOrder = (order: TOrderDetails) => {
   for (let key in order) {
     if (key === "status") {
       const status = order[key];
@@ -80,7 +77,7 @@ export const updateOrder = (order) => {
 
     if (key === "ingredients") {
       const ingredients = order[key];
-      const counters = countIngredients({ ingredients });
+      const counters = countIngredients(ingredients);
       order.counters = counters;
     }
   }

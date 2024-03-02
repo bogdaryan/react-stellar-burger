@@ -24,6 +24,10 @@ function OrderComposition() {
     counters,
   } = order;
 
+  const uniqueIngredients = Array.from(
+    new Set(ingredients.map((obj) => JSON.stringify(obj)))
+  ).map((str) => JSON.parse(str));
+
   return (
     <section className={styles.container}>
       <div className={styles.inner}>
@@ -40,7 +44,7 @@ function OrderComposition() {
           Состав:
         </p>
         <ul className={`${styles.list} custom-scroll mr-6`}>
-          {ingredients.map((ingredient, idx) => {
+          {uniqueIngredients.map((ingredient, idx) => {
             const { name, price } = ingredient;
             return (
               <li className={styles.ingredient} key={idx}>

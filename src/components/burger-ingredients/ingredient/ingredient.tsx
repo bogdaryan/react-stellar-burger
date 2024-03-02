@@ -33,11 +33,6 @@ function Ingredient({ ingredientDetails, counter }: Props) {
 
   const onClick = () => {
     dispatch(setIngredientDetails(ingredientDetails));
-
-    localStorage.setItem(
-      "ingredientDetails",
-      JSON.stringify(ingredientDetails)
-    );
   };
 
   return (

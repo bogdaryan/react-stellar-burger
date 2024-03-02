@@ -1,5 +1,5 @@
 import styles from "./user-info.module.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 import useForm from "../../hooks/useForm";
 
@@ -17,6 +17,7 @@ import { TUseForm } from "../../types/types";
 const UserInfo = () => {
   const [editUserInfo] = useEditUserMutation();
   const [isVisible, setVisible] = useState(false);
+
   const { email, name } = JSON.parse(localStorage.getItem("user") as string);
 
   const { formData, handleChange } = useForm({
@@ -27,22 +28,22 @@ const UserInfo = () => {
 
   const [updatedData, setUpdatedFormData] = useState<TUseForm>({});
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
     handleChange(e);
     setVisible(true);
 
     const { name, value } = e.target;
     setUpdatedFormData((state) => ({ ...state, [name]: value }));
-  };
+  }
 
-  const onSubmit = () => {
-    editUserInfo(updatedData);
-    setVisible(false);
-  };
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    editUserInfo(updatedData).then(() => setVisible(false));
+  }
 
   return (
     <div className={styles.userInfo}>
-      <form>
+      <form onSubmit={onSubmit}>
         <CustomInput onChange={onChange} value={formData.name || ""} />
         <EmailInput
           onChange={onChange}
@@ -60,27 +61,17 @@ const UserInfo = () => {
           icon="EditIcon"
           autoComplete="current-password"
         />
+        {isVisible && (
+          <div className={styles.buttonsBox}>
+            <Button htmlType="button" type="secondary" size="medium">
+              Отмена
+            </Button>
+            <Button htmlType="submit" type="primary" size="medium">
+              Сохранить
+            </Button>
+          </div>
+        )}
       </form>
-      {isVisible && (
-        <div className={styles.buttonsBox}>
-          <Button
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            onClick={() => setVisible(false)}
-          >
-            Отмена
-          </Button>
-          <Button
-            htmlType="button"
-            type="primary"
-            size="medium"
-            onClick={onSubmit}
-          >
-            Сохранить
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

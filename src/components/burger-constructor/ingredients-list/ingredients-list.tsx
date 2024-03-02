@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../../hooks/hooks";
 import { useDrop } from "react-dnd";
 
 import { addIngredient } from "../../../services/ingredients/ingredientsConstructorSlice";
@@ -25,13 +25,7 @@ function IngredientsList() {
   const height = useViewportHeight(listRef, 80, true);
 
   const dispatch = useDispatch();
-  const {
-    bun,
-    ingredients,
-  }: {
-    bun: TIngredient | null;
-    ingredients: TIngredient[] | null;
-  } = useSelector(getConstructorItems);
+  const { bun, ingredients } = useSelector(getConstructorItems);
 
   const [{ canDrop, draggableItem }, dropTarget] = useDrop({
     accept: "ingredient",
@@ -88,7 +82,7 @@ function IngredientsList() {
                 image={image}
                 index={i}
                 key={_key}
-                id={_key}
+                id={_key || ""}
               />
             );
           })

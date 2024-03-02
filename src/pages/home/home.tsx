@@ -15,23 +15,21 @@ function Home() {
   const { isError, isLoading } = useGetIngredientsQuery(null);
 
   return (
-    <>
-      <DndProvider backend={HTML5Backend}>
-        {isError ? (
-          <p className={`${styles.error} text text_type_main-large`}>
-            Произошла ошибка при получении данных
-          </p>
-        ) : isLoading ? (
-          <Box className={styles.loading}>
-            <CircularProgress size={100} />
-          </Box>
-        ) : (
-          <BurgerIngredients />
-        )}
+    <DndProvider backend={HTML5Backend}>
+      {isError ? (
+        <p className={`${styles.error} text text_type_main-large`}>
+          Произошла ошибка при получении данных
+        </p>
+      ) : isLoading ? (
+        <Box className={styles.loading}>
+          <CircularProgress size={100} />
+        </Box>
+      ) : (
+        <BurgerIngredients />
+      )}
 
-        <BurgerConstructor />
-      </DndProvider>
-    </>
+      <BurgerConstructor />
+    </DndProvider>
   );
 }
 

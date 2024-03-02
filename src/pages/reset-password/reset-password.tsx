@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MotionElement from "../../components/motion-element/motion-element";
 
 import { useResetPasswordMutation } from "../../services/api/user.api";
-import { ChangeEvent } from "react";
+import { FormEvent } from "react";
 
 function ResetPassword() {
   const [resetPassword] = useResetPasswordMutation();
@@ -16,27 +16,24 @@ function ResetPassword() {
 
   const { formData, handleChange } = useForm({});
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-  };
-
-  const onSubmit = () => {
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
     if (!formData.password || !formData.code) return;
     resetPassword(formData).then(() => navigate("/login"));
-  };
+  }
 
   return (
     <section className="container">
       <MotionElement>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
-        <form>
+        <form onSubmit={onSubmit}>
           <PasswordInput
             name="password"
             extraClass="mt-6"
             placeholder="Введите новый пароль"
             autoComplete="password"
             value={formData.password || ""}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <Input
             type="text"
@@ -47,14 +44,13 @@ function ResetPassword() {
             size="default"
             extraClass="mt-6"
             value={formData.code || ""}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
             extraClass="mt-6 mb-20"
-            onClick={onSubmit}
           >
             Сохранить
           </Button>

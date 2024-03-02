@@ -1,16 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { TUser } from "../../types/types";
 
-const initialState = {
-  user: null,
+type State = {
+  user: TUser | null;
+  isLoggedIn: boolean;
+};
+
+const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+const user = JSON.parse(localStorage.getItem("user") as string);
+
+const initialState: State = {
+  user: user || null,
+  isLoggedIn: isLoggedIn || false,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
+    setUser(
+      state,
+      action: PayloadAction<{ user: TUser; isLoggedIn: boolean }>
+    ) {
+      const { user, isLoggedIn } = action.payload;
+
+      state.user = user;
+      state.isLoggedIn = isLoggedIn;
     },
   },
 });
