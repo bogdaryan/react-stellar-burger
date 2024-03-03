@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 function IngredientDetails() {
   const { id } = useParams();
-
   const ingredients = useSelector(getIngredients);
   const ingredientDetails =
     ingredients && ingredients.find(({ _id }) => _id === id);

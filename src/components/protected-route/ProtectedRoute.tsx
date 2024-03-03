@@ -2,13 +2,14 @@ import { useSelector } from "../../hooks/hooks";
 import { Navigate, useLocation } from "react-router-dom";
 
 import { getLoginStatus } from "../../services/user/selectors";
+import { ReactNode } from "react";
 
 type Props = {
   onlyUnAuth?: boolean;
-  component: JSX.Element;
+  component: ReactNode;
 };
 
-const Protected = ({ onlyUnAuth = false, component }: Props) => {
+const Protected = ({ onlyUnAuth = false, component }: Props): JSX.Element => {
   const isLoggedIn = useSelector(getLoginStatus);
   const location = useLocation();
 
@@ -21,7 +22,7 @@ const Protected = ({ onlyUnAuth = false, component }: Props) => {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  return component;
+  return <>{component}</>;
 };
 
 export const OnlyAuth = Protected;

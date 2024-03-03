@@ -1,8 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "../sagas/rootSaga";
-
 import ingredientsConstructor from "./ingredients/ingredientsConstructorSlice";
 import ingredients from "./ingredients/ingredientsSlice";
 import ingredientDetails from "./ingredients/ingredientDetailsSlice";
@@ -13,6 +10,8 @@ import wsUserOrderFeed from "./websoket/wsUserFeedSlice";
 import orderStatus from "./order/ordersStatusSlice";
 
 import { api } from "./api/api";
+
+import { socketMiddleware } from "./websoket/socketMiddleware";
 
 const rootReducer = combineReducers({
   ingredients: ingredients,
@@ -26,18 +25,14 @@ const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
 });
 
-const saga = createSagaMiddleware();
-
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(
-      saga,
-      api.middleware
+      api.middleware,
+      socketMiddleware
     ),
 });
-
-saga.run(rootSaga);
 
 export type RootStore = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

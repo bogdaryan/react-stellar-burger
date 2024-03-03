@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { wsSuccess, wsError, wsClosed, wsOnMessage } from "./actions";
+import { wsSuccess, wsError, wsClose, wsOnMessage } from "./actions";
 import { TWebSocketMessage, TWebSocketOrder } from "../../types/types";
 
 type State = {
@@ -28,7 +28,7 @@ const wsUserFeedSlice = createSlice({
         state.error = action.payload || null;
         state.wsConnected = false;
       })
-      .addCase(wsClosed, (state) => {
+      .addCase(wsClose, (state) => {
         state.wsConnected = false;
       })
       .addCase(
