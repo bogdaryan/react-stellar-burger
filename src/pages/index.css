@@ -1,9 +1,8 @@
 .container {
   width: 100vw;
   height: calc(100vh - 132px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-content: center;
   text-align: center;
 }
 
