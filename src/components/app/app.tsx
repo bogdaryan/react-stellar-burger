@@ -10,16 +10,14 @@ function App() {
   useGetUserQuery(null);
   const { isSuccess } = useGetIngredientsQuery(null);
 
-  return (
-    isSuccess && (
-      <>
-        <Header />
-        <main className={`${styles.main} pd-10`}>
-          <Outlet />
-        </main>
-      </>
-    )
-  );
+  return isSuccess ? (
+    <>
+      <Header />
+      <main className={`${styles.main} pd-10`}>
+        <Outlet />
+      </main>
+    </>
+  ) : null;
 }
 
 export default App;

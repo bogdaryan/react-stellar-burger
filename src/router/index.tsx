@@ -82,7 +82,7 @@ export const router = createBrowserRouter([
             element: <ProfileOrders />,
             children: [
               {
-                path: "/profile/orders/:id",
+                path: "/profile/orders/:number",
                 element: (
                   <Modal>
                     <OrderComposition />

@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from "react";
 import styles from "./modal.module.css";
 
 import ModalOverlay from "./modal-overlay/modal-overlay";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 type Props = {
@@ -12,12 +12,22 @@ type Props = {
 
 function Modal({ children }: Props) {
   const navigate = useNavigate();
+  const { id, number } = useParams();
 
-  const closeByEscape = (e: KeyboardEvent) => {
-    if (e.key === "Escape") {
+  function close() {
+    if (id) {
+      navigate("/");
+    }
+    if (number) {
       navigate(-1);
     }
-  };
+  }
+
+  function closeByEscape(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      close();
+    }
+  }
 
   /* eslint-disable */
   useEffect(() => {
@@ -33,12 +43,12 @@ function Modal({ children }: Props) {
     <section className={styles.modal}>
       <div className={`${styles.inner}`}>
         <div className={`${styles.close} mt-15 mr-10`}>
-          <CloseIcon onClick={() => navigate(-1)} type="primary" />
+          <CloseIcon onClick={() => close()} type="primary" />
         </div>
 
         {children}
       </div>
-      <ModalOverlay />
+      <ModalOverlay close={close} />
     </section>
   );
 }
